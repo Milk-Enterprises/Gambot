@@ -7,28 +7,6 @@ using ChatSharp;
 
 namespace Gambot
 {
-    public class Message
-    {
-        public string Who { get; protected set; }
-        public string To { get; protected set; }
-        public string Text { get; protected set; }
-        public string Where { get; protected set; }
-        public bool Action { get; protected set; }
-
-        public Message(PrivateMessage raw)
-        {
-            Who = raw.User.Nick;
-            Text = raw.Message;
-            Where = raw.Source;
-        }
-    }
-
-    public interface IMessageHandler
-    {
-        void Initialize();
-        bool Digest(IrcClient irc, Message message);
-    }
-
     public static class GrandMessageHandler
     {
         private static readonly List<IMessageHandler> MessageHandlers = new List<IMessageHandler>();
