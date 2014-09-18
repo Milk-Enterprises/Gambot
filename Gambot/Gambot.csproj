@@ -51,7 +51,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="MessageHandler.cs" />
+    <Compile Include="IMessage.cs" />
+    <Compile Include="IMessageHandler.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="GrandMessageHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLite.cs" />
