@@ -24,11 +24,12 @@ namespace Gambot
                     IRC.Quit();
                 Environment.Exit(0);
             };
-            
-            IRC = new IrcClient(Config.Get("Irc.Server"), 
-                new IrcUser(Config.Get("Irc.Nick", "gambot"),
-                    Config.Get("Irc.Nick", "gambot"),
-                    Config.Get("Irc.Password")), Config.Get("Irc.Ssl", "false") == "true");
+
+            var server = Config.Get("Irc.Server");
+            var user = Config.Get("Irc.Nick", "gambot");
+            var password = Config.Get("Irc.Password");
+            var ssl = Config.GetBool("Irc.Ssl");
+            IRC = new IrcClient(server, new IrcUser(user, user, password), ssl);
 
             Console.Write("Starting up... ");
             IRC.ConnectionComplete += (sender, eventArgs) => Console.WriteLine("Connected.");
