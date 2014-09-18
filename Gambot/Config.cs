@@ -13,6 +13,12 @@ namespace Gambot
             return ConfigurationManager.AppSettings[key] ?? defaultValue;
         }
 
+        public static bool GetBool(string key, bool defaultValue = false)
+        {
+            var val = ConfigurationManager.AppSettings[key];
+            return val == null ? defaultValue : bool.Parse(val);
+        }
+
         public static void Set(string key, string value)
         {
             ConfigurationManager.AppSettings.Set(key, value);
