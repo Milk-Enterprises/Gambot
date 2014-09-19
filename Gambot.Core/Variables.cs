@@ -9,7 +9,7 @@ namespace Gambot
     public static class Variables
     {
         private static Dictionary<string, Func<string>> magicVariables = new Dictionary<string, Func<string>>();
-        private static readonly Regex VariableRegex = new Regex(@"\$[a-z0-9_-]+", RegexOptions.IgnoreCase);
+        private static readonly Regex VariableRegex = new Regex(@"\$[a-z][a-z0-9_-]*", RegexOptions.IgnoreCase);
 
         public static void DefineMagicVariable(string name, Func<string> getter)
         {
@@ -26,7 +26,7 @@ namespace Gambot
 
                 // TODO: SQL variable lookup
 
-                return var; // ¯\_(ツ)_/¯
+                return match.Value; // ¯\_(ツ)_/¯
             });
         }
     }

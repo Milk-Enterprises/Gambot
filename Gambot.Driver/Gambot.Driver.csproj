@@ -33,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ChatSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Gambot.Core\ChatSharp.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -47,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -55,6 +50,14 @@
     <ProjectReference Include="..\Gambot.Core\Gambot.Core.csproj">
       <Project>{63582468-1fe5-483f-b6bc-6e7f4c722c89}</Project>
       <Name>Gambot.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gambot.IO.Console\Gambot.IO.Console.csproj">
+      <Project>{87b21279-321c-4a28-bedd-1317a571476a}</Project>
+      <Name>Gambot.IO.Console</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gambot.IO.IRC\Gambot.IO.IRC.csproj">
+      <Project>{619d107b-6666-4d14-b02a-b3c795f2b5df}</Project>
+      <Name>Gambot.IO.IRC</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

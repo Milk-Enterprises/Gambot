@@ -37,10 +37,6 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ChatSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\ChatSharp.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -51,10 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="IMessageHandler.cs" />
-    <Compile Include="Message.cs" />
     <Compile Include="GrandMessageHandler.cs" />
+    <Compile Include="IMessenger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestMessageHandler.cs" />
     <Compile Include="Variables.cs" />

@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Gambot
 {
-    interface IMessage
+    public interface IMessage
     {
         bool Action { get; }
         string Text { get; }

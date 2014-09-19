@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ChatSharp;
+﻿using Gambot.Core;
 
 namespace Gambot
 {
@@ -14,11 +9,11 @@ namespace Gambot
             
         }
 
-        public bool Digest(IrcClient irc, Message message)
+        public bool Digest(IMessenger messenger, IMessage message)
         {
             if (message.Text == ":hi:")
             {
-                irc.SendMessage(message.Who + ": :hi:", message.Where);
+                messenger.SendMessage(message.Who + ": :hi:", message.Where);
                 return false;
             }
 

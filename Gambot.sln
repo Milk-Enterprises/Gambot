@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Core", "Gambot.Core\Gambot.Core.csproj", "{63582468-1FE5-483F-B6BC-6E7F4C722C89}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Data", "Gambot.Data\Gambot.Data.csproj", "{88C7282E-A037-44E2-9C8A-7D96D4FA5335}"
@@ -8,6 +10,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Driver", "Gambot.Driver\Gambot.Driver.csproj", "{1145BBEC-AD7D-4718-8476-E8D13AAEFAF0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Tests", "Gambot.Tests\Gambot.Tests.csproj", "{E135E136-B451-406D-93F2-17D71FF8513E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.IO.Console", "Gambot.IO.Console\Gambot.IO.Console.csproj", "{87B21279-321C-4A28-BEDD-1317A571476A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.IO.IRC", "Gambot.IO.IRC\Gambot.IO.IRC.csproj", "{619D107B-6666-4D14-B02A-B3C795F2B5DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +37,14 @@ Global
 		{E135E136-B451-406D-93F2-17D71FF8513E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E135E136-B451-406D-93F2-17D71FF8513E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E135E136-B451-406D-93F2-17D71FF8513E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87B21279-321C-4A28-BEDD-1317A571476A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87B21279-321C-4A28-BEDD-1317A571476A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87B21279-321C-4A28-BEDD-1317A571476A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87B21279-321C-4A28-BEDD-1317A571476A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{619D107B-6666-4D14-B02A-B3C795F2B5DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{619D107B-6666-4D14-B02A-B3C795F2B5DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{619D107B-6666-4D14-B02A-B3C795F2B5DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{619D107B-6666-4D14-B02A-B3C795F2B5DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

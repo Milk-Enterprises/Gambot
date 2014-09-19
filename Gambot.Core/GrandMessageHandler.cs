@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ChatSharp;
+using Gambot.Core;
 
 namespace Gambot
 {
@@ -18,13 +18,11 @@ namespace Gambot
             MessageHandlers.Add(handler);
         }
 
-        public static void Digest(IrcClient irc, PrivateMessage pm)
+        public static void Digest(IMessenger messenger, IMessage message)
         {
-            var message = new Message(pm);
-
             foreach (var handler in MessageHandlers)
             {
-                if (!handler.Digest(irc, message))
+                if (!handler.Digest(messenger, message))
                     break;
             }
         }

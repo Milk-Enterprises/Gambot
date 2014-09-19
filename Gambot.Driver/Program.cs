@@ -1,48 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.Mime;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using ChatSharp;
+using Gambot.Core;
+using Gambot.IO.Console;
+using Gambot.IO.IRC;
 
-namespace Gambot
+namespace Gambot.Driver
 {
     public class Program
     {
-        private static IrcClient IRC;
+        private static IMessenger messenger;
 
         static void Main(string[] args)
         {
             Console.CancelKeyPress += (sender, eventArgs) =>
             {
                 Console.WriteLine("Shutting down...");
-                if (IRC != null)
-                    IRC.Quit();
+                if (messenger != null)
+                    messenger.Dispose();
                 Environment.Exit(0);
             };
-
-            var server = Config.Get("Irc.Server");
-            var user = Config.Get("Irc.Nick", "gambot");
-            var password = Config.Get("Irc.Password");
-            var ssl = Config.GetBool("Irc.Ssl");
-            IRC = new IrcClient(server, new IrcUser(user, user, password), ssl);
-
-            Console.Write("Starting up... ");
-            IRC.ConnectionComplete += (sender, eventArgs) => Console.WriteLine("Connected.");
-
+            
+            Console.WriteLine("Starting up... ");
+            
+#if DEBUG
+            messenger = new ConsoleMessenger();
             GrandMessageHandler.AddHandler<TestMessageHandler>();
+#else
+            // TODO: Select implementation at run-time
+            messenger = new IrcMessenger();
+#endif
 
-            IRC.PrivateMessageRecieved += (sender, eventArgs) =>
-            {
-                Console.WriteLine("[<-] [{0}]\t[{1}]\t{2}", eventArgs.PrivateMessage.Source, eventArgs.PrivateMessage.User.Nick, eventArgs.PrivateMessage.Message);
-                GrandMessageHandler.Digest(IRC, eventArgs.PrivateMessage);
-            };
-
-            IRC.ConnectAsync();
+            messenger.MessageReceived += (sender, eventArgs) => 
+                GrandMessageHandler.Digest(messenger, eventArgs.Message);
 
             Thread.Sleep(Timeout.Infinite);
         }
