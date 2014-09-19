@@ -8,6 +8,7 @@ namespace Gambot.Core
     public class MessageEventArgs : EventArgs
     {
         public IMessage Message;
+        public bool Addressed;
     }
 
     public interface IMessenger : IDisposable

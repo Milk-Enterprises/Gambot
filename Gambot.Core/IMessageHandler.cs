@@ -9,6 +9,6 @@ namespace Gambot
     public interface IMessageHandler
     {
         void Initialize();
-        bool Digest(IMessenger messenger, IMessage message);
+        bool Digest(IMessenger messenger, IMessage message, bool addressed);
     }
 }

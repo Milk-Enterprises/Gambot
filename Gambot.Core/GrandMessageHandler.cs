@@ -18,11 +18,11 @@ namespace Gambot
             MessageHandlers.Add(handler);
         }
 
-        public static void Digest(IMessenger messenger, IMessage message)
+        public static void Digest(IMessenger messenger, IMessage message, bool addressed)
         {
             foreach (var handler in MessageHandlers)
             {
-                if (!handler.Digest(messenger, message))
+                if (!handler.Digest(messenger, message, addressed))
                     break;
             }
         }

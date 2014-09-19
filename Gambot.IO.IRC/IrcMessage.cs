@@ -1,4 +1,5 @@
-﻿using ChatSharp;
+﻿using System.Text.RegularExpressions;
+using ChatSharp;
 
 namespace Gambot.IO.IRC
 {
@@ -13,8 +14,16 @@ namespace Gambot.IO.IRC
         public IrcMessage(PrivateMessage raw)
         {
             Who = raw.User.Nick;
-            Text = raw.Message;
             Where = raw.Source;
+
+            var toMatch = Regex.Match(raw.Message, @"(.+):\s");
+            if (toMatch.Success)
+            {
+                To = toMatch.Captures[1].Value;
+                Text = raw.Message.Substring(toMatch.Length);
+            }
+            else
+                Text = raw.Message;
         }
     }
 }

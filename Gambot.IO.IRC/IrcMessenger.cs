@@ -26,8 +26,16 @@ namespace Gambot.IO.IRC
             client.PrivateMessageRecieved += (sender, args) =>
             {
                 if (MessageReceived != null)
+                {
+                    var message = new IrcMessage(args.PrivateMessage);
                     MessageReceived(this,
-                        new MessageEventArgs { Message = new IrcMessage(args.PrivateMessage) });
+                        new MessageEventArgs
+                        {
+                            Message = message,
+                            Addressed = (!args.PrivateMessage.IsChannelMessage || 
+                                String.Equals(message.To, nick, StringComparison.CurrentCultureIgnoreCase))
+                        });
+                }
             };
 
             client.ConnectAsync();

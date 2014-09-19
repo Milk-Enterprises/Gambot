@@ -59,6 +59,10 @@
       <Project>{619d107b-6666-4d14-b02a-b3c795f2b5df}</Project>
       <Name>Gambot.IO.IRC</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Gambot.SimpleResponses\Gambot.SimpleResponses.csproj">
+      <Project>{50098696-663d-480d-943a-8128ed8b6639}</Project>
+      <Name>Gambot.SimpleResponses</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

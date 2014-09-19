@@ -20,8 +20,14 @@ namespace Gambot.IO.Console
                     System.Console.Write("{0}:\t", Environment.UserName);
                     var message = System.Console.ReadLine();
                     if (MessageReceived != null)
-                        MessageReceived(this, 
-                            new MessageEventArgs { Message = new ConsoleMessage(message) });
+                    {
+                        MessageReceived(this,
+                            new MessageEventArgs
+                            {
+                                Message = new ConsoleMessage(message),
+                                Addressed = true
+                            });
+                    }
                 }
             });
             inputThread.Start();
