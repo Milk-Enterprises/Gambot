@@ -1,5 +1,6 @@
 ﻿using System;
-namespace Gambot
+
+namespace Gambot.Core
 {
     public interface IMessage
     {

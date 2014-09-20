@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Gambot
+namespace Gambot.Core
 {
     public static class Variables
     {

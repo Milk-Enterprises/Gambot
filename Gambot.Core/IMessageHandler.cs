@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Gambot.Core;
 
-namespace Gambot
+namespace Gambot.Core
 {
     public interface IMessageHandler
     {

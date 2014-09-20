@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using ChatSharp;
+using Gambot.Core;
 
 namespace Gambot.IO.IRC
 {
