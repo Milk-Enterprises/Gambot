@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 
-namespace Gambot
+namespace Gambot.Core
 {
     public static class Config
     {
