@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Core", "Gambot.Core\Gambot.Core.csproj", "{63582468-1FE5-483F-B6BC-6E7F4C722C89}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Data", "Gambot.Data\Gambot.Data.csproj", "{88C7282E-A037-44E2-9C8A-7D96D4FA5335}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Driver", "Gambot.Driver\Gambot.Driver.csproj", "{1145BBEC-AD7D-4718-8476-E8D13AAEFAF0}"
 EndProject
@@ -27,10 +25,6 @@ Global
 		{63582468-1FE5-483F-B6BC-6E7F4C722C89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63582468-1FE5-483F-B6BC-6E7F4C722C89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63582468-1FE5-483F-B6BC-6E7F4C722C89}.Release|Any CPU.Build.0 = Release|Any CPU
-		{88C7282E-A037-44E2-9C8A-7D96D4FA5335}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{88C7282E-A037-44E2-9C8A-7D96D4FA5335}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{88C7282E-A037-44E2-9C8A-7D96D4FA5335}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{88C7282E-A037-44E2-9C8A-7D96D4FA5335}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1145BBEC-AD7D-4718-8476-E8D13AAEFAF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1145BBEC-AD7D-4718-8476-E8D13AAEFAF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1145BBEC-AD7D-4718-8476-E8D13AAEFAF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
