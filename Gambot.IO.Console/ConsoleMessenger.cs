@@ -19,7 +19,7 @@ namespace Gambot.IO.Console
                 {
                     System.Console.Write("{0}:\t", Environment.UserName);
                     var message = System.Console.ReadLine();
-                    if (MessageReceived != null)
+                    if (message != null && MessageReceived != null)
                     {
                         MessageReceived(this,
                             new MessageEventArgs
@@ -34,9 +34,9 @@ namespace Gambot.IO.Console
             name = Config.Get("Name", "gambot");
         }
 
-        public void SendMessage(string message, string destination)
+        public void SendMessage(string message, string destination, bool action = false)
         {
-            System.Console.WriteLine("{0}:\t{1}", name, message);
+            System.Console.WriteLine(action ? "*\t{0} {1}" : "{0}:\t{1}", name, message);
         }
 
         public void Dispose()

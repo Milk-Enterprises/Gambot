@@ -41,9 +41,12 @@ namespace Gambot.IO.IRC
             client.ConnectAsync();
         }
 
-        public void SendMessage(string message, string destination)
+        public void SendMessage(string message, string destination, bool action = false)
         {
-            client.SendMessage(message, destination);
+            if (action)
+                client.SendAction(message, destination);
+            else
+                client.SendMessage(message, destination);
         }
 
         public void Dispose()

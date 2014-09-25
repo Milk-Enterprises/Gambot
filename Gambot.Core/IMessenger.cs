@@ -14,6 +14,6 @@ namespace Gambot.Core
     public interface IMessenger : IDisposable
     {
         event EventHandler<MessageEventArgs> MessageReceived;
-        void SendMessage(string message, string destination);
+        void SendMessage(string message, string destination, bool action = false);
     }
 }
