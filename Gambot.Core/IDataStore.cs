@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace Gambot.Data
+namespace Gambot.Core
 {
-    interface IDataStore
+    public interface IDataStore
     {
         void Put(string key, string val);
 
