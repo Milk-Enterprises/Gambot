@@ -13,7 +13,7 @@ namespace Gambot.Core
         public static void AddHandler<T>() where T : IMessageHandler, new()
         {
             var handler = new T();
-            handler.Initialize();
+            handler.Initialize(null /* TODO */);
             MessageHandlers.Add(handler);
         }
 

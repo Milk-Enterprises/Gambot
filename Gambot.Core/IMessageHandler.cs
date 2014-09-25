@@ -7,7 +7,7 @@ namespace Gambot.Core
 {
     public interface IMessageHandler
     {
-        void Initialize();
+        void Initialize(IDataStore dataStore);
         bool Digest(IMessenger messenger, IMessage message, bool addressed);
     }
 }
