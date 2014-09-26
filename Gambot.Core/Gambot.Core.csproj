@@ -54,6 +54,7 @@
     <Compile Include="GrandMessageHandler.cs" />
     <Compile Include="IMessenger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReplyCommandHandler.cs" />
     <Compile Include="Variables.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
