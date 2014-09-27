@@ -10,7 +10,7 @@ namespace Gambot.SimpleResponses
 {
     public class SimpleResponseHandler : IMessageHandler
     {
-        public void Initialize(IDataStore dataStore) { }
+        public void Initialize(IDataStoreManager dataStoreManager) { }
 
         public bool Digest(IMessenger messenger, IMessage message, bool addressed)
         {
