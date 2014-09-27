@@ -18,8 +18,10 @@ namespace Gambot.Tests.Core
         public void InitializeSubject()
         {
             DataStore = new Mock<IDataStore>();
+            var dsm = new Mock<IDataStoreManager>();
+            dsm.Setup(idsm => idsm.Get(It.IsAny<string>())).Returns(DataStore.Object);
             Subject = new ReplyCommandHandler();
-            Subject.Initialize(DataStore.Object);
+            Subject.Initialize(dsm.Object);
         }
 
         [TestClass]

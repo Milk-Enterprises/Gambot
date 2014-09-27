@@ -7,9 +7,9 @@ namespace Gambot.Core
     {
         private IDataStore _dataStore;
         
-        public void Initialize(IDataStore dataStore)
+        public void Initialize(IDataStoreManager dataStoreManager)
         {
-            _dataStore = dataStore;
+            _dataStore = dataStoreManager.Get("Reply");
         }
 
         public bool Digest(IMessenger messenger, IMessage message, bool addressed)
