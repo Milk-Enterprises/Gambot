@@ -13,7 +13,7 @@ namespace Gambot.Core
 
         static GrandMessageHandler()
         {
-            //_dataStoreManager = new InMemoryDataStoreManager(); // todo: kill me in the fucking MOUTH
+            _dataStoreManager = new InMemoryDataStoreManager(); // todo: di
         }
 
         public static void AddHandler<T>() where T : IMessageHandler, new()
