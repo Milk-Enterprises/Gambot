@@ -28,7 +28,7 @@ namespace Gambot.Tests.Core
         public class Digest : TReplyTriggerHandler
         {
             [TestMethod]
-            public void ShouldParseMessageWithNoVariables()
+            public void ShouldParseMessageWithTrigger()
             {
                 // todo: use an auto mocker so i dont have to do this shit manually
                 const string trigger = "hello";
