@@ -19,7 +19,7 @@ namespace Gambot.Core
         public bool Put(string key, string val)
         {
             var alreadyExists = data.Contains(key, val);
-            if(!alreadyExists) data.Add(key, val);
+            if (!alreadyExists) data.Add(key, val);
 
             return !alreadyExists;
         }

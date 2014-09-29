@@ -8,12 +8,12 @@ namespace Gambot.Core
 {
     public static class Variables
     {
-        private static Dictionary<string, Func<string>> magicVariables = new Dictionary<string, Func<string>>();
+        private static readonly Dictionary<string, Func<string>> MagicVariables = new Dictionary<string, Func<string>>();
         private static readonly Regex VariableRegex = new Regex(@"\$[a-z][a-z0-9_-]*", RegexOptions.IgnoreCase);
 
         public static void DefineMagicVariable(string name, Func<string> getter)
         {
-            magicVariables.Add(name, getter);
+            MagicVariables.Add(name, getter);
         }
 
         public static string Substitute(string input)
@@ -21,8 +21,8 @@ namespace Gambot.Core
             return VariableRegex.Replace(input, match =>
             {
                 var var = match.Value.ToLower();
-                if (magicVariables.ContainsKey(var))
-                    return magicVariables[var]();
+                if (MagicVariables.ContainsKey(var))
+                    return MagicVariables[var]();
 
                 // TODO: SQL variable lookup
 
