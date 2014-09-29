@@ -10,7 +10,7 @@ namespace Gambot.IO.IRC
 {
     public class IrcMessenger : IMessenger
     {
-        protected IrcClient Client; 
+        protected IrcClient client; 
 
         public event EventHandler<MessageEventArgs> MessageReceived;
 
@@ -21,9 +21,9 @@ namespace Gambot.IO.IRC
             var user     = Config.Get("Irc.User", nick);
             var password = Config.Get("Irc.Password");
             var ssl      = Config.GetBool("Irc.Ssl");
-            Client = new IrcClient(server, new IrcUser(nick, user, password), ssl);
+            client = new IrcClient(server, new IrcUser(nick, user, password), ssl);
 
-            Client.PrivateMessageRecieved += (sender, args) =>
+            client.PrivateMessageRecieved += (sender, args) =>
             {
                 if (MessageReceived != null)
                 {
@@ -38,20 +38,20 @@ namespace Gambot.IO.IRC
                 }
             };
 
-            Client.ConnectAsync();
+            client.ConnectAsync();
         }
 
         public void SendMessage(string message, string destination, bool action = false)
         {
             if (action)
-                Client.SendAction(message, destination);
+                client.SendAction(message, destination);
             else
-                Client.SendMessage(message, destination);
+                client.SendMessage(message, destination);
         }
 
         public void Dispose()
         {
-            Client.Quit();
+            client.Quit();
         }
     }
 }

@@ -6,14 +6,14 @@ namespace Gambot.IO.Console
 {
     public class ConsoleMessenger : IMessenger
     {
-        protected Thread InputThread;
-        protected string Name;
+        protected Thread inputThread;
+        protected string name;
 
         public event EventHandler<MessageEventArgs> MessageReceived;
 
         public ConsoleMessenger()
         {
-            InputThread = new Thread(() =>
+            inputThread = new Thread(() =>
             {
                 while (true)
                 {
@@ -30,18 +30,18 @@ namespace Gambot.IO.Console
                     }
                 }
             });
-            InputThread.Start();
-            Name = Config.Get("Name", "gambot");
+            inputThread.Start();
+            name = Config.Get("Name", "gambot");
         }
 
         public void SendMessage(string message, string destination, bool action = false)
         {
-            System.Console.WriteLine(action ? "*\t{0} {1}" : "{0}:\t{1}", Name, message);
+            System.Console.WriteLine(action ? "*\t{0} {1}" : "{0}:\t{1}", name, message);
         }
 
         public void Dispose()
         {
-            InputThread.Abort();
+            inputThread.Abort();
         }
     }
 }
