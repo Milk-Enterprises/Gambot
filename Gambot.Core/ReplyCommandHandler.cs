@@ -5,11 +5,11 @@ namespace Gambot.Core
 {
     public class ReplyCommandHandler : IMessageHandler
     {
-        private IDataStore _dataStore;
+        private IDataStore dataStore;
         
         public void Initialize(IDataStoreManager dataStoreManager)
         {
-            _dataStore = dataStoreManager.Get("Reply");
+            dataStore = dataStoreManager.Get("Reply");
         }
 
         public bool Digest(IMessenger messenger, IMessage message, bool addressed)
@@ -20,7 +20,7 @@ namespace Gambot.Core
                     var replyTrigger = match.Groups[1].Value.Trim();
                     var replyMsg = match.Groups[2].Value.Trim();
 
-                    _dataStore.Put(replyTrigger, replyMsg);
+                    dataStore.Put(replyTrigger, replyMsg);
 
                     messenger.SendMessage(String.Format("Okay, {0}.", message.Who), message.Where);
 
