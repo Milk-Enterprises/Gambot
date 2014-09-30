@@ -8,24 +8,24 @@ namespace Gambot.Core
 {
     public static class GrandMessageHandler
     {
-        private static readonly List<IMessageHandler> MessageHandlers = new List<IMessageHandler>();
-        private static readonly IDataStoreManager DataStoreManager; // todo: make this entire class not fucking static for the love of shit
+        private static readonly List<IMessageHandler> messageHandlers = new List<IMessageHandler>();
+        private static readonly IDataStoreManager dataStoreManager; // todo: make this entire class not fucking static for the love of shit
 
         static GrandMessageHandler()
         {
-            DataStoreManager = new InMemoryDataStoreManager(); // todo: di
+            dataStoreManager = new InMemoryDataStoreManager(); // todo: di
         }
 
         public static void AddHandler<T>() where T : IMessageHandler, new()
         {
             var handler = new T();
-            handler.Initialize(DataStoreManager);
-            MessageHandlers.Add(handler);
+            handler.Initialize(dataStoreManager);
+            messageHandlers.Add(handler);
         }
 
         public static void Digest(IMessenger messenger, IMessage message, bool addressed)
         {
-            foreach (var handler in MessageHandlers)
+            foreach (var handler in messageHandlers)
             {
                 if (!handler.Digest(messenger, message, addressed))
                     break;
