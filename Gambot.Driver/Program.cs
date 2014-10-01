@@ -3,6 +3,7 @@ using System.Threading;
 using Gambot.Core;
 using Gambot.IO.Console;
 using Gambot.IO.IRC;
+using Gambot.People;
 using Gambot.SimpleResponses;
 
 namespace Gambot.Driver
@@ -26,6 +27,8 @@ namespace Gambot.Driver
 #if DEBUG
             messenger = new ConsoleMessenger();
             GrandMessageHandler.AddHandler<SimpleResponseHandler>();
+            GrandMessageHandler.AddHandler<PeopleHandler>();
+            GrandMessageHandler.AddHandler<GenderHandler>();
 #else
             // TODO: Select implementation at run-time
             messenger = new IrcMessenger();

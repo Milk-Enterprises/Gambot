@@ -20,7 +20,7 @@ namespace Gambot.SimpleResponses
                 match = Regex.Match(message.Text, "say \"(.+)\"");
                 if (match.Success)
                 {
-                    messenger.SendMessage(Variables.Substitute(match.Groups[1].Value), message.Where);
+                    messenger.SendMessage(Variables.Substitute(match.Groups[1].Value, message), message.Where);
                     return false;
                 }
             }
