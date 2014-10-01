@@ -45,7 +45,7 @@ namespace Gambot.Core
         public string GetRandomValue(string key)
         {
             var values = data[key].ToList();
-            return values.ElementAt(StaticRandom.Next(0, values.Count));
+            return values.Count == 0 ? null : values.ElementAt(StaticRandom.Next(0, values.Count));
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Core", "Gambot.Core\Gambot.Core.csproj", "{63582468-1FE5-483F-B6BC-6E7F4C722C89}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.SimpleResponses", "Gambot.SimpleResponses\Gambot.SimpleResponses.csproj", "{50098696-663D-480D-943A-8128ED8B6639}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.People", "Gambot.People\Gambot.People.csproj", "{5E056E91-57C0-4641-9BA5-017D57180045}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Variables", "Gambot.Variables\Gambot.Variables.csproj", "{8555C06C-5190-4B5D-9105-EE3F9B54A95D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{5E056E91-57C0-4641-9BA5-017D57180045}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E056E91-57C0-4641-9BA5-017D57180045}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E056E91-57C0-4641-9BA5-017D57180045}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8555C06C-5190-4B5D-9105-EE3F9B54A95D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8555C06C-5190-4B5D-9105-EE3F9B54A95D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8555C06C-5190-4B5D-9105-EE3F9B54A95D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8555C06C-5190-4B5D-9105-EE3F9B54A95D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -67,6 +67,10 @@
       <Project>{50098696-663d-480d-943a-8128ed8b6639}</Project>
       <Name>Gambot.SimpleResponses</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Gambot.Variables\Gambot.Variables.csproj">
+      <Project>{8555c06c-5190-4b5d-9105-ee3f9b54a95d}</Project>
+      <Name>Gambot.Variables</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
