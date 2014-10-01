@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{50098696-663D-480D-943A-8128ED8B6639}</ProjectGuid>
+    <ProjectGuid>{E155DDA5-3AC7-4BDC-9B12-B2DD3C8A8332}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Gambot.SimpleResponses</RootNamespace>
-    <AssemblyName>Gambot.SimpleResponses</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>Gambot.Modules.Simple</RootNamespace>
+    <AssemblyName>Gambot.Modules.Simple</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,12 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SimpleResponseHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleResponseHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gambot.Core\Gambot.Core.csproj">
-      <Project>{63582468-1fe5-483f-b6bc-6e7f4c722c89}</Project>
+      <Project>{63582468-1FE5-483F-B6BC-6E7F4C722C89}</Project>
       <Name>Gambot.Core</Name>
     </ProjectReference>
   </ItemGroup>
