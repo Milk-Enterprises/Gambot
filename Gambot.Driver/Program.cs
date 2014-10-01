@@ -5,7 +5,6 @@ using Gambot.IO.Console;
 using Gambot.IO.IRC;
 using Gambot.People;
 using Gambot.SimpleResponses;
-using Gambot.Variables;
 
 namespace Gambot.Driver
 {

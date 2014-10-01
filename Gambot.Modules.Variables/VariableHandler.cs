@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Gambot.Core;
 
-namespace Gambot.Variables
+namespace Gambot.Modules.Variables
 {
     public class VariableHandler : IMessageHandler, IVariableFallbackHandler
     {
@@ -30,7 +25,7 @@ namespace Gambot.Variables
                 if (match.Success)
                 {
                     messenger.SendMessage(
-                        String.Format("{0}: To create a variable, just start adding values to it.", message.Who),
+                        String.Format((string) "{0}: To create a variable, just start adding values to it.", (object) message.Who),
                         message.Where);
                     return false;
                 }
@@ -41,7 +36,7 @@ namespace Gambot.Variables
                     messenger.SendMessage(
                         String.Format(variableStore.Put(match.Groups[1].Value.ToLower(), match.Groups[2].Value)
                             ? "Okay, {0}."
-                            : "I already had it that way, {0}!", message.Who), message.Where);
+                            : "I already had it that way, {0}!", (object) message.Who), message.Where);
                     return false;
                 }
 
@@ -51,7 +46,7 @@ namespace Gambot.Variables
                     messenger.SendMessage(
                         String.Format(variableStore.RemoveValue(match.Groups[1].Value.ToLower(), match.Groups[2].Value)
                             ? "Okay, {0}."
-                            : "There's no such value, {0}!", message.Who), message.Where);
+                            : "There's no such value, {0}!", (object) message.Who), message.Where);
                     return false;
                 }
 
