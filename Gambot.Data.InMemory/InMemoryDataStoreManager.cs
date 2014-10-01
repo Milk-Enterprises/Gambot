@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Gambot.Data.InMemory
 {
     // todo: move this to the appropriate project/namespace

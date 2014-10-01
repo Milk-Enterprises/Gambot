@@ -48,8 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="IDataStore.cs" />
-    <Compile Include="IDataStoreManager.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="IMessageHandler.cs" />
     <Compile Include="GrandMessageHandler.cs" />
