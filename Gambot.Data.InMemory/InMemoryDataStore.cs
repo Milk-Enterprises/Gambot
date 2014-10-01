@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Gambot.Core;
 using MiscUtil;
 using MiscUtil.Linq;
 
-namespace Gambot.Core
+namespace Gambot.Data.InMemory
 {
     internal class InMemoryDataStore : IDataStore
     {
