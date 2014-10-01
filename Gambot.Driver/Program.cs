@@ -3,6 +3,9 @@ using System.Threading;
 using Gambot.Core;
 using Gambot.IO.Console;
 using Gambot.IO.IRC;
+using Gambot.Modules.People;
+using Gambot.Modules.Simple;
+using Gambot.Modules.Variables;
 
 namespace Gambot.Driver
 {

@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Gambot.Core;
+using Gambot.Data;
 using Gambot.Modules.Reply;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

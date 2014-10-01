@@ -79,6 +79,10 @@
       <Project>{63582468-1FE5-483F-B6BC-6E7F4C722C89}</Project>
       <Name>Gambot.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Gambot.Data\Gambot.Data.csproj">
+      <Project>{B9DEFF18-ACEC-4A5B-9DCC-3D1EF212EDD5}</Project>
+      <Name>Gambot.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Gambot.Modules.Reply\Gambot.Modules.Reply.csproj">
       <Project>{afb4b6af-06ae-4cac-8862-9a4ca45d8518}</Project>
       <Name>Gambot.Modules.Reply</Name>

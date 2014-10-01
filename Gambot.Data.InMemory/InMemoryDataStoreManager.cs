@@ -2,8 +2,7 @@ using System.Collections.Generic;
 
 namespace Gambot.Data.InMemory
 {
-    // todo: move this to the appropriate project/namespace
-    internal class InMemoryDataStoreManager : IDataStoreManager
+    public class InMemoryDataStoreManager : IDataStoreManager
     {
         private readonly IDictionary<string, IDataStore> dataStores;
 

@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Gambot.Modules.Simple</RootNamespace>
     <AssemblyName>Gambot.Modules.Simple</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,6 +47,10 @@
     <ProjectReference Include="..\Gambot.Core\Gambot.Core.csproj">
       <Project>{63582468-1FE5-483F-B6BC-6E7F4C722C89}</Project>
       <Name>Gambot.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gambot.Data\Gambot.Data.csproj">
+      <Project>{B9DEFF18-ACEC-4A5B-9DCC-3D1EF212EDD5}</Project>
+      <Name>Gambot.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
