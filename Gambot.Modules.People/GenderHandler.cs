@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
 using System.Text.RegularExpressions;
 using Gambot.Core;
 
-namespace Gambot.People
+namespace Gambot.Modules.People
 {
     public class GenderHandler : IMessageHandler
     {
@@ -101,7 +99,7 @@ namespace Gambot.People
                 {
                     genderStore.RemoveAllValues(message.Who);
                     genderStore.Put(message.Who, personalMatch.Groups[1].Value);
-                    messenger.SendMessage(String.Format("Okay, {0}.", message.Who), message.Where);
+                    messenger.SendMessage(String.Format((string) "Okay, {0}.", (object) message.Who), message.Where);
                     return false;
                 }
             }

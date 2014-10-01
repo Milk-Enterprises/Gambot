@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Gambot.People")]
-[assembly: AssemblyDescription("The IRC bot of the future.")]
+[assembly: AssemblyTitle("Gambot.Modules.People")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Milk Enterprises")]
-[assembly: AssemblyProduct("Gambot.People")]
-[assembly: AssemblyCopyright("Copyright © Milk Enterprises 2014")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Gambot.Modules.People")]
+[assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("cdf29776-75f8-48d0-8e5e-4b166b6d1e0a")]
+[assembly: Guid("7dcd3f86-c11c-4e92-8d73-d7b635248d92")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.1.*")]
-[assembly: AssemblyFileVersion("0.1.*")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

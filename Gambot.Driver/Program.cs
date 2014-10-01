@@ -3,7 +3,6 @@ using System.Threading;
 using Gambot.Core;
 using Gambot.IO.Console;
 using Gambot.IO.IRC;
-using Gambot.People;
 using Gambot.SimpleResponses;
 
 namespace Gambot.Driver

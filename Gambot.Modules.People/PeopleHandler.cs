@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Gambot.Core;
 
-namespace Gambot.People
+namespace Gambot.Modules.People
 {
     public class PeopleHandler : IMessageHandler
     {
