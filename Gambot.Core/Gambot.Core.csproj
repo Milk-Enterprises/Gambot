@@ -61,8 +61,6 @@
     <Compile Include="InMemoryDataStoreManager.cs" />
     <Compile Include="IVariableFallbackHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReplyCommandHandler.cs" />
-    <Compile Include="ReplyTriggerHandler.cs" />
     <Compile Include="Variables.cs" />
   </ItemGroup>
   <ItemGroup>

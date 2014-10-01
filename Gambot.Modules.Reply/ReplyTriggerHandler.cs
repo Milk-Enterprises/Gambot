@@ -1,4 +1,4 @@
-﻿namespace Gambot.Core
+﻿namespace Gambot.Modules.Reply
 {
     public class ReplyTriggerHandler : IMessageHandler
     {

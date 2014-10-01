@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using Gambot.Core;
 
-namespace Gambot.Core
+namespace Gambot.Modules.Reply
 {
     public class ReplyCommandHandler : IMessageHandler
     {
@@ -22,7 +23,7 @@ namespace Gambot.Core
 
                     dataStore.Put(replyTrigger, replyMsg);
 
-                    messenger.SendMessage(String.Format("Okay, {0}.", message.Who), message.Where);
+                    messenger.SendMessage(String.Format((string) "Okay, {0}.", (object) message.Who), message.Where);
 
                     return false;
                 }
