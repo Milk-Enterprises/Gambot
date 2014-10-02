@@ -8,22 +8,8 @@ using Moq;
 namespace Gambot.Tests.Core
 {
     [TestClass]
-    public class TReplyTriggerHandler
+    public class TReplyTriggerHandler : MessageHandlerTestBase<ReplyTriggerHandler>
     {
-        protected ReplyTriggerHandler Subject { get; set; }
-
-        protected Mock<IDataStore> DataStore { get; set; }
-
-        [TestInitialize]
-        public void InitializeSubject()
-        {
-            DataStore = new Mock<IDataStore>();
-            var dsm = new Mock<IDataStoreManager>();
-            dsm.Setup(idsm => idsm.Get(It.IsAny<string>())).Returns(DataStore.Object);
-            Subject = new ReplyTriggerHandler();
-            Subject.Initialize(dsm.Object);
-        }
-
         [TestClass]
         public class Digest : TReplyTriggerHandler
         {

@@ -69,6 +69,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Core\MessageHandlerTestBase.cs" />
     <Compile Include="Core\TReplyCommandHandler.cs" />
     <Compile Include="Core\TReplyTriggerHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
