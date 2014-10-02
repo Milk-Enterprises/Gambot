@@ -12,18 +12,31 @@ namespace Gambot.Tests.Core
     {
         protected THandlerType Subject { get; set; }
 
-        protected Mock<IDataStore> DataStore { get; set; }
+        protected Mock<IDataStoreManager> DataStoreManager { get; set; }
+
+        protected IDictionary<string, Mock<IDataStore>> DataStores { get; set; }
 
         [TestInitialize]
+        public void ResetMocks()
+        {
+            DataStoreManager = new Mock<IDataStoreManager>();
+            DataStores = new Dictionary<string, Mock<IDataStore>>();
+        }
+
         public void InitializeSubject()
         {
-            DataStore = new Mock<IDataStore>();
-
-            var dsm = new Mock<IDataStoreManager>();
-            dsm.Setup(idsm => idsm.Get(It.IsAny<string>())).Returns(DataStore.Object);
-
             Subject = new THandlerType();
-            Subject.Initialize(dsm.Object);
+            Subject.Initialize(DataStoreManager.Object);
+        }
+
+        protected Mock<IDataStore> GetDataStore(string dataStoreName)
+        {
+            if (!DataStores.ContainsKey(dataStoreName)) DataStores.Add(dataStoreName, new Mock<IDataStore>());
+
+            var ds = DataStores[dataStoreName];
+            DataStoreManager.Setup(idsm => idsm.Get(dataStoreName)).Returns(ds.Object); // successive calls w/ same params will overwrite previous
+
+            return ds;
         }
     }
 }

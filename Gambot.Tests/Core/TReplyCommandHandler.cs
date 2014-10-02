@@ -16,6 +16,9 @@ namespace Gambot.Tests.Core
             [TestMethod]
             public void ShouldParseMessageWithNoVariables()
             {
+                var replyDataStore = GetDataStore("Reply");
+                InitializeSubject();
+
                 // todo: use an auto mocker so i dont have to do this shit manually
                 const string replyMsg = "hello man";
                 const string name = "Dude";
@@ -32,7 +35,7 @@ namespace Gambot.Tests.Core
                 var returnValue = Subject.Digest(messengerMock.Object, messageStub, true);
 
                 returnValue.Should().BeFalse();
-                DataStore.Verify(ids => ids.Put("hello", replyMsg), Times.Once);
+                replyDataStore.Verify(ids => ids.Put("hello", replyMsg), Times.Once);
                 messengerMock.Verify(im => im.SendMessage(expectedResponse, messageStub.Where, false), Times.Once);
             }
         }

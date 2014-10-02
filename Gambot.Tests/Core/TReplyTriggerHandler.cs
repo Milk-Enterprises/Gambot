@@ -16,10 +16,13 @@ namespace Gambot.Tests.Core
             [TestMethod]
             public void ShouldParseMessageWithTrigger()
             {
+                var replyDataStore = GetDataStore("Reply");
+                InitializeSubject();
+
                 // todo: use an auto mocker so i dont have to do this shit manually
                 const string trigger = "hello";
                 const string reply = "sup man";
-                DataStore.Setup(dsm => dsm.GetRandomValue(trigger)).Returns(reply);
+                replyDataStore.Setup(dsm => dsm.GetRandomValue(trigger)).Returns(reply);
                 var messengerMock = new Mock<IMessenger>();
                 var messageStub = new StubMessage()
                 {
@@ -31,7 +34,7 @@ namespace Gambot.Tests.Core
 
                 var returnValue = Subject.Digest(messengerMock.Object, messageStub, true);
 
-                DataStore.Verify(dsm => dsm.GetRandomValue(trigger), Times.Once);
+                replyDataStore.Verify(dsm => dsm.GetRandomValue(trigger), Times.Once);
                 returnValue.Should().BeFalse();
                 messengerMock.Verify(im => im.SendMessage(reply, messageStub.Where, false), Times.Once);
             }
