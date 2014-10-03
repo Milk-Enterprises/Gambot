@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Gambot.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace Gambot.Tests.Core
+namespace Gambot.Tests.Modules
 {
     public class MessageHandlerTestBase<THandlerType> where THandlerType : IMessageHandler, new()
     {
