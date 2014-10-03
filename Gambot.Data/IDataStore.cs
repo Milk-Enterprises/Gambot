@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Gambot.Core
+namespace Gambot.Data
 {
     public interface IDataStore
     {

@@ -59,9 +59,17 @@
       <Project>{619d107b-6666-4d14-b02a-b3c795f2b5df}</Project>
       <Name>Gambot.IO.IRC</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Gambot.SimpleResponses\Gambot.SimpleResponses.csproj">
-      <Project>{50098696-663d-480d-943a-8128ed8b6639}</Project>
-      <Name>Gambot.SimpleResponses</Name>
+    <ProjectReference Include="..\Gambot.Modules.People\Gambot.Modules.People.csproj">
+      <Project>{68A19C32-180C-4EC0-B412-B732CE37C375}</Project>
+      <Name>Gambot.Modules.People</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gambot.Modules.Simple\Gambot.Modules.Simple.csproj">
+      <Project>{E155DDA5-3AC7-4BDC-9B12-B2DD3C8A8332}</Project>
+      <Name>Gambot.Modules.Simple</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gambot.Modules.Variables\Gambot.Modules.Variables.csproj">
+      <Project>{08EFC5DE-DD22-4B00-813B-6C81B523FBEE}</Project>
+      <Name>Gambot.Modules.Variables</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

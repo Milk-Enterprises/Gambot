@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Gambot.Core;
+using Gambot.Data;
+using Gambot.Modules.Reply;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace Gambot.Tests.Core
+namespace Gambot.Tests.Modules.Reply
 {
     [TestClass]
     public class TReplyTriggerHandler : MessageHandlerTestBase<ReplyTriggerHandler>

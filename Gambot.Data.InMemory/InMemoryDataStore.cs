@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using MiscUtil;
 using MiscUtil.Linq;
 
-namespace Gambot.Core
+namespace Gambot.Data.InMemory
 {
     internal class InMemoryDataStore : IDataStore
     {
@@ -45,7 +43,7 @@ namespace Gambot.Core
         public string GetRandomValue(string key)
         {
             var values = data[key].ToList();
-            return values.ElementAt(StaticRandom.Next(0, values.Count));
+            return values.Count == 0 ? null : values.ElementAt(StaticRandom.Next(0, values.Count));
         }
     }
 }

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 using Gambot.Core;
+using Gambot.Data;
 
-namespace Gambot.SimpleResponses
+namespace Gambot.Modules.Simple
 {
     public class SimpleResponseHandler : IMessageHandler
     {
@@ -20,7 +16,7 @@ namespace Gambot.SimpleResponses
                 match = Regex.Match(message.Text, "say \"(.+)\"");
                 if (match.Success)
                 {
-                    messenger.SendMessage(Variables.Substitute(match.Groups[1].Value), message.Where);
+                    messenger.SendMessage(Variables.Substitute(match.Groups[1].Value, message), message.Where);
                     return false;
                 }
             }

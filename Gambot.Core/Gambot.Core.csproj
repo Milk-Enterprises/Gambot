@@ -37,9 +37,6 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MiscUtil">
-      <HintPath>..\packages\JonSkeet.MiscUtil.0.1\lib\net35-Client\MiscUtil.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -51,21 +48,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="IDataStore.cs" />
-    <Compile Include="IDataStoreManager.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="IMessageHandler.cs" />
     <Compile Include="GrandMessageHandler.cs" />
     <Compile Include="IMessenger.cs" />
-    <Compile Include="InMemoryDataStore.cs" />
-    <Compile Include="InMemoryDataStoreManager.cs" />
+    <Compile Include="IVariableFallbackHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReplyCommandHandler.cs" />
-    <Compile Include="ReplyTriggerHandler.cs" />
     <Compile Include="Variables.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Gambot.Data.InMemory\Gambot.Data.InMemory.csproj">
+      <Project>{49f0d5ae-3cdb-4f48-bbd8-f1da00bba0bb}</Project>
+      <Name>Gambot.Data.InMemory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gambot.Data\Gambot.Data.csproj">
+      <Project>{b9deff18-acec-4a5b-9dcc-3d1ef212edd5}</Project>
+      <Name>Gambot.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

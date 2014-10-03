@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Gambot.Data;
+using Gambot.Data.InMemory;
 
 namespace Gambot.Core
 {
@@ -21,6 +23,10 @@ namespace Gambot.Core
             var handler = new T();
             handler.Initialize(dataStoreManager);
             messageHandlers.Add(handler);
+
+            // it awaits
+            if (typeof(T).GetInterfaces().Contains(typeof(IVariableFallbackHandler)))
+                Variables.AddFallbackHandler((IVariableFallbackHandler)handler);
         }
 
         public static void Digest(IMessenger messenger, IMessage message, bool addressed)

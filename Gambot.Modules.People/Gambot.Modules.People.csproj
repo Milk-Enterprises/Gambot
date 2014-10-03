@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{50098696-663D-480D-943A-8128ED8B6639}</ProjectGuid>
+    <ProjectGuid>{68A19C32-180C-4EC0-B412-B732CE37C375}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Gambot.SimpleResponses</RootNamespace>
-    <AssemblyName>Gambot.SimpleResponses</AssemblyName>
+    <RootNamespace>Gambot.Modules.People</RootNamespace>
+    <AssemblyName>Gambot.Modules.People</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -33,20 +33,20 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SimpleResponseHandler.cs" />
+    <Compile Include="GenderHandler.cs" />
+    <Compile Include="PeopleHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gambot.Core\Gambot.Core.csproj">
-      <Project>{63582468-1fe5-483f-b6bc-6e7f4c722c89}</Project>
+      <Project>{63582468-1FE5-483F-B6BC-6E7F4C722C89}</Project>
       <Name>Gambot.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gambot.Data\Gambot.Data.csproj">
+      <Project>{B9DEFF18-ACEC-4A5B-9DCC-3D1EF212EDD5}</Project>
+      <Name>Gambot.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-
-namespace Gambot.Core
+﻿namespace Gambot.Data
 {
     public interface IDataStoreManager
     {

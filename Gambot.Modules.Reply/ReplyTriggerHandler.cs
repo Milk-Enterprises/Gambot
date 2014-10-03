@@ -1,20 +1,23 @@
-﻿namespace Gambot.Core
+﻿using Gambot.Core;
+using Gambot.Data;
+
+namespace Gambot.Modules.Reply
 {
     public class ReplyTriggerHandler : IMessageHandler
     {
-        private IDataStore _dataStore;
+        private IDataStore dataStore;
 
         public void Initialize(IDataStoreManager dataStoreManager)
         {
-            _dataStore = dataStoreManager.Get("Reply");
+            dataStore = dataStoreManager.Get("Reply");
         }
 
         public bool Digest(IMessenger messenger, IMessage message, bool addressed)
         {
-            var randomReply = _dataStore.GetRandomValue(message.Text);
+            var randomReply = dataStore.GetRandomValue(message.Text);
             if (randomReply == null) return true;
             
-            messenger.SendMessage(Variables.Substitute(randomReply), message.Where);
+            messenger.SendMessage(Variables.Substitute(randomReply, message), message.Where);
 
             return false;
         }
