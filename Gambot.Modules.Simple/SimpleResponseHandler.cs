@@ -4,7 +4,7 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Simple
 {
-    public class SimpleResponseHandler : IMessageHandler
+    internal class SimpleResponseHandler : IMessageHandler
     {
         public void Initialize(IDataStoreManager dataStoreManager) { }
 
