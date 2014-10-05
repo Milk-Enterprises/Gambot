@@ -80,15 +80,15 @@ namespace Gambot.Modules.People
                 new Func<IMessage, string>((IMessage context) => possessiveDeterminers[GetGender(PeopleHandler.LastReferencedPerson)]);
 
             foreach (var pronoun in new[] { "subjective", "shehe", "heshe", "he", "she", "they", "it" })
-                Variables.DefineMagicVariable(pronoun, subjectiveHandler);
+                VariableHandler.DefineMagicVariable(pronoun, subjectiveHandler);
             foreach (var pronoun in new[] { "objective", "him", "her", "them", "himher", "herhim" })
-                Variables.DefineMagicVariable(pronoun, objectiveHandler);
+                VariableHandler.DefineMagicVariable(pronoun, objectiveHandler);
             foreach (var pronoun in new[] { "reflexive", "himselfherself", "herselfhimself", "himself", "herself", "themself", "itself" })
-                Variables.DefineMagicVariable(pronoun, reflexiveHandler);
+                VariableHandler.DefineMagicVariable(pronoun, reflexiveHandler);
             foreach (var pronoun in new[] { "possessive", "hishers", "hershis", "hers", "theirs" })
-                Variables.DefineMagicVariable(pronoun, possessiveHandler);
+                VariableHandler.DefineMagicVariable(pronoun, possessiveHandler);
             foreach (var pronoun in new[] { "determiner", "hisher", "herhis", "their" })
-                Variables.DefineMagicVariable(pronoun, possessiveDHandler);
+                VariableHandler.DefineMagicVariable(pronoun, possessiveDHandler);
         }
 
         public bool Digest(IMessenger messenger, IMessage message, bool addressed)

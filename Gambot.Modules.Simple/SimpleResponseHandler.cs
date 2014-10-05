@@ -16,7 +16,7 @@ namespace Gambot.Modules.Simple
                 match = Regex.Match(message.Text, "say \"(.+)\"");
                 if (match.Success)
                 {
-                    messenger.SendMessage(Variables.Substitute(match.Groups[1].Value, message), message.Where);
+                    messenger.SendMessage(VariableHandler.Substitute(match.Groups[1].Value, message), message.Where);
                     return false;
                 }
             }

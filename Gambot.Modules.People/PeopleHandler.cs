@@ -32,20 +32,20 @@ namespace Gambot.Modules.People
         {
             random = new Random();
 
-            Variables.DefineMagicVariable("who", (message) =>
+            VariableHandler.DefineMagicVariable("who", (message) =>
             {
                 LastReferencedPerson = message.Who;
                 return message.Who;
             });
 
-            Variables.DefineMagicVariable("to", (message) =>
+            VariableHandler.DefineMagicVariable("to", (message) =>
             {
                 var person = message.To ?? GetSomeone(message.Where) ?? message.Who;
                 LastReferencedPerson = person;
                 return person;
             });
 
-            Variables.DefineMagicVariable("someone", (message) =>
+            VariableHandler.DefineMagicVariable("someone", (message) =>
             {
                 var person = GetSomeone(message.Who) ?? message.Who;
                 LastReferencedPerson = person;

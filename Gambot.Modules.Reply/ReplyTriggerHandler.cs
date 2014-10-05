@@ -17,7 +17,7 @@ namespace Gambot.Modules.Reply
             var randomReply = dataStore.GetRandomValue(message.Text);
             if (randomReply == null) return true;
             
-            messenger.SendMessage(Variables.Substitute(randomReply, message), message.Where);
+            messenger.SendMessage(VariableHandler.Substitute(randomReply, message), message.Where);
 
             return false;
         }

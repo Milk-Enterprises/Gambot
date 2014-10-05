@@ -6,24 +6,31 @@ using System.Text.RegularExpressions;
 
 namespace Gambot.Core
 {
-    public static class Variables
+    public interface IVariableHandler
     {
-        private static Dictionary<string, Func<IMessage, string>> magicVariables =
-            new Dictionary<string, Func<IMessage, string>>();
-        private static readonly Regex variableRegex = new Regex(@"\$([a-z][a-z0-9_-]*)", RegexOptions.IgnoreCase);
-        private static readonly List<IVariableFallbackHandler> fallbackHandlers = new List<IVariableFallbackHandler>();
+        void AddFallbackHandler<T>(T instance) where T : IVariableFallbackHandler;
+        void DefineMagicVariable(string name, Func<IMessage, string> getter);
+        string Substitute(string input, IMessage context);
+    }
 
-        internal static void AddFallbackHandler<T>(T instance) where T : IVariableFallbackHandler
+    public class VariableHandler : IVariableHandler
+    {
+        private Dictionary<string, Func<IMessage, string>> magicVariables =
+            new Dictionary<string, Func<IMessage, string>>();
+        private readonly Regex variableRegex = new Regex(@"\$([a-z][a-z0-9_-]*)", RegexOptions.IgnoreCase);
+        private readonly List<IVariableFallbackHandler> fallbackHandlers = new List<IVariableFallbackHandler>();
+
+        public void AddFallbackHandler<T>(T instance) where T : IVariableFallbackHandler
         {
             fallbackHandlers.Add(instance);
         }
 
-        public static void DefineMagicVariable(string name, Func<IMessage, string> getter)
+        public void DefineMagicVariable(string name, Func<IMessage, string> getter)
         {
             magicVariables.Add(name, getter);
         }
 
-        public static string Substitute(string input, IMessage context)
+        public string Substitute(string input, IMessage context)
         {
             return variableRegex.Replace(input, match =>
             {
