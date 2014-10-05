@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="GenderHandler.cs" />
     <Compile Include="PeopleHandler.cs" />
+    <Compile Include="PeopleModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@ using Gambot.Data;
 
 namespace Gambot.Modules.People
 {
-    public class GenderHandler : IMessageHandler
+    internal class GenderHandler : IMessageHandler
     {
         public enum Gender
         {

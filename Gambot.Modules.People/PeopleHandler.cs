@@ -6,7 +6,7 @@ using Gambot.Data;
 
 namespace Gambot.Modules.People
 {
-    public class PeopleHandler : IMessageHandler
+    internal class PeopleHandler : IMessageHandler
     {
         protected class Person
         {
