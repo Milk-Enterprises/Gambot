@@ -8,17 +8,23 @@ using Gambot.Data.InMemory;
 
 namespace Gambot.Core
 {
-    public static class GrandMessageHandler
+    public interface IMessageDispatcher
     {
-        private static readonly List<IMessageHandler> messageHandlers = new List<IMessageHandler>();
-        private static readonly IDataStoreManager dataStoreManager; // todo: make this entire class not fucking static for the love of shit
+        void AddHandler<T>() where T : IMessageHandler, new();
+        void Digest(IMessenger messenger, IMessage message, bool addressed);
+    }
 
-        static GrandMessageHandler()
+    public class MessageDispatcher : IMessageDispatcher
+    {
+        private readonly List<IMessageHandler> messageHandlers = new List<IMessageHandler>();
+        private readonly IDataStoreManager dataStoreManager; // todo: make this entire class not fucking static for the love of shit
+
+        public MessageDispatcher()
         {
             dataStoreManager = new InMemoryDataStoreManager(); // todo: di
         }
 
-        public static void AddHandler<T>() where T : IMessageHandler, new()
+        public void AddHandler<T>() where T : IMessageHandler, new()
         {
             var handler = new T();
             handler.Initialize(dataStoreManager);
@@ -26,10 +32,10 @@ namespace Gambot.Core
 
             // it awaits
             if (typeof(T).GetInterfaces().Contains(typeof(IVariableFallbackHandler)))
-                Variables.AddFallbackHandler((IVariableFallbackHandler)handler);
+                VariableHandler.AddFallbackHandler((IVariableFallbackHandler)handler);
         }
 
-        public static void Digest(IMessenger messenger, IMessage message, bool addressed)
+        public void Digest(IMessenger messenger, IMessage message, bool addressed)
         {
             foreach (var handler in messageHandlers)
             {

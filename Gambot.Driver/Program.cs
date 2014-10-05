@@ -6,6 +6,7 @@ using Gambot.IO.IRC;
 using Gambot.Modules.People;
 using Gambot.Modules.Simple;
 using Gambot.Modules.Variables;
+using VariableHandler = Gambot.Modules.Variables.VariableHandler;
 
 namespace Gambot.Driver
 {
@@ -27,17 +28,17 @@ namespace Gambot.Driver
             
 #if DEBUG
             messenger = new ConsoleMessenger();
-            GrandMessageHandler.AddHandler<SimpleResponseHandler>();
-            GrandMessageHandler.AddHandler<PeopleHandler>();
-            GrandMessageHandler.AddHandler<GenderHandler>();
-            GrandMessageHandler.AddHandler<VariableHandler>();
+            MessageDispatcher.AddHandler<SimpleResponseHandler>();
+            MessageDispatcher.AddHandler<PeopleHandler>();
+            MessageDispatcher.AddHandler<GenderHandler>();
+            MessageDispatcher.AddHandler<VariableHandler>();
 #else
             // TODO: Select implementation at run-time
             messenger = new IrcMessenger();
 #endif
 
             messenger.MessageReceived += (sender, eventArgs) => 
-                GrandMessageHandler.Digest(messenger, eventArgs.Message, eventArgs.Addressed);
+                MessageDispatcher.Digest(messenger, eventArgs.Message, eventArgs.Addressed);
 
             Thread.Sleep(Timeout.Infinite);
         }
