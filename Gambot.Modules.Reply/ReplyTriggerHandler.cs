@@ -3,7 +3,7 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Reply
 {
-    public class ReplyTriggerHandler : IMessageHandler
+    internal class ReplyTriggerHandler : IMessageHandler
     {
         private IDataStore dataStore;
 

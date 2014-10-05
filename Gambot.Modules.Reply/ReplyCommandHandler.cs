@@ -5,7 +5,7 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Reply
 {
-    public class ReplyCommandHandler : IMessageHandler
+    internal class ReplyCommandHandler : IMessageHandler
     {
         private IDataStore dataStore;
         
