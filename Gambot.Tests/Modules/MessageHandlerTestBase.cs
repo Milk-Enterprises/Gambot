@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using Gambot.Core;
+using Gambot.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 namespace Gambot.Tests.Modules
 {
-    public class MessageHandlerTestBase<THandlerType> where THandlerType : IMessageHandler, new()
+    public abstract class MessageHandlerTestBase<THandlerType> where THandlerType : IMessageHandler
     {
         protected THandlerType Subject { get; set; }
 
@@ -20,11 +21,7 @@ namespace Gambot.Tests.Modules
             DataStores = new Dictionary<string, Mock<IDataStore>>();
         }
 
-        public void InitializeSubject()
-        {
-            Subject = new THandlerType();
-            Subject.Initialize(DataStoreManager.Object);
-        }
+        public abstract void InitializeSubject();
 
         protected Mock<IDataStore> GetDataStore(string dataStoreName)
         {

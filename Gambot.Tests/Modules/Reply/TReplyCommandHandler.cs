@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using Gambot.Core;
+using Gambot.Data;
 using Gambot.Modules.Reply;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -8,8 +9,14 @@ using Moq;
 namespace Gambot.Tests.Modules.Reply
 {
     [TestClass]
-    public class TReplyCommandHandler : MessageHandlerTestBase<ReplyCommandHandler>
+    internal class TReplyCommandHandler : MessageHandlerTestBase<ReplyCommandHandler>
     {
+        public override void InitializeSubject()
+        {
+            Subject = new ReplyCommandHandler();
+            Subject.Initialize(DataStoreManager.Object);
+        }
+
         [TestClass]
         public class Digest : TReplyCommandHandler
         {

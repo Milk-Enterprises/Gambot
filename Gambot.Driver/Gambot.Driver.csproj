@@ -33,6 +33,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SimpleInjector">
+      <HintPath>..\packages\SimpleInjector.2.5.2\lib\net40-client\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SimpleInjector.Diagnostics">
+      <HintPath>..\packages\SimpleInjector.2.5.2\lib\net40-client\SimpleInjector.Diagnostics.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -51,6 +59,14 @@
       <Project>{63582468-1fe5-483f-b6bc-6e7f4c722c89}</Project>
       <Name>Gambot.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Gambot.Data.InMemory\Gambot.Data.InMemory.csproj">
+      <Project>{49F0D5AE-3CDB-4F48-BBD8-F1DA00BBA0BB}</Project>
+      <Name>Gambot.Data.InMemory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gambot.Data\Gambot.Data.csproj">
+      <Project>{B9DEFF18-ACEC-4A5B-9DCC-3D1EF212EDD5}</Project>
+      <Name>Gambot.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Gambot.IO.Console\Gambot.IO.Console.csproj">
       <Project>{87b21279-321c-4a28-bedd-1317a571476a}</Project>
       <Name>Gambot.IO.Console</Name>
@@ -63,6 +79,10 @@
       <Project>{68A19C32-180C-4EC0-B412-B732CE37C375}</Project>
       <Name>Gambot.Modules.People</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Gambot.Modules.Reply\Gambot.Modules.Reply.csproj">
+      <Project>{afb4b6af-06ae-4cac-8862-9a4ca45d8518}</Project>
+      <Name>Gambot.Modules.Reply</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Gambot.Modules.Simple\Gambot.Modules.Simple.csproj">
       <Project>{E155DDA5-3AC7-4BDC-9B12-B2DD3C8A8332}</Project>
       <Name>Gambot.Modules.Simple</Name>
@@ -71,6 +91,9 @@
       <Project>{08EFC5DE-DD22-4B00-813B-6C81B523FBEE}</Project>
       <Name>Gambot.Modules.Variables</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

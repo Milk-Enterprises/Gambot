@@ -7,8 +7,17 @@ using Moq;
 namespace Gambot.Tests.Modules.Reply
 {
     [TestClass]
-    public class TReplyTriggerHandler : MessageHandlerTestBase<ReplyTriggerHandler>
+    internal class TReplyTriggerHandler : MessageHandlerTestBase<ReplyTriggerHandler>
     {
+        protected Mock<IVariableHandler> VariableHandler { get; set; }
+
+        public override void InitializeSubject()
+        {
+            VariableHandler = new Mock<IVariableHandler>();
+            Subject = new ReplyTriggerHandler(VariableHandler.Object);
+            Subject.Initialize(DataStoreManager.Object);
+        }
+
         [TestClass]
         public class Digest : TReplyTriggerHandler
         {
@@ -22,6 +31,7 @@ namespace Gambot.Tests.Modules.Reply
                 const string trigger = "hello";
                 const string reply = "sup man";
                 replyDataStore.Setup(dsm => dsm.GetRandomValue(trigger)).Returns(reply);
+                VariableHandler.Setup(vh => vh.Substitute(It.IsAny<string>(), It.IsAny<IMessage>())).Returns<string, IMessage>((val, msg) => val);
                 var messengerMock = new Mock<IMessenger>();
                 var messageStub = new StubMessage()
                 {
@@ -36,6 +46,7 @@ namespace Gambot.Tests.Modules.Reply
                 replyDataStore.Verify(dsm => dsm.GetRandomValue(trigger), Times.Once);
                 returnValue.Should().BeFalse();
                 messengerMock.Verify(im => im.SendMessage(reply, messageStub.Where, false), Times.Once);
+                VariableHandler.Verify(vh => vh.Substitute(It.IsAny<string>(), It.IsAny<IMessage>()), Times.Once);
             }
         }
     }

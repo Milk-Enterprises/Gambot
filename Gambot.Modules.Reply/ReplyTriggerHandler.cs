@@ -3,9 +3,15 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Reply
 {
-    public class ReplyTriggerHandler : IMessageHandler
+    internal class ReplyTriggerHandler : IMessageHandler
     {
+        private readonly IVariableHandler variableHandler;
         private IDataStore dataStore;
+
+        internal ReplyTriggerHandler(IVariableHandler variableHandler)
+        {
+            this.variableHandler = variableHandler;
+        }
 
         public void Initialize(IDataStoreManager dataStoreManager)
         {
@@ -17,7 +23,7 @@ namespace Gambot.Modules.Reply
             var randomReply = dataStore.GetRandomValue(message.Text);
             if (randomReply == null) return true;
             
-            messenger.SendMessage(Variables.Substitute(randomReply, message), message.Where);
+            messenger.SendMessage(variableHandler.Substitute(randomReply, message), message.Where);
 
             return false;
         }

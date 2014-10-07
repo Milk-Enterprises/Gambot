@@ -5,7 +5,7 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Variables
 {
-    public class VariableHandler : IMessageHandler, IVariableFallbackHandler
+    internal class VariableHandler : IMessageHandler, IVariableFallbackHandler
     {
         protected IDataStore variableStore;
 
