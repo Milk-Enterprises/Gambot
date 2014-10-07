@@ -9,7 +9,7 @@ namespace Gambot.IO.Console
         protected Thread inputThread;
         protected string name;
 
-        public event EventHandler<MessageEventArgs> MessageReceived;
+        public event EventHandler<MessageEventArgs> MessageReceived = delegate { }; 
 
         public ConsoleMessenger()
         {
