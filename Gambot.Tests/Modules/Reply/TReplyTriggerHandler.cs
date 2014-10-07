@@ -10,17 +10,20 @@ namespace Gambot.Tests.Modules.Reply
     [TestClass]
     public class TReplyTriggerHandler
     {
-        protected ReplyTriggerHandler Subject { get; set; }
+        internal ReplyTriggerHandler Subject { get; set; }
 
         protected Mock<IDataStore> DataStore { get; set; }
+        protected Mock<IVariableHandler> VariableHandler { get; set; }
 
         [TestInitialize]
         public void InitializeSubject()
         {
             DataStore = new Mock<IDataStore>();
+            VariableHandler = new Mock<IVariableHandler>();
+
             var dsm = new Mock<IDataStoreManager>();
             dsm.Setup(idsm => idsm.Get(It.IsAny<string>())).Returns(DataStore.Object);
-            Subject = new ReplyTriggerHandler();
+            Subject = new ReplyTriggerHandler(VariableHandler.Object);
             Subject.Initialize(dsm.Object);
         }
 
@@ -34,6 +37,7 @@ namespace Gambot.Tests.Modules.Reply
                 const string trigger = "hello";
                 const string reply = "sup man";
                 DataStore.Setup(dsm => dsm.GetRandomValue(trigger)).Returns(reply);
+                VariableHandler.Setup(vh => vh.Substitute(It.IsAny<string>(), It.IsAny<IMessage>())).Returns<string, IMessage>((val, msg) => val);
                 var messengerMock = new Mock<IMessenger>();
                 var messageStub = new StubMessage()
                 {
@@ -48,6 +52,7 @@ namespace Gambot.Tests.Modules.Reply
                 DataStore.Verify(dsm => dsm.GetRandomValue(trigger), Times.Once);
                 returnValue.Should().BeFalse();
                 messengerMock.Verify(im => im.SendMessage(reply, messageStub.Where, false), Times.Once);
+                VariableHandler.Verify(vh => vh.Substitute(It.IsAny<string>(), It.IsAny<IMessage>()), Times.Once);
             }
         }
     }

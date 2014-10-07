@@ -6,6 +6,13 @@ namespace Gambot.Modules.Simple
 {
     internal class SimpleResponseHandler : IMessageHandler
     {
+        private readonly IVariableHandler variableHandler;
+
+        internal SimpleResponseHandler(IVariableHandler variableHandler)
+        {
+            this.variableHandler = variableHandler;
+        }
+
         public void Initialize(IDataStoreManager dataStoreManager) { }
 
         public bool Digest(IMessenger messenger, IMessage message, bool addressed)
@@ -16,7 +23,7 @@ namespace Gambot.Modules.Simple
                 match = Regex.Match(message.Text, "say \"(.+)\"");
                 if (match.Success)
                 {
-                    messenger.SendMessage(VariableHandler.Substitute(match.Groups[1].Value, message), message.Where);
+                    messenger.SendMessage(variableHandler.Substitute(match.Groups[1].Value, message), message.Where);
                     return false;
                 }
             }

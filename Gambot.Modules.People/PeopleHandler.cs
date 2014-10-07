@@ -8,6 +8,8 @@ namespace Gambot.Modules.People
 {
     internal class PeopleHandler : IMessageHandler
     {
+        private readonly IVariableHandler variableHandler;
+
         protected class Person
         {
             public string Name { get; set; }
@@ -19,6 +21,11 @@ namespace Gambot.Modules.People
         protected Random random;
 
         public static string LastReferencedPerson { get; protected set; }
+
+        internal PeopleHandler(IVariableHandler variableHandler)
+        {
+            this.variableHandler = variableHandler;
+        }
 
         protected string GetSomeone(string room)
         {
@@ -32,20 +39,20 @@ namespace Gambot.Modules.People
         {
             random = new Random();
 
-            VariableHandler.DefineMagicVariable("who", (message) =>
+            variableHandler.DefineMagicVariable("who", (message) =>
             {
                 LastReferencedPerson = message.Who;
                 return message.Who;
             });
 
-            VariableHandler.DefineMagicVariable("to", (message) =>
+            variableHandler.DefineMagicVariable("to", (message) =>
             {
                 var person = message.To ?? GetSomeone(message.Where) ?? message.Who;
                 LastReferencedPerson = person;
                 return person;
             });
 
-            VariableHandler.DefineMagicVariable("someone", (message) =>
+            variableHandler.DefineMagicVariable("someone", (message) =>
             {
                 var person = GetSomeone(message.Who) ?? message.Who;
                 LastReferencedPerson = person;

@@ -5,10 +5,10 @@ namespace Gambot.Modules.People
 {
     public class PeopleModule : AbstractModule
     {
-        public PeopleModule()
+        public PeopleModule(IVariableHandler variableHandler)
         {
-            MessageHandlers.Add(new GenderHandler());
-            MessageHandlers.Add(new PeopleHandler());
+            MessageHandlers.Add(new GenderHandler(variableHandler));
+            MessageHandlers.Add(new PeopleHandler(variableHandler));
         }
     }
 }

@@ -17,7 +17,14 @@ namespace Gambot.Modules.People
             Inanimate
         }
 
+        private readonly IVariableHandler variableHandler;
         protected IDataStore genderStore;
+
+        internal GenderHandler(IVariableHandler variableHandler)
+        {
+            this.variableHandler = variableHandler;
+        }
+
         protected Gender GetGender(string who)
         {
             var gender = genderStore.GetAllValues(who).SingleOrDefault() ?? default(Gender).ToString();
@@ -80,15 +87,15 @@ namespace Gambot.Modules.People
                 new Func<IMessage, string>((IMessage context) => possessiveDeterminers[GetGender(PeopleHandler.LastReferencedPerson)]);
 
             foreach (var pronoun in new[] { "subjective", "shehe", "heshe", "he", "she", "they", "it" })
-                VariableHandler.DefineMagicVariable(pronoun, subjectiveHandler);
+                variableHandler.DefineMagicVariable(pronoun, subjectiveHandler);
             foreach (var pronoun in new[] { "objective", "him", "her", "them", "himher", "herhim" })
-                VariableHandler.DefineMagicVariable(pronoun, objectiveHandler);
+                variableHandler.DefineMagicVariable(pronoun, objectiveHandler);
             foreach (var pronoun in new[] { "reflexive", "himselfherself", "herselfhimself", "himself", "herself", "themself", "itself" })
-                VariableHandler.DefineMagicVariable(pronoun, reflexiveHandler);
+                variableHandler.DefineMagicVariable(pronoun, reflexiveHandler);
             foreach (var pronoun in new[] { "possessive", "hishers", "hershis", "hers", "theirs" })
-                VariableHandler.DefineMagicVariable(pronoun, possessiveHandler);
+                variableHandler.DefineMagicVariable(pronoun, possessiveHandler);
             foreach (var pronoun in new[] { "determiner", "hisher", "herhis", "their" })
-                VariableHandler.DefineMagicVariable(pronoun, possessiveDHandler);
+                variableHandler.DefineMagicVariable(pronoun, possessiveDHandler);
         }
 
         public bool Digest(IMessenger messenger, IMessage message, bool addressed)

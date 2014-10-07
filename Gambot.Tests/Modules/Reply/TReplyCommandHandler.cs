@@ -11,7 +11,7 @@ namespace Gambot.Tests.Modules.Reply
     [TestClass]
     public class TReplyCommandHandler
     {
-        protected ReplyCommandHandler Subject { get; set; }
+        internal ReplyCommandHandler Subject { get; set; }
 
         protected Mock<IDataStore> DataStore { get; set; }
 

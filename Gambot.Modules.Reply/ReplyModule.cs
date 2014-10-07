@@ -4,10 +4,10 @@ namespace Gambot.Modules.Reply
 {
     public class ReplyModule : AbstractModule
     {
-        public ReplyModule()
+        public ReplyModule(IVariableHandler variableHandler)
         {
             MessageHandlers.Add(new ReplyCommandHandler());
-            MessageHandlers.Add(new ReplyTriggerHandler());
+            MessageHandlers.Add(new ReplyTriggerHandler(variableHandler));
         }
     }
 }

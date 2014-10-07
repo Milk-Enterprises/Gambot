@@ -4,9 +4,9 @@ namespace Gambot.Modules.Simple
 {
     public class SimpleModule : AbstractModule
     {
-        public SimpleModule()
+        public SimpleModule(IVariableHandler variableHandler)
         {
-            MessageHandlers.Add(new SimpleResponseHandler());
+            MessageHandlers.Add(new SimpleResponseHandler(variableHandler));
         }
     }
 }
