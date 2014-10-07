@@ -72,6 +72,7 @@
     <Compile Include="Modules\MessageHandlerTestBase.cs" />
     <Compile Include="Modules\Reply\TReplyCommandHandler.cs" />
     <Compile Include="Modules\Reply\TReplyTriggerHandler.cs" />
+    <Compile Include="Modules\Quotes\TRememberCommandHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StubMessage.cs" />
   </ItemGroup>
@@ -83,6 +84,10 @@
     <ProjectReference Include="..\Gambot.Data\Gambot.Data.csproj">
       <Project>{B9DEFF18-ACEC-4A5B-9DCC-3D1EF212EDD5}</Project>
       <Name>Gambot.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gambot.Modules.Quotes\Gambot.Modules.Quotes.csproj">
+      <Project>{0a4197c4-f23a-4719-b102-d922af5a9e20}</Project>
+      <Name>Gambot.Modules.Quotes</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.Modules.Reply\Gambot.Modules.Reply.csproj">
       <Project>{afb4b6af-06ae-4cac-8862-9a4ca45d8518}</Project>

@@ -80,7 +80,7 @@
       <Name>Gambot.Modules.People</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.Modules.Reply\Gambot.Modules.Reply.csproj">
-      <Project>{afb4b6af-06ae-4cac-8862-9a4ca45d8518}</Project>
+      <Project>{AFB4B6AF-06AE-4CAC-8862-9A4CA45D8518}</Project>
       <Name>Gambot.Modules.Reply</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.Modules.Simple\Gambot.Modules.Simple.csproj">
