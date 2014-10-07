@@ -107,7 +107,7 @@ namespace Gambot.Modules.People
                 {
                     genderStore.RemoveAllValues(message.Who);
                     genderStore.Put(message.Who, personalMatch.Groups[1].Value);
-                    messenger.SendMessage(String.Format((string) "Okay, {0}.", (object) message.Who), message.Where);
+                    messenger.SendMessage(String.Format("Okay, {0}.", message.Who), message.Where);
                     return false;
                 }
             }

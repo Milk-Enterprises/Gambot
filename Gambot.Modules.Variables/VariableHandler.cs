@@ -27,7 +27,7 @@ namespace Gambot.Modules.Variables
                 if (match.Success)
                 {
                     messenger.SendMessage(
-                        String.Format((string) "{0}: To create a variable, just start adding values to it.", (object) message.Who),
+                        String.Format("{0}: To create a variable, just start adding values to it.", message.Who),
                         message.Where);
                     return false;
                 }
@@ -38,7 +38,7 @@ namespace Gambot.Modules.Variables
                     messenger.SendMessage(
                         String.Format(variableStore.Put(match.Groups[1].Value.ToLower(), match.Groups[2].Value)
                             ? "Okay, {0}."
-                            : "I already had it that way, {0}!", (object) message.Who), message.Where);
+                            : "I already had it that way, {0}!", message.Who), message.Where);
                     return false;
                 }
 
@@ -48,7 +48,7 @@ namespace Gambot.Modules.Variables
                     messenger.SendMessage(
                         String.Format(variableStore.RemoveValue(match.Groups[1].Value.ToLower(), match.Groups[2].Value)
                             ? "Okay, {0}."
-                            : "There's no such value, {0}!", (object) message.Who), message.Where);
+                            : "There's no such value, {0}!", message.Who), message.Where);
                     return false;
                 }
 
