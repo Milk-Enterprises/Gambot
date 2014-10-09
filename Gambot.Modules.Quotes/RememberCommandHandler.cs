@@ -41,7 +41,7 @@ namespace Gambot.Modules.Quotes
                         var usersRecentMessages = recentMessageStore.GetRecentMessagesFromUser(rememberTarget);
 
                         if (usersRecentMessages == null) {
-                            replyMsg = String.Format("Sorry, I don't know anyone named \"{0}\".", rememberTarget);
+                            replyMsg = String.Format("Sorry, I don't know anyone named \"{0}.\"", rememberTarget);
                         }
                         else {
                             var matchingMsg =
@@ -49,10 +49,10 @@ namespace Gambot.Modules.Quotes
                                     msg => msg.Text.IndexOf(rememberMsg, StringComparison.InvariantCultureIgnoreCase) != -1);
 
                             if (matchingMsg == null) {
-                                replyMsg = String.Format("Sorry, I don't remember what {0} said about \"{1}\".", rememberTarget, rememberMsg);
+                                replyMsg = String.Format("Sorry, I don't remember what {0} said about \"{1}.\"", rememberTarget, rememberMsg);
                             }
                             else {
-                                replyMsg = String.Format("Okay, {0}, remembering \"{1}\".", message.Who, matchingMsg.Text);
+                                replyMsg = String.Format("Okay, {0}, remembering \"{1}.\"", message.Who, matchingMsg.Text);
 
                                 quotesDataStore.Put(matchingMsg.Who, matchingMsg.Text);
                             }
