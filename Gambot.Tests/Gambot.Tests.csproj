@@ -70,6 +70,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Modules\MessageHandlerTestBase.cs" />
+    <Compile Include="Modules\Quotes\TQuoteCommandHandler.cs" />
     <Compile Include="Modules\Reply\TReplyCommandHandler.cs" />
     <Compile Include="Modules\Reply\TReplyTriggerHandler.cs" />
     <Compile Include="Modules\Quotes\TRememberCommandHandler.cs" />
