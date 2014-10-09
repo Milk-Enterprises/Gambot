@@ -54,6 +54,14 @@ namespace Gambot.Tests.Modules.Quotes
             }
 
             [TestMethod]
+            public void ShouldApologizeIfUserAttemptsToQuoteHimself()
+            {
+                SetupStubMessage(SendingUsersName, "This is the entire message.");
+                SetupRecentlySaidMessagesWithStubMessage();
+                TestRememberCommand(SendingUsersName, "some other shit", false, String.Format("Sorry {0}, but you can't quote yourself.", stubMessage.Who));
+            }
+
+            [TestMethod]
             public void ShouldRememberMessageThatTargetDidSay()
             {
                 GetDataStore("Quotes");
