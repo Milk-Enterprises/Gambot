@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecentMessageStore.cs" />
     <Compile Include="RememberCommandHandler.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -9,5 +9,14 @@ namespace Gambot.Tests
         public string To { get; set; }
         public string Where { get; set; }
         public string Who { get; set; }
+
+        public StubMessage(string text = "", string to = "", string @where = "", string who = "", bool action = false)
+        {
+            Action = action;
+            Text = text;
+            To = to;
+            Where = @where;
+            Who = who;
+        }
     }
 }
