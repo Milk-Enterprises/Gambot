@@ -49,8 +49,7 @@ namespace Gambot.Modules.Quotes
         private string GetRandomQuoteFromAnyUser()
         {
             var allUsers = quotesDataStore.GetAllKeys().ToList();
-            if (!allUsers.Any())
-            {
+            if (!allUsers.Any()) {
                 return String.Format("Sorry, no one has said anything quote-worthy.");
             }
 
