@@ -21,6 +21,11 @@ namespace Gambot.Data
         /// </summary>
         /// <returns><b>true</b> if the operation succeeded; <b>false</b> otherwise (such as when the value does not exist in the data store).</returns>
         bool RemoveValue(string key, string val);
+        
+        /// <summary>
+        /// Gets all keys from the data store./>.
+        /// </summary>
+        IEnumerable<string> GetAllKeys();
 
         /// <summary>
         /// Gets all values associated with <paramref name="key"/>.
@@ -32,11 +37,5 @@ namespace Gambot.Data
         /// </summary>
         /// <returns>A random value associated with <paramref name="key"/> if <paramref name="key"/> exists as a key in the data store; <b>null</b> otherwise.</returns>
         string GetRandomValue(string key);
-
-        /// <summary>
-        /// Gets a random key.
-        /// </summary>
-        /// <returns>A random key in the data store; <b>null</b> if there are no keys in the data store.</returns>
-        string GetRandomKey();
     }
 }
