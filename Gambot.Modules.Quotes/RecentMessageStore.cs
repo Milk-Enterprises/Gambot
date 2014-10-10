@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Gambot.Core;
 
 namespace Gambot.Modules.Quotes
@@ -22,7 +23,7 @@ namespace Gambot.Modules.Quotes
 
         public RecentMessageStore(int maxMessagesStoredPerUser)
         {
-            userToMessageQueueMap = new Dictionary<string, Queue<IMessage>>();
+            userToMessageQueueMap = new Dictionary<string, Queue<IMessage>>(StringComparer.InvariantCultureIgnoreCase);
             this.maxMessagesStoredPerUser = maxMessagesStoredPerUser;
         }
 
