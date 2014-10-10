@@ -45,5 +45,20 @@ namespace Gambot.Data.InMemory
             var values = data[key].ToList();
             return values.Count == 0 ? null : values.ElementAt(StaticRandom.Next(0, values.Count));
         }
+
+        public string GetRandomKey()
+        {
+            if (!data.Any()) return null;
+
+            var randomIdx = StaticRandom.Next(0, data.Count);
+            var idx = 0;
+            foreach (var group in data) {
+                if (idx == randomIdx) return group.Key;
+
+                idx++;
+            }
+
+            throw new InvalidOperationException("Failed to get a random key.");
+        }
     }
 }
