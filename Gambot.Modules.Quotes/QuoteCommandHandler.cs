@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Gambot.Core;
 using Gambot.Data;
+using MiscUtil;
 
 namespace Gambot.Modules.Quotes
 {
@@ -47,12 +48,15 @@ namespace Gambot.Modules.Quotes
 
         private string GetRandomQuoteFromAnyUser()
         {
-            var randomUser = quotesDataStore.GetRandomKey();
-            if (String.IsNullOrWhiteSpace(randomUser)) {
+            var allUsers = quotesDataStore.GetAllKeys().ToList();
+            if (!allUsers.Any())
+            {
                 return String.Format("Sorry, no one has said anything quote-worthy.");
             }
 
-            return GetRandomQuoteFromUser(randomUser);
+            var randomIdx = StaticRandom.Next(0, allUsers.Count);
+
+            return GetRandomQuoteFromUser(allUsers[randomIdx]);
         }
 
         private string GetRandomQuoteFromUser(string username)
