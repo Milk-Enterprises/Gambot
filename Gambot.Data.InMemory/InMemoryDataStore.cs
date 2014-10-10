@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MiscUtil;
 using MiscUtil.Linq;
@@ -11,7 +12,7 @@ namespace Gambot.Data.InMemory
 
         public InMemoryDataStore()
         {
-            data = new EditableLookup<string, string>();
+            data = new EditableLookup<string, string>(StringComparer.InvariantCultureIgnoreCase);
         }
 
         public bool Put(string key, string val)
@@ -33,6 +34,11 @@ namespace Gambot.Data.InMemory
         public bool RemoveValue(string key, string val)
         {
             return data.Remove(key, val);
+        }
+
+        public IEnumerable<string> GetAllKeys()
+        {
+            return data.Select(group => group.Key);
         }
 
         public IEnumerable<string> GetAllValues(string key)

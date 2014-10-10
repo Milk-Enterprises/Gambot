@@ -9,20 +9,12 @@ using Moq;
 namespace Gambot.Tests.Modules.Reply
 {
     [TestClass]
-    public class TReplyCommandHandler
+    internal class TReplyCommandHandler : MessageHandlerTestBase<ReplyCommandHandler>
     {
-        internal ReplyCommandHandler Subject { get; set; }
-
-        protected Mock<IDataStore> DataStore { get; set; }
-
-        [TestInitialize]
-        public void InitializeSubject()
+        public override void InitializeSubject()
         {
-            DataStore = new Mock<IDataStore>();
-            var dsm = new Mock<IDataStoreManager>();
-            dsm.Setup(idsm => idsm.Get(It.IsAny<string>())).Returns(DataStore.Object);
             Subject = new ReplyCommandHandler();
-            Subject.Initialize(dsm.Object);
+            Subject.Initialize(DataStoreManager.Object);
         }
 
         [TestClass]
@@ -31,6 +23,9 @@ namespace Gambot.Tests.Modules.Reply
             [TestMethod]
             public void ShouldParseMessageWithNoVariables()
             {
+                var replyDataStore = GetDataStore("Reply");
+                InitializeSubject();
+
                 // todo: use an auto mocker so i dont have to do this shit manually
                 const string replyMsg = "hello man";
                 const string name = "Dude";
@@ -47,7 +42,7 @@ namespace Gambot.Tests.Modules.Reply
                 var returnValue = Subject.Digest(messengerMock.Object, messageStub, true);
 
                 returnValue.Should().BeFalse();
-                DataStore.Verify(ids => ids.Put("hello", replyMsg), Times.Once);
+                replyDataStore.Verify(ids => ids.Put("hello", replyMsg), Times.Once);
                 messengerMock.Verify(im => im.SendMessage(expectedResponse, messageStub.Where, false), Times.Once);
             }
         }

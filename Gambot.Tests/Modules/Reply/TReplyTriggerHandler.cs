@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Gambot.Core;
-using Gambot.Data;
 using Gambot.Modules.Reply;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -8,23 +7,15 @@ using Moq;
 namespace Gambot.Tests.Modules.Reply
 {
     [TestClass]
-    public class TReplyTriggerHandler
+    internal class TReplyTriggerHandler : MessageHandlerTestBase<ReplyTriggerHandler>
     {
-        internal ReplyTriggerHandler Subject { get; set; }
-
-        protected Mock<IDataStore> DataStore { get; set; }
         protected Mock<IVariableHandler> VariableHandler { get; set; }
 
-        [TestInitialize]
-        public void InitializeSubject()
+        public override void InitializeSubject()
         {
-            DataStore = new Mock<IDataStore>();
             VariableHandler = new Mock<IVariableHandler>();
-
-            var dsm = new Mock<IDataStoreManager>();
-            dsm.Setup(idsm => idsm.Get(It.IsAny<string>())).Returns(DataStore.Object);
             Subject = new ReplyTriggerHandler(VariableHandler.Object);
-            Subject.Initialize(dsm.Object);
+            Subject.Initialize(DataStoreManager.Object);
         }
 
         [TestClass]
@@ -33,10 +24,13 @@ namespace Gambot.Tests.Modules.Reply
             [TestMethod]
             public void ShouldParseMessageWithTrigger()
             {
+                var replyDataStore = GetDataStore("Reply");
+                InitializeSubject();
+
                 // todo: use an auto mocker so i dont have to do this shit manually
                 const string trigger = "hello";
                 const string reply = "sup man";
-                DataStore.Setup(dsm => dsm.GetRandomValue(trigger)).Returns(reply);
+                replyDataStore.Setup(dsm => dsm.GetRandomValue(trigger)).Returns(reply);
                 VariableHandler.Setup(vh => vh.Substitute(It.IsAny<string>(), It.IsAny<IMessage>())).Returns<string, IMessage>((val, msg) => val);
                 var messengerMock = new Mock<IMessenger>();
                 var messageStub = new StubMessage()
@@ -49,7 +43,7 @@ namespace Gambot.Tests.Modules.Reply
 
                 var returnValue = Subject.Digest(messengerMock.Object, messageStub, true);
 
-                DataStore.Verify(dsm => dsm.GetRandomValue(trigger), Times.Once);
+                replyDataStore.Verify(dsm => dsm.GetRandomValue(trigger), Times.Once);
                 returnValue.Should().BeFalse();
                 messengerMock.Verify(im => im.SendMessage(reply, messageStub.Where, false), Times.Once);
                 VariableHandler.Verify(vh => vh.Substitute(It.IsAny<string>(), It.IsAny<IMessage>()), Times.Once);
