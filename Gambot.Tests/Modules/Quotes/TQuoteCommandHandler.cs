@@ -10,9 +10,12 @@ namespace Gambot.Tests.Modules.Quotes
     [TestClass]
     internal class TQuoteCommandHandler : MessageHandlerTestBase<QuoteCommandHandler>
     {
+        protected Mock<IVariableHandler> VariableHandler;
+        
         public override void InitializeSubject()
         {
-            Subject = new QuoteCommandHandler();
+            VariableHandler = new Mock<IVariableHandler>();
+            Subject = new QuoteCommandHandler(VariableHandler.Object);
             Subject.Initialize(DataStoreManager.Object);
         }
 
