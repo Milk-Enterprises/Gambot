@@ -12,6 +12,7 @@ using Gambot.Modules.Quotes;
 using Gambot.Modules.People;
 using Gambot.Modules.Reply;
 using Gambot.Modules.Variables;
+using NLog;
 using SimpleInjector;
 
 namespace Gambot.Driver
@@ -19,6 +20,7 @@ namespace Gambot.Driver
     public class Program
     {
         private static IMessenger messenger;
+        private static Logger logger = LogManager.GetCurrentClassLogger();
 
         static void Main(string[] args)
         {
