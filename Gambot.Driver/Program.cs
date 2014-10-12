@@ -26,13 +26,13 @@ namespace Gambot.Driver
         {
             Console.CancelKeyPress += (sender, eventArgs) =>
             {
-                Console.WriteLine("Shutting down...");
+                logger.Info("Shutting down...");
                 if (messenger != null)
                     messenger.Dispose();
                 Environment.Exit(0);
             };
             
-            Console.WriteLine("Starting up... ");
+            logger.Info("Starting up... ");
 
             var container = CreateContainer();
             container.Verify();
@@ -78,6 +78,7 @@ namespace Gambot.Driver
 
         private static void LoadAssembliesFromPath(string p)
         {
+            logger.Info("Loading assemblies from {0}...", p);
             var files = new DirectoryInfo(p).GetFiles("*.dll", SearchOption.AllDirectories);
 
             foreach (var fi in files)
@@ -87,6 +88,7 @@ namespace Gambot.Driver
 
                 // not currently loaded? load dat shit
                 if (!AppDomain.CurrentDomain.GetAssemblies().Any(ass => AssemblyName.ReferenceMatchesDefinition(assembly, ass.GetName()))) {
+                    logger.Info("Loading {0}...", assemblyName);
                     Assembly.Load(assembly);
                 }
             }
