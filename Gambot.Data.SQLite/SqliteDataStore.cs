@@ -69,9 +69,12 @@ namespace Gambot.Data.SQLite
 
         public string GetRandomValue(string key)
         {
-            // TODO: FIX; this implementation is cabbage
-            var rand = new Random();
-            return GetAllValues(key).OrderBy(v => rand.Next()).FirstOrDefault();
+            const string query = "SELECT value FROM data WHERE \"key\"=@key ORDER BY RANDOM() LIMIT 1;";
+            var queryArgs = new Dictionary<string, string>
+            {
+                {"@key", key},
+            };
+            return GetRows(query, queryArgs).Select(r => r["value"]).FirstOrDefault();
         }
 
         private IEnumerable<Dictionary<string, string>> GetRows(string query, Dictionary<string, string> queryArgs = null)
