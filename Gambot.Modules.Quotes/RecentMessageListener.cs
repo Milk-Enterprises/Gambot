@@ -19,11 +19,11 @@ namespace Gambot.Modules.Quotes
         public void Initialize(IDataStoreManager dataStoreManager)
         {}
 
-        public bool Digest(IMessenger messenger, IMessage message, bool addressed)
+        public string Process(string currentResponse, IMessage message, bool addressed)
         {
             recentMessageStore.AddMessageFromUser(message.Who, message);
 
-            return true;
+            return currentResponse;
         }
     }
 }

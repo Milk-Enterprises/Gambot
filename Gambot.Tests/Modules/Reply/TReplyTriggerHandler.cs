@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using Gambot.Core;
 using Gambot.Modules.Reply;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -32,7 +33,6 @@ namespace Gambot.Tests.Modules.Reply
                 const string reply = "sup man";
                 replyDataStore.Setup(dsm => dsm.GetRandomValue(trigger)).Returns(reply);
                 VariableHandler.Setup(vh => vh.Substitute(It.IsAny<string>(), It.IsAny<IMessage>())).Returns<string, IMessage>((val, msg) => val);
-                var messengerMock = new Mock<IMessenger>();
                 var messageStub = new StubMessage()
                 {
                     Action = false,
@@ -41,11 +41,10 @@ namespace Gambot.Tests.Modules.Reply
                     Who = "SomeDude69"
                 };
 
-                var returnValue = Subject.Digest(messengerMock.Object, messageStub, true);
+                var returnValue = Subject.Process(String.Empty, messageStub, true);
 
+                returnValue.Should().Be(reply);
                 replyDataStore.Verify(dsm => dsm.GetRandomValue(trigger), Times.Once);
-                returnValue.Should().BeFalse();
-                messengerMock.Verify(im => im.SendMessage(reply, messageStub.Where, false), Times.Once);
                 VariableHandler.Verify(vh => vh.Substitute(It.IsAny<string>(), It.IsAny<IMessage>()), Times.Once);
             }
         }

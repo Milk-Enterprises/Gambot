@@ -42,7 +42,7 @@ namespace Gambot.Tests.Modules.Quotes
             {
                 SetupStubMessage("someDude", "This is the entire message.");
                 SetupRecentlySaidMessagesWithStubMessage(true);
-                TestRememberCommand("someDude", "entire message", false, String.Format("Sorry, I don't know anyone named \"{0}.\"", stubMessage.Who));
+                TestRememberCommand("someDude", "entire message", String.Format("Sorry, I don't know anyone named \"{0}.\"", stubMessage.Who));
             }
 
             [TestMethod]
@@ -50,7 +50,7 @@ namespace Gambot.Tests.Modules.Quotes
             {
                 SetupStubMessage("someDude", "This is the entire message.");
                 SetupRecentlySaidMessagesWithStubMessage();
-                TestRememberCommand("someDude", "some other shit", false, String.Format("Sorry, I don't remember what {0} said about \"{1}.\"", stubMessage.Who, "some other shit"));
+                TestRememberCommand("someDude", "some other shit", String.Format("Sorry, I don't remember what {0} said about \"{1}.\"", stubMessage.Who, "some other shit"));
             }
 
             [TestMethod]
@@ -58,7 +58,7 @@ namespace Gambot.Tests.Modules.Quotes
             {
                 SetupStubMessage(SendingUsersName, "This is the entire message.");
                 SetupRecentlySaidMessagesWithStubMessage();
-                TestRememberCommand(SendingUsersName, "some other shit", false, String.Format("Sorry {0}, but you can't quote yourself.", stubMessage.Who));
+                TestRememberCommand(SendingUsersName, "some other shit", String.Format("Sorry {0}, but you can't quote yourself.", stubMessage.Who));
             }
 
             [TestMethod]
@@ -67,7 +67,7 @@ namespace Gambot.Tests.Modules.Quotes
                 GetDataStore("Quotes");
                 SetupStubMessage("someDude", "This is the entire message.");
                 SetupRecentlySaidMessagesWithStubMessage();
-                TestRememberCommand(stubMessage.Who, "entire message", false, String.Format("Okay, {0}, remembering \"{1}.\"", SendingUsersName, stubMessage.Text));
+                TestRememberCommand(stubMessage.Who, "entire message", String.Format("Okay, {0}, remembering \"{1}.\"", SendingUsersName, stubMessage.Text));
                 VerifyQuoteIsInDataStore();
             }
 
@@ -83,7 +83,7 @@ namespace Gambot.Tests.Modules.Quotes
                 RecentMessageStore.Setup(rms => rms.GetRecentMessagesFromUser(stubMessage.Who)).Returns(returnNull ? null : new[] { stubMessage });
             }
 
-            private void TestRememberCommand(string rememberTarget, string rememberMsg, bool expectedResult, string expectedResponse)
+            private void TestRememberCommand(string rememberTarget, string rememberMsg, string expectedResponse)
             {
                 // Setup
                 var messageStub = new StubMessage(String.Format("remember {0} {1}", rememberTarget, rememberMsg), where: "some_place", who: SendingUsersName);
@@ -91,12 +91,10 @@ namespace Gambot.Tests.Modules.Quotes
                 InitializeSubject();
 
                 // Act
-                var messengerMock = new Mock<IMessenger>();
-                var returnValue = Subject.Digest(messengerMock.Object, messageStub, true);
+                var returnValue = Subject.Process(String.Empty, messageStub, true);
 
                 // Verify
-                returnValue.Should().Be(expectedResult);
-                messengerMock.Verify(im => im.SendMessage(expectedResponse, messageStub.Where, false), Times.Once);
+                returnValue.Should().Be(expectedResponse);
             }
 
             private void VerifyQuoteIsInDataStore()

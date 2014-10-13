@@ -60,7 +60,7 @@ namespace Gambot.Modules.People
             });
         }
 
-        public bool Digest(IMessenger messenger, IMessage message, bool addressed)
+        public string Process(string currentResponse, IMessage message, bool addressed)
         {
             var person = knownPeople.SingleOrDefault(p => p.Name == message.Who && p.Room == message.Where);
             if (person != null)
@@ -75,7 +75,7 @@ namespace Gambot.Modules.People
                 });
             }
 
-            return true;
+            return currentResponse;
         }
     }
 }

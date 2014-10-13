@@ -1,23 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Gambot.Data;
 
 namespace Gambot.Core
 {
-    public interface IMessageDispatcher
+    public interface IMessagePipeline
     {
         void AddHandler(IMessageHandler variableHandler);
-        void Digest(IMessenger messenger, IMessage message, bool addressed);
+        void Process(IMessenger messenger, IMessage message, bool addressed);
     }
 
-    public class MessageDispatcher : IMessageDispatcher
+    public class MessagePipeline : IMessagePipeline
     {
         private readonly List<IMessageHandler> messageHandlers = new List<IMessageHandler>();
 
         private readonly IDataStoreManager dataStoreManager;
         private readonly IVariableHandler variableHandler;
 
-        public MessageDispatcher(IDataStoreManager dataStoreManager, IVariableHandler variableHandler)
+        public MessagePipeline(IDataStoreManager dataStoreManager, IVariableHandler variableHandler)
         {
             this.dataStoreManager = dataStoreManager;
             this.variableHandler = variableHandler;
@@ -34,11 +35,18 @@ namespace Gambot.Core
                 variableHandler.AddFallbackHandler(instance);
         }
 
-        public void Digest(IMessenger messenger, IMessage message, bool addressed)
+        public void Process(IMessenger messenger, IMessage message, bool addressed)
         {
+            var response = String.Empty;
             foreach (var handler in messageHandlers) {
-                if (!handler.Digest(messenger, message, addressed))
+                response = handler.Process(response, message, addressed);
+                if (response == null) {
                     break;
+                }
+            }
+
+            if (!String.IsNullOrEmpty(response)) {
+                messenger.SendMessage(response, message.Where, message.Action);
             }
         }
     }

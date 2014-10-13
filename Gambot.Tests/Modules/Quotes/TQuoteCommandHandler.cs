@@ -22,7 +22,6 @@ namespace Gambot.Tests.Modules.Quotes
         [TestClass]
         public class Digest : TQuoteCommandHandler
         {
-            private IMessage stubMessage;
             private const string SendingUsersName = "Dude";
             
             [TestMethod]
@@ -51,7 +50,7 @@ namespace Gambot.Tests.Modules.Quotes
                 GetDataStore("Quotes").Setup(ids => ids.GetRandomValue(who)).Returns(randomMsg);
             }
 
-            private void TestQuoteCommand(string quoteTarget, string expectedResponse, bool expectedResult = false)
+            private void TestQuoteCommand(string quoteTarget, string expectedResponse)
             {
                 // Setup
                 var messageStub = new StubMessage(String.Format("quote {0}", quoteTarget), where: "some_place", who: SendingUsersName);
@@ -59,12 +58,10 @@ namespace Gambot.Tests.Modules.Quotes
                 InitializeSubject();
 
                 // Act
-                var messengerMock = new Mock<IMessenger>();
-                var returnValue = Subject.Digest(messengerMock.Object, messageStub, true);
+                var returnValue = Subject.Process(String.Empty, messageStub, true);
 
                 // Verify
-                returnValue.Should().Be(expectedResult);
-                messengerMock.Verify(im => im.SendMessage(expectedResponse, messageStub.Where, false), Times.Once);
+                returnValue.Should().Be(expectedResponse);
             }
         }
     }

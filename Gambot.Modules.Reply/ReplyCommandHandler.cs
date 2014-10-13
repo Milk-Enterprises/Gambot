@@ -14,7 +14,7 @@ namespace Gambot.Modules.Reply
             dataStore = dataStoreManager.Get("Reply");
         }
 
-        public bool Digest(IMessenger messenger, IMessage message, bool addressed)
+        public string Process(string currentResponse, IMessage message, bool addressed)
         {
             if (addressed) {
                 var match = Regex.Match(message.Text, @"(.+)\s\<reply\>\s(.+)", RegexOptions.IgnoreCase);
@@ -24,16 +24,14 @@ namespace Gambot.Modules.Reply
 
                     dataStore.Put(replyTrigger, replyMsg);
 
-                    messenger.SendMessage(String.Format("Okay, {0}.", message.Who), message.Where);
-
-                    return false;
+                    return String.Format("Okay, {0}.", message.Who);
                 }
                 else {
                     // TODO: add the snide comment gambot makes when someone FUCKS UP
                 }
             }
 
-            return true;
+            return currentResponse;
         }
     }
 }

@@ -30,7 +30,6 @@ namespace Gambot.Tests.Modules.Reply
                 const string replyMsg = "hello man";
                 const string name = "Dude";
                 var expectedResponse = String.Format("Okay, {0}.", name);
-                var messengerMock = new Mock<IMessenger>();
                 var messageStub = new StubMessage()
                                   {
                                       Action = false,
@@ -39,11 +38,9 @@ namespace Gambot.Tests.Modules.Reply
                                       Who = name
                                   };
 
-                var returnValue = Subject.Digest(messengerMock.Object, messageStub, true);
+                var returnValue = Subject.Process(String.Empty, messageStub, true);
 
-                returnValue.Should().BeFalse();
-                replyDataStore.Verify(ids => ids.Put("hello", replyMsg), Times.Once);
-                messengerMock.Verify(im => im.SendMessage(expectedResponse, messageStub.Where, false), Times.Once);
+                returnValue.Should().Be(expectedResponse);
             }
         }
     }

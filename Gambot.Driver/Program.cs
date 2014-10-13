@@ -38,18 +38,18 @@ namespace Gambot.Driver
             container.Verify();
 #if DEBUG
             messenger = new ConsoleMessenger();
-            var dispatcher = container.GetInstance<IMessageDispatcher>();
+            var pipeline = container.GetInstance<IMessagePipeline>();
 
             var modules = container.GetAllInstances<IModule>();
             var handlers = modules.SelectMany(mo => mo.GetMessageHandlers());
-            foreach (var handler in handlers) dispatcher.AddHandler(handler);
+            foreach (var handler in handlers) pipeline.AddHandler(handler);
 #else
             // TODO: Select implementation at run-time
             messenger = new IrcMessenger();
 #endif
 
             messenger.MessageReceived += (sender, eventArgs) => 
-                dispatcher.Digest(messenger, eventArgs.Message, eventArgs.Addressed);
+                pipeline.Process(messenger, eventArgs.Message, eventArgs.Addressed);
 
             Thread.Sleep(Timeout.Infinite);
         }
@@ -58,7 +58,7 @@ namespace Gambot.Driver
         {
             var container = new Container();
             
-            container.RegisterSingle<IMessageDispatcher, MessageDispatcher>();
+            container.RegisterSingle<IMessagePipeline, MessagePipeline>();
             container.RegisterSingle<IVariableHandler, VariableHandler>();
             container.RegisterSingle<IDataStoreManager, InMemoryDataStoreManager>();
 

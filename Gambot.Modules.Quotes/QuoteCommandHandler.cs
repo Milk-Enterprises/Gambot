@@ -26,24 +26,20 @@ namespace Gambot.Modules.Quotes
             variableHandler.DefineMagicVariable("quote", msg => GetRandomQuoteFromAnyUser());
         }
 
-        public bool Digest(IMessenger messenger, IMessage message, bool addressed)
+        public string Process(string currentResponse, IMessage message, bool addressed)
         {
             if (addressed) {
                 var match = Regex.Match(message.Text, @"quote (\w+)", RegexOptions.IgnoreCase);
                 if (match.Success) {
                     var quoteTarget = match.Groups[1].Value.Trim();
-                    var replyMsg = GetRandomQuoteFromUser(quoteTarget);
-
-                    messenger.SendMessage(replyMsg, message.Where);
-
-                    return false;
+                    return GetRandomQuoteFromUser(quoteTarget);
                 }
                 else {
                     // TODO: add the snide comment gambot makes when someone FUCKS UP
                 }
             }
 
-            return true;
+            return currentResponse;
         }
 
         private string GetRandomQuoteFromAnyUser()

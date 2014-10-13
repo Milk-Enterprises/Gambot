@@ -98,7 +98,7 @@ namespace Gambot.Modules.People
                 variableHandler.DefineMagicVariable(pronoun, possessiveDHandler);
         }
 
-        public bool Digest(IMessenger messenger, IMessage message, bool addressed)
+        public string Process(string currentResponse, IMessage message, bool addressed)
         {
             if (addressed)
             {
@@ -107,12 +107,11 @@ namespace Gambot.Modules.People
                 {
                     genderStore.RemoveAllValues(message.Who);
                     genderStore.Put(message.Who, personalMatch.Groups[1].Value);
-                    messenger.SendMessage(String.Format("Okay, {0}.", message.Who), message.Where);
-                    return false;
+                    return String.Format("Okay, {0}.", message.Who);
                 }
             }
 
-            return true;
+            return currentResponse;
         }
     }
 }
