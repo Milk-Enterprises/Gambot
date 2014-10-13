@@ -2,8 +2,17 @@
 
 namespace Gambot.Core
 {
+    public enum HandlerPriority
+    {
+        Immediate,
+        Normal,
+        Final
+    }
+
     public interface IMessageHandler
     {
+        HandlerPriority Priority { get; }
+
         void Initialize(IDataStoreManager dataStoreManager);
 
         /// <summary>

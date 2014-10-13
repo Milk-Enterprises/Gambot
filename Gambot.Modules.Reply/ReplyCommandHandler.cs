@@ -7,6 +7,8 @@ namespace Gambot.Modules.Reply
 {
     internal class ReplyCommandHandler : IMessageHandler
     {
+        public HandlerPriority Priority { get { return HandlerPriority.Normal; } }
+
         private IDataStore dataStore;
         
         public void Initialize(IDataStoreManager dataStoreManager)

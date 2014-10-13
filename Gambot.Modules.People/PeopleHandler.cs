@@ -8,6 +8,8 @@ namespace Gambot.Modules.People
 {
     internal class PeopleHandler : IMessageHandler
     {
+        public HandlerPriority Priority { get { return HandlerPriority.Normal; } }
+
         private readonly IVariableHandler variableHandler;
 
         protected class Person

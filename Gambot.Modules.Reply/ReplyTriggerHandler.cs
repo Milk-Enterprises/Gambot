@@ -5,6 +5,8 @@ namespace Gambot.Modules.Reply
 {
     internal class ReplyTriggerHandler : IMessageHandler
     {
+        public HandlerPriority Priority { get { return HandlerPriority.Normal; } }
+
         private readonly IVariableHandler variableHandler;
         private IDataStore dataStore;
 

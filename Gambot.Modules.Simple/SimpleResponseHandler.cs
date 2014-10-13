@@ -6,6 +6,8 @@ namespace Gambot.Modules.Simple
 {
     internal class SimpleResponseHandler : IMessageHandler
     {
+        public HandlerPriority Priority { get { return HandlerPriority.Normal; } }
+
         private readonly IVariableHandler variableHandler;
 
         internal SimpleResponseHandler(IVariableHandler variableHandler)

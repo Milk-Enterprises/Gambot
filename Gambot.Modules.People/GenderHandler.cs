@@ -9,6 +9,8 @@ namespace Gambot.Modules.People
 {
     internal class GenderHandler : IMessageHandler
     {
+        public HandlerPriority Priority { get { return HandlerPriority.Normal; } }
+
         public enum Gender
         {
             Androgynous,

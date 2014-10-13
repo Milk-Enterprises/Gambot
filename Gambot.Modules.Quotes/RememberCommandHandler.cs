@@ -8,6 +8,8 @@ namespace Gambot.Modules.Quotes
 {
     internal class RememberCommandHandler : IMessageHandler
     {
+        public HandlerPriority Priority { get { return HandlerPriority.Normal; } }
+
         private IDataStore quotesDataStore;
         private readonly IRecentMessageStore recentMessageStore;
 

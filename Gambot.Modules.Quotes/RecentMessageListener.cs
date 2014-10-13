@@ -9,6 +9,8 @@ namespace Gambot.Modules.Quotes
 {
     internal class RecentMessageListener : IMessageHandler
     {
+        public HandlerPriority Priority { get { return HandlerPriority.Normal; } }
+
         private readonly IRecentMessageStore recentMessageStore;
 
         public RecentMessageListener(IRecentMessageStore recentMessageStore)

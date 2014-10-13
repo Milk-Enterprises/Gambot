@@ -7,6 +7,8 @@ namespace Gambot.Modules.Variables
 {
     internal class VariableHandler : IMessageHandler, IVariableFallbackHandler
     {
+        public HandlerPriority Priority { get { return HandlerPriority.Normal; } }
+
         protected IDataStore variableStore;
 
         public void Initialize(IDataStoreManager dataStoreManager)
