@@ -13,7 +13,7 @@ namespace Gambot.Core
 
     public class MessagePipeline : IMessagePipeline
     {
-        private readonly List<IMessageHandler> messageHandlers = new List<IMessageHandler>();
+        private readonly SortedDictionary<HandlerPriority, Queue<IMessageHandler>> messageHandlers = new SortedDictionary<HandlerPriority, Queue<IMessageHandler>>();
 
         private readonly IDataStoreManager dataStoreManager;
         private readonly IVariableHandler variableHandler;
@@ -27,7 +27,8 @@ namespace Gambot.Core
         public void AddHandler(IMessageHandler handler)
         {
             handler.Initialize(dataStoreManager);
-            messageHandlers.Add(handler);
+            if(!messageHandlers.ContainsKey(handler.Priority)) messageHandlers.Add(handler.Priority, new Queue<IMessageHandler>());
+            messageHandlers[handler.Priority].Enqueue(handler);
 
             // it awaits
             var instance = handler as IVariableFallbackHandler;
@@ -38,8 +39,9 @@ namespace Gambot.Core
         public void Process(IMessenger messenger, IMessage message, bool addressed)
         {
             var response = String.Empty;
-            foreach (var handler in messageHandlers) {
+            foreach (var handler in messageHandlers.SelectMany(kvp => kvp.Value)) {
                 response = handler.Process(response, message, addressed);
+
                 if (response == null) {
                     break;
                 }
