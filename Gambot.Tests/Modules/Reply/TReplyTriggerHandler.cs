@@ -8,7 +8,8 @@ using Moq;
 namespace Gambot.Tests.Modules.Reply
 {
     [TestClass]
-    internal class TReplyTriggerHandler : MessageHandlerTestBase<ReplyTriggerHandler>
+    internal class TReplyTriggerHandler :
+        MessageHandlerTestBase<ReplyTriggerHandler>
     {
         protected Mock<IVariableHandler> VariableHandler { get; set; }
 
@@ -31,8 +32,12 @@ namespace Gambot.Tests.Modules.Reply
                 // todo: use an auto mocker so i dont have to do this shit manually
                 const string trigger = "hello";
                 const string reply = "sup man";
-                replyDataStore.Setup(dsm => dsm.GetRandomValue(trigger)).Returns(reply);
-                VariableHandler.Setup(vh => vh.Substitute(It.IsAny<string>(), It.IsAny<IMessage>())).Returns<string, IMessage>((val, msg) => val);
+                replyDataStore.Setup(dsm => dsm.GetRandomValue(trigger))
+                              .Returns(reply);
+                VariableHandler.Setup(
+                    vh =>
+                    vh.Substitute(It.IsAny<string>(), It.IsAny<IMessage>()))
+                               .Returns<string, IMessage>((val, msg) => val);
                 var messageStub = new StubMessage()
                 {
                     Action = false,
@@ -41,11 +46,16 @@ namespace Gambot.Tests.Modules.Reply
                     Who = "SomeDude69"
                 };
 
-                var returnValue = Subject.Process(String.Empty, messageStub, true);
+                var returnValue = Subject.Process(String.Empty, messageStub,
+                                                  true);
 
                 returnValue.Should().Be(reply);
-                replyDataStore.Verify(dsm => dsm.GetRandomValue(trigger), Times.Once);
-                VariableHandler.Verify(vh => vh.Substitute(It.IsAny<string>(), It.IsAny<IMessage>()), Times.Once);
+                replyDataStore.Verify(dsm => dsm.GetRandomValue(trigger),
+                                      Times.Once);
+                VariableHandler.Verify(
+                    vh =>
+                    vh.Substitute(It.IsAny<string>(), It.IsAny<IMessage>()),
+                    Times.Once);
             }
         }
     }

@@ -17,7 +17,8 @@ namespace Gambot.Data.SQLite
         {
             IDataStore dataStore;
             var found = dataStores.TryGetValue(name, out dataStore);
-            if (found) return dataStore;
+            if (found)
+                return dataStore;
 
             var dbLoc = MakeDbPath(name);
             dataStore = new SqliteDataStore(dbLoc);

@@ -8,10 +8,11 @@ using Moq;
 namespace Gambot.Tests.Modules.Quotes
 {
     [TestClass]
-    internal class TQuoteCommandHandler : MessageHandlerTestBase<QuoteCommandHandler>
+    internal class TQuoteCommandHandler :
+        MessageHandlerTestBase<QuoteCommandHandler>
     {
         protected Mock<IVariableHandler> VariableHandler;
-        
+
         public override void InitializeSubject()
         {
             VariableHandler = new Mock<IVariableHandler>();
@@ -23,14 +24,17 @@ namespace Gambot.Tests.Modules.Quotes
         public class Digest : TQuoteCommandHandler
         {
             private const string SendingUsersName = "Dude";
-            
+
             [TestMethod]
             public void ShouldApologizeForNoQuotesForUser()
             {
                 const string quoteTarget = "Robert";
 
                 SetupQuotesLog(quoteTarget, null);
-                TestQuoteCommand(quoteTarget, String.Format("Sorry, {0} has not said anything quote-worthy.", quoteTarget));
+                TestQuoteCommand(quoteTarget,
+                                 String.Format(
+                                     "Sorry, {0} has not said anything quote-worthy.",
+                                     quoteTarget));
             }
 
             [TestMethod]
@@ -40,25 +44,31 @@ namespace Gambot.Tests.Modules.Quotes
                 const string quoteMsg = "i delight in dicks";
 
                 SetupQuotesLog(quoteTarget, quoteMsg);
-                TestQuoteCommand(quoteTarget, String.Format("<{0}> {1}", quoteTarget, quoteMsg));
+                TestQuoteCommand(quoteTarget,
+                                 String.Format("<{0}> {1}", quoteTarget,
+                                               quoteMsg));
             }
-
-
 
             private void SetupQuotesLog(string who, string randomMsg)
             {
-                GetDataStore("Quotes").Setup(ids => ids.GetRandomValue(who)).Returns(randomMsg);
+                GetDataStore("Quotes")
+                    .Setup(ids => ids.GetRandomValue(who))
+                    .Returns(randomMsg);
             }
 
-            private void TestQuoteCommand(string quoteTarget, string expectedResponse)
+            private void TestQuoteCommand(string quoteTarget,
+                                          string expectedResponse)
             {
                 // Setup
-                var messageStub = new StubMessage(String.Format("quote {0}", quoteTarget), where: "some_place", who: SendingUsersName);
+                var messageStub =
+                    new StubMessage(String.Format("quote {0}", quoteTarget),
+                                    where: "some_place", who: SendingUsersName);
 
                 InitializeSubject();
 
                 // Act
-                var returnValue = Subject.Process(String.Empty, messageStub, true);
+                var returnValue = Subject.Process(String.Empty, messageStub,
+                                                  true);
 
                 // Verify
                 returnValue.Should().Be(expectedResponse);

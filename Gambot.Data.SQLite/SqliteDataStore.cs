@@ -12,7 +12,9 @@ namespace Gambot.Data.SQLite
 
         public SqliteDataStore(string path)
         {
-            var connStr = string.Format("Data Source={0};Version=3;New=False;Compress=True;", path);
+            var connStr =
+                string.Format(
+                    "Data Source={0};Version=3;New=False;Compress=True;", path);
             connection = new SQLiteConnection(connStr);
             connection.Open();
 
@@ -21,7 +23,8 @@ namespace Gambot.Data.SQLite
 
         public bool Put(string key, string val)
         {
-            const string query = "INSERT INTO data(\"key\", value) VALUES(@key, @value);";
+            const string query =
+                "INSERT INTO data(\"key\", value) VALUES(@key, @value);";
             var queryArgs = new Dictionary<string, string>
             {
                 {"@key", key},
@@ -42,7 +45,8 @@ namespace Gambot.Data.SQLite
 
         public bool RemoveValue(string key, string val)
         {
-            const string query = "DELETE FROM data WHERE \"key\"=@key AND value=@value;";
+            const string query =
+                "DELETE FROM data WHERE \"key\"=@key AND value=@value;";
             var queryArgs = new Dictionary<string, string>
             {
                 {"@key", key},
@@ -69,15 +73,24 @@ namespace Gambot.Data.SQLite
 
         public string GetRandomValue(string key)
         {
-            const string query = "SELECT value FROM data WHERE \"key\"=@key ORDER BY RANDOM() LIMIT 1;";
+            const string query =
+                "SELECT value FROM data WHERE \"key\"=@key ORDER BY RANDOM() LIMIT 1;";
             var queryArgs = new Dictionary<string, string>
             {
                 {"@key", key},
             };
-            return GetRows(query, queryArgs).Select(r => r["value"]).FirstOrDefault();
+            return
+                GetRows(query, queryArgs)
+                    .Select(r => r["value"])
+                    .FirstOrDefault();
         }
 
-        private IEnumerable<Dictionary<string, string>> GetRows(string query, Dictionary<string, string> queryArgs = null)
+        private IEnumerable<Dictionary<string, string>> GetRows(string query,
+                                                                Dictionary
+                                                                    <string,
+                                                                    string>
+                                                                    queryArgs =
+                                                                    null)
         {
             using (var cmd = CreateCommand(query, queryArgs))
             {
@@ -100,7 +113,8 @@ namespace Gambot.Data.SQLite
             }
         }
 
-        private int Execute(string query, Dictionary<string, string> queryArgs = null)
+        private int Execute(string query,
+                            Dictionary<string, string> queryArgs = null)
         {
             using (var cmd = CreateCommand(query, queryArgs))
             {
@@ -108,12 +122,15 @@ namespace Gambot.Data.SQLite
             }
         }
 
-        private IDbCommand CreateCommand(string query, Dictionary<string, string> queryArgs = null)
+        private IDbCommand CreateCommand(string query,
+                                         Dictionary<string, string> queryArgs =
+                                             null)
         {
             var cmd = connection.CreateCommand();
             cmd.CommandText = query;
-            if (queryArgs == null) return cmd;
-            
+            if (queryArgs == null)
+                return cmd;
+
             foreach (var kvp in queryArgs)
                 cmd.Parameters.Add(new SQLiteParameter(kvp.Key, kvp.Value));
 
@@ -122,7 +139,8 @@ namespace Gambot.Data.SQLite
 
         private void Initialize()
         {
-            const string query = "CREATE TABLE IF NOT EXISTS data(\"key\" VARCHAR(50), value VARCHAR(255));";
+            const string query =
+                "CREATE TABLE IF NOT EXISTS data(\"key\" VARCHAR(50), value VARCHAR(255));";
             Execute(query);
         }
     }

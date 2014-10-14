@@ -21,7 +21,7 @@ namespace Gambot.Data
         /// </summary>
         /// <returns><b>true</b> if the operation succeeded; <b>false</b> otherwise (such as when the value does not exist in the data store).</returns>
         bool RemoveValue(string key, string val);
-        
+
         /// <summary>
         /// Gets all keys from the data store./>.
         /// </summary>

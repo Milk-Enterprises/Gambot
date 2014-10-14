@@ -8,7 +8,10 @@ namespace Gambot.Modules.People
 {
     internal class PeopleHandler : IMessageHandler
     {
-        public HandlerPriority Priority { get { return HandlerPriority.Normal; } }
+        public HandlerPriority Priority
+        {
+            get { return HandlerPriority.Normal; }
+        }
 
         private readonly IVariableHandler variableHandler;
 
@@ -33,8 +36,11 @@ namespace Gambot.Modules.People
         {
             var recentPeople =
                 knownPeople.Where(p => p.Room == room &&
-                    DateTime.Now - p.LastActive < TimeSpan.FromMinutes(15)).ToList();
-            return recentPeople.Any() ? recentPeople[random.Next(recentPeople.Count)].Name : null;
+                                       DateTime.Now - p.LastActive <
+                                       TimeSpan.FromMinutes(15)).ToList();
+            return recentPeople.Any()
+                       ? recentPeople[random.Next(recentPeople.Count)].Name
+                       : null;
         }
 
         public void Initialize(IDataStoreManager dataStoreManager)
@@ -49,7 +55,8 @@ namespace Gambot.Modules.People
 
             variableHandler.DefineMagicVariable("to", (message) =>
             {
-                var person = message.To ?? GetSomeone(message.Where) ?? message.Who;
+                var person = message.To ??
+                             GetSomeone(message.Where) ?? message.Who;
                 LastReferencedPerson = person;
                 return person;
             });
@@ -62,9 +69,12 @@ namespace Gambot.Modules.People
             });
         }
 
-        public string Process(string currentResponse, IMessage message, bool addressed)
+        public string Process(string currentResponse, IMessage message,
+                              bool addressed)
         {
-            var person = knownPeople.SingleOrDefault(p => p.Name == message.Who && p.Room == message.Where);
+            var person =
+                knownPeople.SingleOrDefault(
+                    p => p.Name == message.Who && p.Room == message.Where);
             if (person != null)
                 person.LastActive = DateTime.Now;
             else

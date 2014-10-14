@@ -9,7 +9,8 @@ using Moq;
 namespace Gambot.Tests.Modules.Reply
 {
     [TestClass]
-    internal class TReplyCommandHandler : MessageHandlerTestBase<ReplyCommandHandler>
+    internal class TReplyCommandHandler :
+        MessageHandlerTestBase<ReplyCommandHandler>
     {
         public override void InitializeSubject()
         {
@@ -31,14 +32,15 @@ namespace Gambot.Tests.Modules.Reply
                 const string name = "Dude";
                 var expectedResponse = String.Format("Okay, {0}.", name);
                 var messageStub = new StubMessage()
-                                  {
-                                      Action = false,
-                                      Text = "hello <reply> " + replyMsg,
-                                      Where = "some_place",
-                                      Who = name
-                                  };
+                {
+                    Action = false,
+                    Text = "hello <reply> " + replyMsg,
+                    Where = "some_place",
+                    Who = name
+                };
 
-                var returnValue = Subject.Process(String.Empty, messageStub, true);
+                var returnValue = Subject.Process(String.Empty, messageStub,
+                                                  true);
 
                 returnValue.Should().Be(expectedResponse);
             }

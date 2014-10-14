@@ -9,18 +9,21 @@ namespace Gambot.Core
 {
     public static class Config
     {
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger logger =
+            LogManager.GetCurrentClassLogger();
 
         public static string Get(string key, string defaultValue = null)
         {
             logger.Info("Getting config value for \"{0}\"...", key);
             var val = ConfigurationManager.AppSettings[key];
-            if (val == null) {
-                logger.Info("No value found for \"{0}\", defaulting value to \"{1}.\"", key, defaultValue ?? "null");
+            if (val == null)
+            {
+                logger.Info(
+                    "No value found for \"{0}\", defaulting value to \"{1}.\"",
+                    key, defaultValue ?? "null");
             }
-            else {
+            else
                 logger.Info("Success! Value is {0}.", val);
-            }
 
             return val ?? defaultValue;
         }
@@ -29,12 +32,14 @@ namespace Gambot.Core
         {
             logger.Info("Getting config value for \"{0}\"...", key);
             var val = ConfigurationManager.AppSettings[key];
-            if (val == null) {
-                logger.Info("No value found for \"{0}\", defaulting value to {1}.", key, defaultValue);
+            if (val == null)
+            {
+                logger.Info(
+                    "No value found for \"{0}\", defaulting value to {1}.", key,
+                    defaultValue);
             }
-            else {
+            else
                 logger.Info("Success! Value is {0}.", val);
-            }
 
             return val != null ? bool.Parse(val) : defaultValue;
         }
