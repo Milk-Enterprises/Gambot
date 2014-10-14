@@ -38,7 +38,7 @@ namespace Gambot.Modules.Variables
                     messenger.SendMessage(
                         String.Format(variableStore.Put(match.Groups[1].Value.ToLower(), match.Groups[2].Value)
                             ? "Okay, {0}."
-                            : "I already had it that way, {0}!", message.Who), message.Where);
+                            : "{0}: I already had it that way!", message.Who), message.Where);
                     return false;
                 }
 
@@ -48,7 +48,7 @@ namespace Gambot.Modules.Variables
                     messenger.SendMessage(
                         String.Format(variableStore.RemoveValue(match.Groups[1].Value.ToLower(), match.Groups[2].Value)
                             ? "Okay, {0}."
-                            : "There's no such value, {0}!", message.Who), message.Where);
+                            : "{0}: There is no such value!", message.Who), message.Where);
                     return false;
                 }
 
@@ -56,9 +56,9 @@ namespace Gambot.Modules.Variables
                 if (match.Success)
                 {
                     var values = variableStore.RemoveAllValues(match.Groups[1].Value.ToLower());
-                    messenger.SendMessage(String.Format(values == 0 ? "That variable doesn't exist, {0}!" : 
-                                                        values == 1 ? "Removed {1} and its value, {0}."  : 
-                                                        "Removed {1} and its {2} values, {0}.", message.Who, match.Groups[1].Value, values),
+                    messenger.SendMessage(String.Format(values == 0 ? "{0}: That variable does not exist!" :
+                                                        values == 1 ? "{0}: Variable {1} and its value have been deleted." :
+                                                        "{0}: Variable {1} and its {2} values have been deleted.", message.Who, match.Groups[1].Value, values),
                                                         message.Where);
                     return false;
                 }
