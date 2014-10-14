@@ -9,6 +9,11 @@ namespace Gambot.Modules.Quotes
 {
     internal class RecentMessageListener : IMessageHandler
     {
+        public HandlerPriority Priority
+        {
+            get { return HandlerPriority.Normal; }
+        }
+
         private readonly IRecentMessageStore recentMessageStore;
 
         public RecentMessageListener(IRecentMessageStore recentMessageStore)
@@ -16,14 +21,14 @@ namespace Gambot.Modules.Quotes
             this.recentMessageStore = recentMessageStore;
         }
 
-        public void Initialize(IDataStoreManager dataStoreManager)
-        {}
+        public void Initialize(IDataStoreManager dataStoreManager) { }
 
-        public bool Digest(IMessenger messenger, IMessage message, bool addressed)
+        public string Process(string currentResponse, IMessage message,
+                              bool addressed)
         {
             recentMessageStore.AddMessageFromUser(message.Who, message);
 
-            return true;
+            return currentResponse;
         }
     }
 }

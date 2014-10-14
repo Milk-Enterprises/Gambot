@@ -6,7 +6,8 @@ using Moq;
 
 namespace Gambot.Tests.Modules
 {
-    public abstract class MessageHandlerTestBase<THandlerType> where THandlerType : IMessageHandler
+    public abstract class MessageHandlerTestBase<THandlerType>
+        where THandlerType : IMessageHandler
     {
         protected THandlerType Subject { get; set; }
 
@@ -25,10 +26,13 @@ namespace Gambot.Tests.Modules
 
         protected Mock<IDataStore> GetDataStore(string dataStoreName)
         {
-            if (!DataStores.ContainsKey(dataStoreName)) DataStores.Add(dataStoreName, new Mock<IDataStore>());
+            if (!DataStores.ContainsKey(dataStoreName))
+                DataStores.Add(dataStoreName, new Mock<IDataStore>());
 
             var ds = DataStores[dataStoreName];
-            DataStoreManager.Setup(idsm => idsm.Get(dataStoreName)).Returns(ds.Object); // successive calls w/ same params will overwrite previous
+            DataStoreManager.Setup(idsm => idsm.Get(dataStoreName))
+                            .Returns(ds.Object);
+                // successive calls w/ same params will overwrite previous
 
             return ds;
         }

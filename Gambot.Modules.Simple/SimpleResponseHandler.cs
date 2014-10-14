@@ -6,6 +6,11 @@ namespace Gambot.Modules.Simple
 {
     internal class SimpleResponseHandler : IMessageHandler
     {
+        public HandlerPriority Priority
+        {
+            get { return HandlerPriority.Normal; }
+        }
+
         private readonly IVariableHandler variableHandler;
 
         internal SimpleResponseHandler(IVariableHandler variableHandler)
@@ -15,7 +20,8 @@ namespace Gambot.Modules.Simple
 
         public void Initialize(IDataStoreManager dataStoreManager) { }
 
-        public bool Digest(IMessenger messenger, IMessage message, bool addressed)
+        public string Process(string currentResponse, IMessage message,
+                              bool addressed)
         {
             Match match;
             if (addressed)
@@ -23,20 +29,19 @@ namespace Gambot.Modules.Simple
                 match = Regex.Match(message.Text, "say \"(.+)\"");
                 if (match.Success)
                 {
-                    messenger.SendMessage(variableHandler.Substitute(match.Groups[1].Value, message), message.Where);
-                    return false;
+                    return variableHandler.Substitute(match.Groups[1].Value,
+                                                      message);
                 }
             }
 
             match = Regex.Match(message.Text, @"say (\S)([^.?!]+)[.?!]*$");
             if (match.Success)
             {
-                messenger.SendMessage(match.Groups[1].Value.ToUpper() + match.Groups[2].Value + "!",
-                    message.Where);
-                return false;
+                return match.Groups[1].Value.ToUpper() + match.Groups[2].Value +
+                       "!";
             }
 
-            return true;
+            return currentResponse;
         }
     }
 }
