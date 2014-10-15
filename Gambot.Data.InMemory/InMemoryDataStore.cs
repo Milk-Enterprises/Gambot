@@ -12,13 +12,16 @@ namespace Gambot.Data.InMemory
 
         public InMemoryDataStore()
         {
-            data = new EditableLookup<string, string>(StringComparer.InvariantCultureIgnoreCase);
+            data =
+                new EditableLookup<string, string>(
+                    StringComparer.InvariantCultureIgnoreCase);
         }
 
         public bool Put(string key, string val)
         {
             var alreadyExists = data.Contains(key, val);
-            if (!alreadyExists) data.Add(key, val);
+            if (!alreadyExists)
+                data.Add(key, val);
 
             return !alreadyExists;
         }
@@ -26,7 +29,8 @@ namespace Gambot.Data.InMemory
         public int RemoveAllValues(string key)
         {
             var count = data[key].Count();
-            if (count > 0) data.Remove(key);
+            if (count > 0)
+                data.Remove(key);
 
             return count;
         }
@@ -49,7 +53,9 @@ namespace Gambot.Data.InMemory
         public string GetRandomValue(string key)
         {
             var values = data[key].ToList();
-            return values.Count == 0 ? null : values.ElementAt(StaticRandom.Next(0, values.Count));
+            return values.Count == 0
+                       ? null
+                       : values.ElementAt(StaticRandom.Next(0, values.Count));
         }
     }
 }

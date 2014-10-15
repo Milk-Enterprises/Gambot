@@ -8,7 +8,10 @@ namespace Gambot.Modules.Quotes
         public QuotesModule(IVariableHandler variableHandler)
         {
             // todo: maybe move out to ioc, incase other shit need want this thing do?
-            var recentMessageStore = new RecentMessageStore(Int32.Parse(Config.Get("MaxMessagesRememberedPerUser"))); // todo: use tryparse + default value + logging
+            var recentMessageStore =
+                new RecentMessageStore(
+                    Int32.Parse(Config.Get("MaxMessagesRememberedPerUser")));
+                // todo: use tryparse + default value + logging
 
             MessageHandlers.Add(new RecentMessageListener(recentMessageStore));
             MessageHandlers.Add(new QuoteCommandHandler(variableHandler));

@@ -5,6 +5,11 @@ namespace Gambot.Modules.Reply
 {
     internal class ReplyTriggerHandler : IMessageHandler
     {
+        public HandlerPriority Priority
+        {
+            get { return HandlerPriority.Normal; }
+        }
+
         private readonly IVariableHandler variableHandler;
         private IDataStore dataStore;
 
@@ -18,14 +23,13 @@ namespace Gambot.Modules.Reply
             dataStore = dataStoreManager.Get("Reply");
         }
 
-        public bool Digest(IMessenger messenger, IMessage message, bool addressed)
+        public string Process(string currentResponse, IMessage message,
+                              bool addressed)
         {
             var randomReply = dataStore.GetRandomValue(message.Text);
-            if (randomReply == null) return true;
-            
-            messenger.SendMessage(variableHandler.Substitute(randomReply, message), message.Where);
-
-            return false;
+            return randomReply == null
+                       ? currentResponse
+                       : variableHandler.Substitute(randomReply, message);
         }
     }
 }
