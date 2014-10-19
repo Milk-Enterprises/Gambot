@@ -1,7 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using Gambot.Core;
-using Gambot.Modules.Reply;
+using Gambot.Modules.Factoid;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 

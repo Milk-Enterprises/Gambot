@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.IO.Console", "Gambot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.IO.IRC", "Gambot.IO.IRC\Gambot.IO.IRC.csproj", "{619D107B-6666-4D14-B02A-B3C795F2B5DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Modules.Reply", "Gambot.Modules.Reply\Gambot.Modules.Reply.csproj", "{AFB4B6AF-06AE-4CAC-8862-9A4CA45D8518}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Modules.Factoid", "Gambot.Modules.Factoid\Gambot.Modules.Factoid.csproj", "{AFB4B6AF-06AE-4CAC-8862-9A4CA45D8518}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Data.InMemory", "Gambot.Data.InMemory\Gambot.Data.InMemory.csproj", "{49F0D5AE-3CDB-4F48-BBD8-F1DA00BBA0BB}"
 EndProject

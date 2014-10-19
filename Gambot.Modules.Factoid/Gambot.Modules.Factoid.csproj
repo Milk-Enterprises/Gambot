@@ -7,8 +7,8 @@
     <ProjectGuid>{AFB4B6AF-06AE-4CAC-8862-9A4CA45D8518}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Gambot.Modules.Reply</RootNamespace>
-    <AssemblyName>Gambot.Modules.Reply</AssemblyName>
+    <RootNamespace>Gambot.Modules.Factoid</RootNamespace>
+    <AssemblyName>Gambot.Modules.Factoid</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -37,7 +37,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FactoidCommandHandler.cs" />
-    <Compile Include="ReplyModule.cs" />
+    <Compile Include="FactoidModule.cs" />
     <Compile Include="FactoidTriggerHandler.cs" />
   </ItemGroup>
   <ItemGroup>

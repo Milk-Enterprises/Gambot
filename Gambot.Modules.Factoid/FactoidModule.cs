@@ -1,10 +1,10 @@
 ﻿using Gambot.Core;
 
-namespace Gambot.Modules.Reply
+namespace Gambot.Modules.Factoid
 {
-    public class ReplyModule : AbstractModule
+    public class FactoidModule : AbstractModule
     {
-        public ReplyModule(IVariableHandler variableHandler)
+        public FactoidModule(IVariableHandler variableHandler)
         {
             MessageHandlers.Add(new FactoidCommandHandler());
             MessageHandlers.Add(new FactoidTriggerHandler(variableHandler));

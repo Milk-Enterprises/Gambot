@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using Gambot.Core;
 using Gambot.Data;
 
-namespace Gambot.Modules.Reply
+namespace Gambot.Modules.Factoid
 {
     internal class FactoidCommandHandler : IMessageHandler
     {
@@ -16,7 +16,7 @@ namespace Gambot.Modules.Reply
 
         public void Initialize(IDataStoreManager dataStoreManager)
         {
-            dataStore = dataStoreManager.Get("Reply");
+            dataStore = dataStoreManager.Get("Factoid");
         }
 
         public string Process(string currentResponse, IMessage message,

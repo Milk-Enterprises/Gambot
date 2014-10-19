@@ -87,9 +87,9 @@
       <Project>{0a4197c4-f23a-4719-b102-d922af5a9e20}</Project>
       <Name>Gambot.Modules.Quotes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Gambot.Modules.Reply\Gambot.Modules.Reply.csproj">
+    <ProjectReference Include="..\Gambot.Modules.Factoid\Gambot.Modules.Factoid.csproj">
       <Project>{AFB4B6AF-06AE-4CAC-8862-9A4CA45D8518}</Project>
-      <Name>Gambot.Modules.Reply</Name>
+      <Name>Gambot.Modules.Factoid</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.Modules.Simple\Gambot.Modules.Simple.csproj">
       <Project>{E155DDA5-3AC7-4BDC-9B12-B2DD3C8A8332}</Project>
