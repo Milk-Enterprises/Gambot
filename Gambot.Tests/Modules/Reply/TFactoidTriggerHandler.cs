@@ -8,20 +8,20 @@ using Moq;
 namespace Gambot.Tests.Modules.Reply
 {
     [TestClass]
-    internal class TReplyTriggerHandler :
-        MessageHandlerTestBase<ReplyTriggerHandler>
+    internal class TFactoidTriggerHandler :
+        MessageHandlerTestBase<FactoidTriggerHandler>
     {
         protected Mock<IVariableHandler> VariableHandler { get; set; }
 
         public override void InitializeSubject()
         {
             VariableHandler = new Mock<IVariableHandler>();
-            Subject = new ReplyTriggerHandler(VariableHandler.Object);
+            Subject = new FactoidTriggerHandler(VariableHandler.Object);
             Subject.Initialize(DataStoreManager.Object);
         }
 
         [TestClass]
-        public class Digest : TReplyTriggerHandler
+        public class Digest : TFactoidTriggerHandler
         {
             [TestMethod]
             public void ShouldParseMessageWithTrigger()

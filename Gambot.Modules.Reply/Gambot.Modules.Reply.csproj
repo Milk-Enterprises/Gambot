@@ -36,9 +36,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReplyCommandHandler.cs" />
+    <Compile Include="FactoidCommandHandler.cs" />
     <Compile Include="ReplyModule.cs" />
-    <Compile Include="ReplyTriggerHandler.cs" />
+    <Compile Include="FactoidTriggerHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gambot.Core\Gambot.Core.csproj">

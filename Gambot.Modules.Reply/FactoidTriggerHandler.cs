@@ -3,7 +3,7 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Reply
 {
-    internal class ReplyTriggerHandler : IMessageHandler
+    internal class FactoidTriggerHandler : IMessageHandler
     {
         public HandlerPriority Priority
         {
@@ -13,7 +13,7 @@ namespace Gambot.Modules.Reply
         private readonly IVariableHandler variableHandler;
         private IDataStore dataStore;
 
-        internal ReplyTriggerHandler(IVariableHandler variableHandler)
+        internal FactoidTriggerHandler(IVariableHandler variableHandler)
         {
             this.variableHandler = variableHandler;
         }

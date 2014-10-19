@@ -5,7 +5,7 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Reply
 {
-    internal class ReplyCommandHandler : IMessageHandler
+    internal class FactoidCommandHandler : IMessageHandler
     {
         public HandlerPriority Priority
         {

@@ -6,8 +6,8 @@ namespace Gambot.Modules.Reply
     {
         public ReplyModule(IVariableHandler variableHandler)
         {
-            MessageHandlers.Add(new ReplyCommandHandler());
-            MessageHandlers.Add(new ReplyTriggerHandler(variableHandler));
+            MessageHandlers.Add(new FactoidCommandHandler());
+            MessageHandlers.Add(new FactoidTriggerHandler(variableHandler));
         }
     }
 }
