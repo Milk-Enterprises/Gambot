@@ -30,6 +30,11 @@ namespace Gambot.Modules.Factoid
         public string Process(string currentResponse, IMessage message,
                               bool addressed)
         {
+            if (!(addressed ||
+                message.Text.Length >
+                int.Parse(Config.Get("FactoidTriggerLength"))))
+                return currentResponse;
+
             var randomReply = dataStore.GetRandomValue(message.Text);
             if (randomReply == null)
                 return currentResponse;
