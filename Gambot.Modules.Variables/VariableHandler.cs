@@ -63,7 +63,7 @@ namespace Gambot.Modules.Variables
                                 match.Groups[1].Value.ToLower(),
                                 match.Groups[2].Value)
                                 ? "Okay, {0}."
-                                : "There's no such value, {0}!", message.Who);
+                                : "{0}: There's no such value!", message.Who);
                 }
 
                 match = Regex.Match(message.Text,
@@ -75,10 +75,10 @@ namespace Gambot.Modules.Variables
                         variableStore.RemoveAllValues(
                             match.Groups[1].Value.ToLower());
                     return String.Format(values == 0
-                                             ? "That variable doesn't exist, {0}!"
+                                             ? "{0}: That variable doesn't exist!"
                                              : values == 1
-                                                   ? "Removed {1} and its value, {0}."
-                                                   : "Removed {1} and its {2} values, {0}.",
+                                                   ? "{0}: Deleted variable \"{1}\" and its value."
+                                                   : "{0}: Deleted variable \"{1}\" and its {2} values.",
                                          message.Who, match.Groups[1].Value,
                                          values);
                 }
