@@ -62,7 +62,13 @@ namespace Gambot.Modules.Factoid
                         case "<action>":
                             break;
                         default:
+                        {
+                            // check if its <verb>, otherwise, ignore
+                            if (verb.StartsWith("<") && verb.EndsWith(">"))
+                                break;
+
                             return currentResponse;
+                        }
                     }
 
                     return String.Format(dataStore.Put(term, verb + " " + response) ? "Okay, {0}." : "{0}: I already had it that way!", message.Who);

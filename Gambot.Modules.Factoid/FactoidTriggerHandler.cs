@@ -60,8 +60,8 @@ namespace Gambot.Modules.Factoid
                 case "action":
                     return "/me " + factoidResponse;
                 default:
-                    logger.Warn("Unknown factoid verb in database with key {0}.", factoid.Trigger);
-                    return currentResponse;
+                    return String.Format("{0} {1} {2}", message.Text,
+                                         factoid.Verb, factoid.Response);
             }
         }
     }
