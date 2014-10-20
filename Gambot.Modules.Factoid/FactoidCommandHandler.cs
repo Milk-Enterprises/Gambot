@@ -24,20 +24,48 @@ namespace Gambot.Modules.Factoid
         {
             if (addressed)
             {
-                var match = Regex.Match(message.Text, @"(.+)\s\<reply\>\s(.+)",
+                var match = Regex.Match(message.Text, @"(.+?)\s(.+?)\s(.+)",
                                         RegexOptions.IgnoreCase);
-                if (match.Success)
+                if (match.Success) 
                 {
-                    var replyTrigger = match.Groups[1].Value.Trim();
-                    var replyMsg = match.Groups[2].Value.Trim();
+                    var term = match.Groups[1].Value;
+                    var verb = match.Groups[2].Value;
+                    var response = match.Groups[3].Value;
 
-                    dataStore.Put(replyTrigger, replyMsg);
+                    // some verbs will be malformed and need to be coaxed into the right form
+                    switch (verb)
+                    {
+                        case "<is>":
+                        case "is":
+                        {
+                            // need to check if the response has an <is>, which means that the term needs to be updated
+                            var refinedMatch = Regex.Match(message.Text,
+                                                           @"(.+)\s\<is\>\s(.+)",
+                                                           RegexOptions
+                                                               .IgnoreCase);
+                            if (refinedMatch.Success)
+                            {
+                                term = refinedMatch.Groups[1].Value;
+                                response = refinedMatch.Groups[2].Value;
+                            }
 
-                    return String.Format("Okay, {0}.", message.Who);
-                }
-                else
-                {
-                    // TODO: add the snide comment gambot makes when someone FUCKS UP
+                            verb = "<is>";
+                            
+                            break;
+                        }
+                        case "<are>":
+                        case "are":
+                            verb = "<are>";
+                            break;
+                        case "<reply>":
+                            break;
+                        case "<action>":
+                            break;
+                        default:
+                            return currentResponse;
+                    }
+
+                    return String.Format(dataStore.Put(term, verb + " " + response) ? "Okay, {0}." : "{0}: I already had it that way!", message.Who);
                 }
             }
 

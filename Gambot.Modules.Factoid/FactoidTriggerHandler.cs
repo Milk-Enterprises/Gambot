@@ -1,10 +1,14 @@
-﻿using Gambot.Core;
+﻿using System;
+using Gambot.Core;
 using Gambot.Data;
+using NLog;
 
 namespace Gambot.Modules.Factoid
 {
     internal class FactoidTriggerHandler : IMessageHandler
     {
+        private Logger logger = LogManager.GetCurrentClassLogger();
+
         public HandlerPriority Priority
         {
             get { return HandlerPriority.Normal; }
@@ -27,9 +31,33 @@ namespace Gambot.Modules.Factoid
                               bool addressed)
         {
             var randomReply = dataStore.GetRandomValue(message.Text);
-            return randomReply == null
-                       ? currentResponse
-                       : variableHandler.Substitute(randomReply, message);
+            if (randomReply == null)
+                return currentResponse;
+
+            var factoid =
+                FactoidUtilities.GetVerbAndResponseFromPartialFactoid(
+                    randomReply);
+            factoid.Trigger = message.Text;
+
+            var factoidResponse = variableHandler.Substitute(factoid.Response,
+                                                             message);
+
+            switch (factoid.Verb)
+            {
+                case "is":
+                    return String.Format("{0} is {1}", message.Text,
+                                         factoidResponse);
+                case "are":
+                    return String.Format("{0} are {1}", message.Text,
+                                         factoidResponse);
+                case "reply":
+                    return factoidResponse;
+                case "action":
+                    return "/me " + factoidResponse;
+                default:
+                    logger.Warn("Unknown factoid verb in database with key {0}.", factoid.Trigger);
+                    return currentResponse;
+            }
         }
     }
 }
