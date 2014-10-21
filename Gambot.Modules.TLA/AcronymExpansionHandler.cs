@@ -37,7 +37,8 @@ namespace Gambot.Modules.TLA
         public string Process(string currentResponse, IMessage message, bool addressed)
         {
             var trimmedMsg = message.Text.Trim();
-            if(trimmedMsg.Length != 3 || !trimmedMsg.All(c => Char.IsLetter(c) || c == Wildcard)) {
+            if (trimmedMsg.Length != 3 || !trimmedMsg.All(c => Char.IsLetter(c) || c == Wildcard))
+            {
                 return currentResponse;
             }
 
@@ -62,9 +63,10 @@ namespace Gambot.Modules.TLA
             if (a.Length != b.Length)
                 return false;
 
-            for (var i = 0; i < a.Length; i++) {
+            for (var i = 0; i < a.Length; i++)
+            {
                 if (!AnyCharactersAreWildcard(a[i], b[i]) &&
-                    Char.ToUpperInvariant(a[i]) != Char.ToUpperInvariant(b[i])) 
+                    Char.ToUpperInvariant(a[i]) != Char.ToUpperInvariant(b[i]))
                 {
                     return false;
                 }

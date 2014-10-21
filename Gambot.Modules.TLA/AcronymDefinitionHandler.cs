@@ -38,16 +38,18 @@ namespace Gambot.Modules.TLA
         public string Process(string currentResponse, IMessage message, bool addressed)
         {
             var match = Regex.Match(message.Text, @"([a-z]\w*)\s+([a-z]\w*)\s+([a-z]\w*)",
-                                    RegexOptions.IgnoreCase);
+                RegexOptions.IgnoreCase);
 
-            if (match.Success) {
-                var words = new [] { match.Groups[1].Value, match.Groups[2].Value, match.Groups[3].Value };
+            if (match.Success)
+            {
+                var words = new[] {match.Groups[1].Value, match.Groups[2].Value, match.Groups[3].Value};
 
                 var expandedAcronym = String.Join(" ", words);
                 var tlaChance = int.Parse(Config.Get("PercentChanceOfNewTLA"));
                 var shouldCreateNewAcronym = StaticRandom.Next(0, 100) < tlaChance;
 
-                if (shouldCreateNewAcronym) {
+                if (shouldCreateNewAcronym)
+                {
                     var acronym = new String(words.Select(s => s.First()).ToArray()).ToUpperInvariant();
                     if (!tlaDataStore.Put(acronym, expandedAcronym))
                         return currentResponse;
@@ -59,7 +61,7 @@ namespace Gambot.Modules.TLA
 
                     // GHETTO ALERT
                     var coercedResponse = bandNameFactoid.Response.Replace("$band", expandedAcronym)
-                                       .Replace("$tla", expandedAcronym);
+                        .Replace("$tla", expandedAcronym);
                     return variableHandler.Substitute(coercedResponse, message);
                 }
             }
