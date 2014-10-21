@@ -12,8 +12,7 @@ namespace Gambot.Modules.Config
             get { return HandlerPriority.Normal; }
         }
 
-        public void Initialize(IDataStoreManager dataStoreManager)
-        {}
+        public void Initialize(IDataStoreManager dataStoreManager) {}
 
         public string Process(string currentResponse, IMessage message, bool addressed)
         {
@@ -34,7 +33,7 @@ namespace Gambot.Modules.Config
 
                         return
                             String.Format(
-                                "Okay {0}, changed the value of \"{1}\" to \"{2}\".",
+                                "Okay {0}, changed the value of \"{1}\" to \"{2}.\"",
                                 message.Who, key, value);
                     }
                     else

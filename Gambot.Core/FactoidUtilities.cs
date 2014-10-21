@@ -15,11 +15,13 @@ namespace Gambot.Core
 
     public static class FactoidUtilities
     {
-        public static Factoid GetVerbAndResponseFromPartialFactoid(string factoid)
+        public static Factoid GetVerbAndResponseFromPartialFactoid(
+            string factoid)
         {
             var match = Regex.Match(factoid, @"<(.+)> (.+)");
 
-            if (match.Success) {
+            if (match.Success)
+            {
                 return new Factoid()
                        {
                            Verb = match.Groups[1].Value,

@@ -79,9 +79,11 @@ namespace Gambot.Driver
                                        .Where(
                                            t =>
                                            typeof(IModule).IsAssignableFrom(t) &&
-                                           t != typeof(IModule) && !t.IsAbstract).ToList();
+                                           t != typeof(IModule) && !t.IsAbstract)
+                                       .ToList();
 
-            foreach (var moduleType in moduleTypes) {
+            foreach (var moduleType in moduleTypes)
+            {
                 container.RegisterSingle(moduleType, moduleType);
             }
             container.RegisterAll<IModule>(moduleTypes);
