@@ -49,12 +49,6 @@ namespace Gambot.Modules.Factoid
 
             switch (factoid.Verb)
             {
-                case "is":
-                    return String.Format("{0} is {1}", message.Text,
-                                         factoidResponse);
-                case "are":
-                    return String.Format("{0} are {1}", message.Text,
-                                         factoidResponse);
                 case "reply":
                     return factoidResponse;
                 case "action":
