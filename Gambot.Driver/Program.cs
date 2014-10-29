@@ -8,9 +8,11 @@ using Gambot.Core;
 using Gambot.Data;
 using Gambot.Data.InMemory;
 using Gambot.IO.Console;
+using Gambot.Modules.Config;
+using Gambot.Modules.Factoid;
 using Gambot.Modules.Quotes;
 using Gambot.Modules.People;
-using Gambot.Modules.Reply;
+using Gambot.Modules.TLA;
 using Gambot.Modules.Variables;
 using NLog;
 using SimpleInjector;
@@ -77,9 +79,14 @@ namespace Gambot.Driver
                                        .Where(
                                            t =>
                                            typeof(IModule).IsAssignableFrom(t) &&
-                                           t != typeof(IModule) && !t.IsAbstract);
+                                           t != typeof(IModule) && !t.IsAbstract)
+                                       .ToList();
 
-            container.RegisterAll(typeof(IModule), moduleTypes);
+            foreach (var moduleType in moduleTypes)
+            {
+                container.RegisterSingle(moduleType, moduleType);
+            }
+            container.RegisterAll<IModule>(moduleTypes);
 
             return container;
         }

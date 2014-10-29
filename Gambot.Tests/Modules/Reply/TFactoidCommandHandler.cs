@@ -2,24 +2,24 @@
 using FluentAssertions;
 using Gambot.Core;
 using Gambot.Data;
-using Gambot.Modules.Reply;
+using Gambot.Modules.Factoid;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 namespace Gambot.Tests.Modules.Reply
 {
     [TestClass]
-    internal class TReplyCommandHandler :
-        MessageHandlerTestBase<ReplyCommandHandler>
+    internal class TFactoidCommandHandler :
+        MessageHandlerTestBase<FactoidCommandHandler>
     {
         public override void InitializeSubject()
         {
-            Subject = new ReplyCommandHandler();
+            Subject = new FactoidCommandHandler();
             Subject.Initialize(DataStoreManager.Object);
         }
 
         [TestClass]
-        public class Digest : TReplyCommandHandler
+        public class Digest : TFactoidCommandHandler
         {
             [TestMethod]
             public void ShouldParseMessageWithNoVariables()

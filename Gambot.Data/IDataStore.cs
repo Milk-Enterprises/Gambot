@@ -23,7 +23,7 @@ namespace Gambot.Data
         bool RemoveValue(string key, string val);
 
         /// <summary>
-        /// Gets all keys from the data store./>.
+        /// Gets all keys from the data store.
         /// </summary>
         IEnumerable<string> GetAllKeys();
 

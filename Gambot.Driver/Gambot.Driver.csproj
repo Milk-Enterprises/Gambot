@@ -79,6 +79,10 @@
       <Project>{619d107b-6666-4d14-b02a-b3c795f2b5df}</Project>
       <Name>Gambot.IO.IRC</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Gambot.Modules.Config\Gambot.Modules.Config.csproj">
+      <Project>{6f556522-0c4d-476a-8265-ead36d49127f}</Project>
+      <Name>Gambot.Modules.Config</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Gambot.Modules.People\Gambot.Modules.People.csproj">
       <Project>{68A19C32-180C-4EC0-B412-B732CE37C375}</Project>
       <Name>Gambot.Modules.People</Name>
@@ -87,13 +91,17 @@
       <Project>{0a4197c4-f23a-4719-b102-d922af5a9e20}</Project>
       <Name>Gambot.Modules.Quotes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Gambot.Modules.Reply\Gambot.Modules.Reply.csproj">
+    <ProjectReference Include="..\Gambot.Modules.Factoid\Gambot.Modules.Factoid.csproj">
       <Project>{AFB4B6AF-06AE-4CAC-8862-9A4CA45D8518}</Project>
-      <Name>Gambot.Modules.Reply</Name>
+      <Name>Gambot.Modules.Factoid</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.Modules.Simple\Gambot.Modules.Simple.csproj">
       <Project>{E155DDA5-3AC7-4BDC-9B12-B2DD3C8A8332}</Project>
       <Name>Gambot.Modules.Simple</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gambot.Modules.TLA\Gambot.Modules.TLA.csproj">
+      <Project>{b801b69a-a822-4c9e-b943-31e2c37b2b31}</Project>
+      <Name>Gambot.Modules.TLA</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.Modules.Variables\Gambot.Modules.Variables.csproj">
       <Project>{08EFC5DE-DD22-4B00-813B-6C81B523FBEE}</Project>
