@@ -63,6 +63,46 @@ namespace Gambot.Modules.Inventory
 
         public string Process(string currentResponse, IMessage message, bool addressed)
         {
+            if (message.Action)
+            {
+                var botName = Config.Get("Name");
+                var match = Regex.Match(message.Text,
+                                        String.Format(@"gives (?:(.+) to {0}|{0} (.+))", botName),
+                                        RegexOptions.IgnoreCase);
+
+                if (match.Success)
+                {
+                    var itemName = String.IsNullOrEmpty(match.Groups[1].Value)
+                                       ? match.Groups[2].Value
+                                       : match.Groups[1].Value;
+                    var inventoryLimit =
+                        Int32.Parse(Config.Get("InventoryLimit"));
+                    var currentInventorySize = invDataStore.GetAllValues("Items").Count(); // we dont have a .GetCount lololo
+
+                    if (currentInventorySize >= inventoryLimit)
+                    {
+                        var randomItemToDrop =
+                            invDataStore.GetRandomValue("Items");
+                        if (randomItemToDrop == null)
+                            return currentResponse;
+                        invDataStore.RemoveValue("Items", randomItemToDrop);
+
+                        const string reply = "/me drops $item and takes $newitem.";
+                        return variableHandler.Substitute(reply,
+                                                          message,
+                                                          Replace.VarWith("item", randomItemToDrop),
+                                                          Replace.VarWith("newitem", itemName));
+                    }
+                    else
+                    {
+                    }
+                }
+            }
+            else
+            {
+                
+            }
+
             return currentResponse;
         }
     }
