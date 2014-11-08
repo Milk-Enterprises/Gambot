@@ -10,6 +10,8 @@ namespace Gambot.Modules.Inventory
     class InventoryModule : AbstractModule
     {
         public InventoryModule(IVariableHandler varHandler)
+        {
+            MessageHandlers.Add(new InventoryCommandHandler(varHandler));
         }
     }
 }
