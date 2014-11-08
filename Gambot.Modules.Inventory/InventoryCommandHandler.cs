@@ -75,32 +75,36 @@ namespace Gambot.Modules.Inventory
                                         String.Format(@"gives (?:(.+) to {0}|{0} (.+))", botName),
                                         RegexOptions.IgnoreCase);
 
-                if (match.Success)
+                if (!match.Success)
+                    return currentResponse;
+
+                var itemName = String.IsNullOrEmpty(match.Groups[1].Value)
+                                   ? match.Groups[2].Value
+                                   : match.Groups[1].Value;
+                var inventoryLimit =
+                    Int32.Parse(Config.Get("InventoryLimit"));
+                var currentInventorySize = invDataStore.GetAllValues("Items").Count(); // we dont have a .GetCount lololo
+
+                if (currentInventorySize >= inventoryLimit)
                 {
-                    var itemName = String.IsNullOrEmpty(match.Groups[1].Value)
-                                       ? match.Groups[2].Value
-                                       : match.Groups[1].Value;
-                    var inventoryLimit =
-                        Int32.Parse(Config.Get("InventoryLimit"));
-                    var currentInventorySize = invDataStore.GetAllValues("Items").Count(); // we dont have a .GetCount lololo
+                    var randomItemToDrop =
+                        invDataStore.GetRandomValue("Items");
+                    if (randomItemToDrop == null)
+                        return currentResponse;
+                    invDataStore.RemoveValue("Items", randomItemToDrop);
 
-                    if (currentInventorySize >= inventoryLimit)
-                    {
-                        var randomItemToDrop =
-                            invDataStore.GetRandomValue("Items");
-                        if (randomItemToDrop == null)
-                            return currentResponse;
-                        invDataStore.RemoveValue("Items", randomItemToDrop);
-
-                        const string reply = "/me drops $item and takes $newitem.";
-                        return variableHandler.Substitute(reply,
-                                                          message,
-                                                          Replace.VarWith("item", randomItemToDrop),
-                                                          Replace.VarWith("newitem", itemName));
-                    }
-                    else
-                    {
-                    }
+                    const string reply = "/me drops $item and takes $newitem.";
+                    return variableHandler.Substitute(reply,
+                                                      message,
+                                                      Replace.VarWith("item", randomItemToDrop),
+                                                      Replace.VarWith("newitem", itemName));
+                }
+                else
+                {
+                    var randomSuccessfulAddReply = invDataStore.GetRandomValue("SuccessfulAdd");
+                    return variableHandler.Substitute(String.Format("/me {0} $newitem", randomSuccessfulAddReply),
+                                                      message,
+                                                      Replace.VarWith("newitem", itemName));
                 }
             }
             else
