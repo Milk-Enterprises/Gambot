@@ -10,6 +10,7 @@ using Gambot.Data.InMemory;
 using Gambot.IO.Console;
 using Gambot.Modules.Config;
 using Gambot.Modules.Factoid;
+using Gambot.Modules.Inventory;
 using Gambot.Modules.Quotes;
 using Gambot.Modules.People;
 using Gambot.Modules.TLA;

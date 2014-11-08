@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Modules.TLA", "Gambo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Modules.Config", "Gambot.Modules.Config\Gambot.Modules.Config.csproj", "{6F556522-0C4D-476A-8265-EAD36D49127F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Modules.Inventory", "Gambot.Modules.Inventory\Gambot.Modules.Inventory.csproj", "{71565C9E-0FF7-4855-8589-F6F2BB29DEAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{6F556522-0C4D-476A-8265-EAD36D49127F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F556522-0C4D-476A-8265-EAD36D49127F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F556522-0C4D-476A-8265-EAD36D49127F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71565C9E-0FF7-4855-8589-F6F2BB29DEAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71565C9E-0FF7-4855-8589-F6F2BB29DEAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71565C9E-0FF7-4855-8589-F6F2BB29DEAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71565C9E-0FF7-4855-8589-F6F2BB29DEAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
