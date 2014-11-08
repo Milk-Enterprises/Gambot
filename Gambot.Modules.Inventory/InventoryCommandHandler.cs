@@ -29,7 +29,12 @@ namespace Gambot.Modules.Inventory
         {
             invDataStore = dataStoreManager.Get("Inventory");
             factoidDataStore = dataStoreManager.Get("Factoid");
-            
+
+            invDataStore.Put("SuccessfulAdd", "now contains");
+            invDataStore.Put("SuccessfulAdd", "is now carrying");
+            invDataStore.Put("SuccessfulAdd", "is now holding");
+            invDataStore.Put("SuccessfulAdd", "takes");
+
             factoidDataStore.Put("item already exists reply", "No thanks, $who, I've already got one.");
             factoidDataStore.Put("item already exists reply", "I already have $item.");
             factoidDataStore.Put("item already exists reply", "But I've already got $item!");
