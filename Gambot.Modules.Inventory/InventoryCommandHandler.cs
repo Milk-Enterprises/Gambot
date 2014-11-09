@@ -15,6 +15,9 @@ namespace Gambot.Modules.Inventory
         private IDataStore factoidDataStore;
         private IVariableHandler variableHandler;
 
+        private const string CurrentInventoryKey = "CurrentInventory";
+        private const string HistoryKey = "History";
+
         public HandlerPriority Priority
         {
             get { return HandlerPriority.Normal; }
@@ -30,15 +33,14 @@ namespace Gambot.Modules.Inventory
             invDataStore = dataStoreManager.Get("Inventory");
             factoidDataStore = dataStoreManager.Get("Factoid");
 
-            factoidDataStore.Put("takes item", "/me now contains $item.");
-            factoidDataStore.Put("takes item", "/me is now carrying $item.");
-            factoidDataStore.Put("takes item", "/me is now holding $item.");
-            factoidDataStore.Put("takes item", "/me takes $item.");
+            factoidDataStore.Put("takes item", "<action> is now carrying $item.");
+            factoidDataStore.Put("takes item", "<action> is now holding $item.");
+            factoidDataStore.Put("takes item", "<action> takes $item.");
 
-            factoidDataStore.Put("duplicate item", "No thanks, $who, I've already got one.");
-            factoidDataStore.Put("duplicate item", "I already have $item.");
-            factoidDataStore.Put("duplicate item", "But I've already got $item!");
-            factoidDataStore.Put("duplicate item", "$who: I already have $item.");
+            factoidDataStore.Put("duplicate item", "<reply> No thanks, $who, I've already got one.");
+            factoidDataStore.Put("duplicate item", "<reply> I already have $item.");
+            factoidDataStore.Put("duplicate item", "<reply> But I've already got $item!");
+            factoidDataStore.Put("duplicate item", "<reply> $who: I already have $item.");
             
             variableHandler.DefineMagicVariable("item", GetRandomItem);
             variableHandler.DefineMagicVariable("giveitem", GetRandomItemAndDiscard);
@@ -47,23 +49,26 @@ namespace Gambot.Modules.Inventory
 
         private string GetRandomItem(IMessage msg)
         {
-            return invDataStore.GetRandomValue("Items") ?? "bananas";
+            return invDataStore.GetRandomValue(CurrentInventoryKey) ?? "bananas";
         }
 
         private string GetRandomItemAndDiscard(IMessage msg)
         {
-            var item = invDataStore.GetRandomValue("Items");
-
-            if (item == null)
-                return "$item";
-
-            invDataStore.RemoveValue("Items", item);
-            return item;
+            return RemoveRandomItem();
         }
 
         private string GetNewItem(IMessage msg)
         {
-            return "$newitem";
+            string randomItemFromHistory = null;
+            var currentInventory = GetInventory();
+            while (currentInventory.Contains(randomItemFromHistory))
+            {
+                randomItemFromHistory = GetRandomItemFromHistory();
+            }
+
+            AddItem(randomItemFromHistory);
+            
+            return randomItemFromHistory;
         }
 
         public string Process(string currentResponse, IMessage message, bool addressed)
@@ -84,28 +89,28 @@ namespace Gambot.Modules.Inventory
                 if (itemName.EndsWith("?"))
                     return currentResponse;
 
-                var inventoryLimit =
-                    Int32.Parse(Config.Get("InventoryLimit"));
-                var allItems = invDataStore.GetAllValues("Items").ToList();
+                var inventoryLimit = Int32.Parse(Config.Get("InventoryLimit"));
+                var allItems = GetInventory();
                 var currentInventorySize = allItems.Count(); // we dont have a .GetCount lololo
 
                 if (allItems.Contains(itemName))
                 {
                     var randomDuplicateAddReply = factoidDataStore.GetRandomValue("duplicate item");
-                    return variableHandler.Substitute(randomDuplicateAddReply,
+                    var duplicateFactoid =
+                        FactoidUtilities.GetVerbAndResponseFromPartialFactoid(
+                            randomDuplicateAddReply);
+                    return variableHandler.Substitute(duplicateFactoid.Response,
                                                       message,
                                                       Replace.VarWith("who", message.Who));
                 }
 
                 if (currentInventorySize >= inventoryLimit)
                 {
-                    var randomItemToDrop =
-                        invDataStore.GetRandomValue("Items");
-                    if (randomItemToDrop == null)
+                    var randomItemToDrop = RemoveRandomItem();
+                    if(randomItemToDrop == null)
                         return currentResponse;
-                    invDataStore.RemoveValue("Items", randomItemToDrop);
 
-                    invDataStore.Put("Items", itemName);
+                    AddItem(itemName);
 
                     const string reply = "/me drops $item and takes $newitem.";
                     return variableHandler.Substitute(reply,
@@ -115,10 +120,13 @@ namespace Gambot.Modules.Inventory
                 }
                 else
                 {
-                    invDataStore.Put("Items", itemName);
+                    AddItem(itemName);
 
                     var randomSuccessfulAddReply = factoidDataStore.GetRandomValue("takes item");
-                    return variableHandler.Substitute(randomSuccessfulAddReply,
+                    var successfulFactoid =
+                        FactoidUtilities.GetVerbAndResponseFromPartialFactoid(
+                            randomSuccessfulAddReply);
+                    return variableHandler.Substitute(successfulFactoid.Response,
                                                       message,
                                                       Replace.VarWith("item", itemName));
                 }
@@ -129,6 +137,38 @@ namespace Gambot.Modules.Inventory
             }
 
             return currentResponse;
+        }
+
+        private void AddItem(string itemName)
+        {
+            invDataStore.Put(CurrentInventoryKey, itemName);
+            invDataStore.Put(HistoryKey, itemName);
+        }
+
+        private bool RemoveItem(string itemName)
+        {
+            return invDataStore.RemoveValue(CurrentInventoryKey, itemName);
+        }
+
+        private string RemoveRandomItem()
+        {
+            var randomItemToDrop = invDataStore.GetRandomValue(CurrentInventoryKey);
+            if (randomItemToDrop == null)
+                return null;
+
+            RemoveItem(randomItemToDrop);
+
+            return randomItemToDrop;
+        }
+
+        private List<string> GetInventory()
+        {
+            return invDataStore.GetAllValues(CurrentInventoryKey).ToList();
+        }
+
+        private string GetRandomItemFromHistory()
+        {
+            return invDataStore.GetRandomValue(HistoryKey);
         }
     }
 }
