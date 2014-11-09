@@ -12,7 +12,26 @@ namespace Gambot.Core
             where T : IVariableFallbackHandler;
 
         void DefineMagicVariable(string name, Func<IMessage, string> getter);
-        string Substitute(string input, IMessage context);
+        string Substitute(string input, IMessage context, params VariableReplacement[] replacements);
+    }
+
+    public class VariableReplacement
+    {
+        public string VariableToReplace { get; internal set; }
+        public string ValueToReplaceWith { get; internal set; }
+    }
+
+    public static class Replace
+    {
+        public static VariableReplacement VarWith(string varToReplace,
+                                                  string valueToReplaceWith)
+        {
+            return new VariableReplacement()
+                   {
+                       VariableToReplace = varToReplace,
+                       ValueToReplaceWith = valueToReplaceWith
+                   };
+        }
     }
 
     public class VariableHandler : IVariableHandler
@@ -39,11 +58,14 @@ namespace Gambot.Core
             magicVariables.Add(name, getter);
         }
 
-        public string Substitute(string input, IMessage context)
+        public string Substitute(string input, IMessage context, params VariableReplacement[] replacements)
         {
             // { variable => { key => value } }
             var memoizedDic =
                 new Dictionary<string, Dictionary<string, string>>();
+            var memoizedReplacements =
+                replacements.ToDictionary(vr => vr.VariableToReplace,
+                                          vr => vr.ValueToReplaceWith);
 
             return variableRegex.Replace(input, match =>
             {
@@ -54,7 +76,9 @@ namespace Gambot.Core
 
                 var subVal = match.Value;
 
-                if (key != null && memoizedDic.ContainsKey(var) &&
+                if (memoizedReplacements.ContainsKey(var))
+                    subVal = memoizedReplacements[var];
+                else if (key != null && memoizedDic.ContainsKey(var) &&
                     memoizedDic[var].ContainsKey(key))
                     subVal = memoizedDic[var][key];
                 else if (magicVariables.ContainsKey(var))
