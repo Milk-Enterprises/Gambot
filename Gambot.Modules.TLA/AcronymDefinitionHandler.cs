@@ -37,7 +37,7 @@ namespace Gambot.Modules.TLA
 
         public string Process(string currentResponse, IMessage message, bool addressed)
         {
-            var match = Regex.Match(message.Text, @"([a-z]\w*)\s+([a-z]\w*)\s+([a-z]\w*)",
+            var match = Regex.Match(message.Text, @"^\s*([a-z]\w*)\s+([a-z]\w*)\s+([a-z]\w*)\s*$",
                 RegexOptions.IgnoreCase);
 
             if (match.Success)
