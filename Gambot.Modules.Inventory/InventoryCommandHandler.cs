@@ -39,7 +39,7 @@ namespace Gambot.Modules.Inventory
             factoidDataStore.Put("item already exists reply", "I already have $item.");
             factoidDataStore.Put("item already exists reply", "But I've already got $item!");
             factoidDataStore.Put("item already exists reply", "$who: I already have $item.");
-
+            
             variableHandler.DefineMagicVariable("item", GetRandomItem);
             variableHandler.DefineMagicVariable("giveitem", GetRandomItemAndDiscard);
             variableHandler.DefineMagicVariable("newitem", GetNewItem);
@@ -81,9 +81,21 @@ namespace Gambot.Modules.Inventory
                 var itemName = String.IsNullOrEmpty(match.Groups[1].Value)
                                    ? match.Groups[2].Value
                                    : match.Groups[1].Value;
+                if (itemName.EndsWith("?"))
+                    return currentResponse;
+
                 var inventoryLimit =
                     Int32.Parse(Config.Get("InventoryLimit"));
-                var currentInventorySize = invDataStore.GetAllValues("Items").Count(); // we dont have a .GetCount lololo
+                var allItems = invDataStore.GetAllValues("Items").ToList();
+                var currentInventorySize = allItems.Count(); // we dont have a .GetCount lololo
+
+                if (allItems.Contains(itemName))
+                {
+                    var randomDuplicateAddReply = factoidDataStore.GetRandomValue("item already exists reply");
+                    return variableHandler.Substitute(randomDuplicateAddReply,
+                                                      message,
+                                                      Replace.VarWith("who", message.Who));
+                }
 
                 if (currentInventorySize >= inventoryLimit)
                 {
@@ -93,6 +105,8 @@ namespace Gambot.Modules.Inventory
                         return currentResponse;
                     invDataStore.RemoveValue("Items", randomItemToDrop);
 
+                    invDataStore.Put("Items", itemName);
+
                     const string reply = "/me drops $item and takes $newitem.";
                     return variableHandler.Substitute(reply,
                                                       message,
@@ -101,8 +115,10 @@ namespace Gambot.Modules.Inventory
                 }
                 else
                 {
+                    invDataStore.Put("Items", itemName);
+
                     var randomSuccessfulAddReply = invDataStore.GetRandomValue("SuccessfulAdd");
-                    return variableHandler.Substitute(String.Format("/me {0} $newitem", randomSuccessfulAddReply),
+                    return variableHandler.Substitute(String.Format("/me {0} $newitem.", randomSuccessfulAddReply),
                                                       message,
                                                       Replace.VarWith("newitem", itemName));
                 }
