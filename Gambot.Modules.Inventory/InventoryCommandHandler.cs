@@ -30,15 +30,15 @@ namespace Gambot.Modules.Inventory
             invDataStore = dataStoreManager.Get("Inventory");
             factoidDataStore = dataStoreManager.Get("Factoid");
 
-            invDataStore.Put("SuccessfulAdd", "now contains");
-            invDataStore.Put("SuccessfulAdd", "is now carrying");
-            invDataStore.Put("SuccessfulAdd", "is now holding");
-            invDataStore.Put("SuccessfulAdd", "takes");
+            factoidDataStore.Put("takes item", "/me now contains $item.");
+            factoidDataStore.Put("takes item", "/me is now carrying $item.");
+            factoidDataStore.Put("takes item", "/me is now holding $item.");
+            factoidDataStore.Put("takes item", "/me takes $item.");
 
-            factoidDataStore.Put("item already exists reply", "No thanks, $who, I've already got one.");
-            factoidDataStore.Put("item already exists reply", "I already have $item.");
-            factoidDataStore.Put("item already exists reply", "But I've already got $item!");
-            factoidDataStore.Put("item already exists reply", "$who: I already have $item.");
+            factoidDataStore.Put("duplicate item", "No thanks, $who, I've already got one.");
+            factoidDataStore.Put("duplicate item", "I already have $item.");
+            factoidDataStore.Put("duplicate item", "But I've already got $item!");
+            factoidDataStore.Put("duplicate item", "$who: I already have $item.");
             
             variableHandler.DefineMagicVariable("item", GetRandomItem);
             variableHandler.DefineMagicVariable("giveitem", GetRandomItemAndDiscard);
@@ -47,7 +47,7 @@ namespace Gambot.Modules.Inventory
 
         private string GetRandomItem(IMessage msg)
         {
-            return invDataStore.GetRandomValue("Items") ?? "$item"; // possibly replace with "nothing"
+            return invDataStore.GetRandomValue("Items") ?? "bananas";
         }
 
         private string GetRandomItemAndDiscard(IMessage msg)
@@ -63,7 +63,7 @@ namespace Gambot.Modules.Inventory
 
         private string GetNewItem(IMessage msg)
         {
-            return "$newitem"; // todo: ????????
+            return "$newitem";
         }
 
         public string Process(string currentResponse, IMessage message, bool addressed)
@@ -91,7 +91,7 @@ namespace Gambot.Modules.Inventory
 
                 if (allItems.Contains(itemName))
                 {
-                    var randomDuplicateAddReply = factoidDataStore.GetRandomValue("item already exists reply");
+                    var randomDuplicateAddReply = factoidDataStore.GetRandomValue("duplicate item");
                     return variableHandler.Substitute(randomDuplicateAddReply,
                                                       message,
                                                       Replace.VarWith("who", message.Who));
@@ -117,10 +117,10 @@ namespace Gambot.Modules.Inventory
                 {
                     invDataStore.Put("Items", itemName);
 
-                    var randomSuccessfulAddReply = invDataStore.GetRandomValue("SuccessfulAdd");
-                    return variableHandler.Substitute(String.Format("/me {0} $newitem.", randomSuccessfulAddReply),
+                    var randomSuccessfulAddReply = factoidDataStore.GetRandomValue("takes item");
+                    return variableHandler.Substitute(randomSuccessfulAddReply,
                                                       message,
-                                                      Replace.VarWith("newitem", itemName));
+                                                      Replace.VarWith("item", itemName));
                 }
             }
             else
