@@ -32,10 +32,6 @@ namespace Gambot.Modules.Inventory
         {
             invDataStore = dataStoreManager.Get("Inventory");
             factoidDataStore = dataStoreManager.Get("Factoid");
-
-            factoidDataStore.Put("takes item", "<action> is now carrying $item.");
-            factoidDataStore.Put("takes item", "<action> is now holding $item.");
-            factoidDataStore.Put("takes item", "<action> takes $item.");
             
             variableHandler.DefineMagicVariable("item", GetRandomItem);
             variableHandler.DefineMagicVariable("giveitem", GetRandomItemAndDiscard);
