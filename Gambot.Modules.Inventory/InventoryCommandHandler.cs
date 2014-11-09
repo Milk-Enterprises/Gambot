@@ -36,11 +36,6 @@ namespace Gambot.Modules.Inventory
             factoidDataStore.Put("takes item", "<action> is now carrying $item.");
             factoidDataStore.Put("takes item", "<action> is now holding $item.");
             factoidDataStore.Put("takes item", "<action> takes $item.");
-
-            factoidDataStore.Put("duplicate item", "<reply> No thanks, $who, I've already got one.");
-            factoidDataStore.Put("duplicate item", "<reply> I already have $item.");
-            factoidDataStore.Put("duplicate item", "<reply> But I've already got $item!");
-            factoidDataStore.Put("duplicate item", "<reply> $who: I already have $item.");
             
             variableHandler.DefineMagicVariable("item", GetRandomItem);
             variableHandler.DefineMagicVariable("giveitem", GetRandomItemAndDiscard);
