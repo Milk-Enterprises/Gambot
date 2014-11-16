@@ -7,13 +7,17 @@ namespace Gambot.Core
 {
     public interface IMessageProcessor
     {
-        void AddHandler(IMessageProducer messageProducer);
+        void AddProducer(IMessageProducer messageProducer);
+        void AddReactor(IMessageReactor messageReactor);
+        void AddTransformer(IMessageTransformer messageTransformer);
         void Process(IMessenger messenger, IMessage message, bool addressed);
     }
 
     public class MessageProcessor : IMessageProcessor
     {
-        private readonly List<IMessageProducer> messageHandlers;
+        private readonly List<IMessageProducer> messageProducers,
+                                                messageReactors,
+                                                messageTransformers;
         private readonly IDataStoreManager dataStoreManager;
         private readonly IVariableHandler variableHandler;
 
@@ -22,16 +26,38 @@ namespace Gambot.Core
         {
             this.dataStoreManager = dataStoreManager;
             this.variableHandler = variableHandler;
-            this.messageHandlers = new List<IMessageProducer>();
-        }
 
-        public void AddHandler(IMessageProducer messageProducer)
+            messageProducers = new List<IMessageProducer>();
+            messageReactors = new List<IMessageProducer>();
+            messageTransformers = new List<IMessageProducer>();
+        }
+        
+        public void AddProducer(IMessageProducer messageProducer)
         {
             messageProducer.Initialize(dataStoreManager);
-            messageHandlers.Add(messageProducer);
+            messageProducers.Add(messageProducer);
 
-            // it awaits
             var instance = messageProducer as IVariableFallbackHandler;
+            if (instance != null)
+                variableHandler.AddFallbackHandler(instance);
+        }
+
+        public void AddReactor(IMessageReactor messageReactor)
+        {
+            messageReactor.Initialize(dataStoreManager);
+            messageReactors.Add(messageReactor);
+
+            var instance = messageReactor as IVariableFallbackHandler;
+            if (instance != null)
+                variableHandler.AddFallbackHandler(instance);
+        }
+
+        public void AddTransformer(IMessageTransformer messageTransformer)
+        {
+            messageTransformer.Initialize(dataStoreManager);
+            messageReactors.Add(messageTransformer);
+
+            var instance = messageTransformer as IVariableFallbackHandler;
             if (instance != null)
                 variableHandler.AddFallbackHandler(instance);
         }
@@ -39,17 +65,44 @@ namespace Gambot.Core
         public void Process(IMessenger messenger, IMessage message,
                             bool addressed)
         {
-            var response = String.Empty;
-            foreach (var handler in messageHandlers)
-            {
-                response = handler.Process(message, addressed);
+            // producers -> reactors (if no message was produced) -> transformers (if any message was produced)
 
-                if (response == null)
+            // producers
+            IMessage responseMessage = null;
+            foreach (var producer in messageProducers)
+            {
+                responseMessage = producer.Process(message, addressed);
+
+                if (responseMessage != null)
                     break;
             }
+            
+            // reactors
+            if (responseMessage == null)
+            {
+                foreach (var reactor in messageReactors)
+                {
+                    responseMessage = reactor.Process(message, addressed);
 
-            if (!String.IsNullOrEmpty(response))
-                messenger.SendMessage(response, message.Where, message.Action);
+                    if (responseMessage != null)
+                        break;
+                }
+            }
+
+            // finally, transformers
+            if (responseMessage != null)
+            {
+                foreach (var transformer in messageTransformers)
+                {
+                    // TODO: this indicates cumulative transformations on the message
+                    // perhaps we limit it to only 1 transformation at a time?
+                    responseMessage = transformer.Process(responseMessage,
+                                                          addressed);
+                }
+            }
+
+            if (responseMessage != null)
+                messenger.SendMessage(responseMessage.Text, responseMessage.Where, responseMessage.Action);
         }
     }
 }
