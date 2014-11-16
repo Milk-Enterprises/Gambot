@@ -5,14 +5,9 @@ using NLog;
 
 namespace Gambot.Modules.Factoid
 {
-    internal class FactoidTriggerHandler : IMessageHandler
+    internal class FactoidTriggerHandler : IMessageProducer
     {
         private Logger logger = LogManager.GetCurrentClassLogger();
-
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
 
         private readonly IVariableHandler variableHandler;
         private IDataStore dataStore;

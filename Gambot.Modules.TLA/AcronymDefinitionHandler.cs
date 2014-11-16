@@ -10,7 +10,7 @@ using MiscUtil;
 
 namespace Gambot.Modules.TLA
 {
-    public class AcronymDefinitionHandler : IMessageHandler
+    public class AcronymDefinitionHandler : IMessageProducer
     {
         private IDataStore factoidDataStore;
         private IDataStore tlaDataStore;
@@ -18,11 +18,6 @@ namespace Gambot.Modules.TLA
 
         private const string DefaultBandNameReply =
             "<reply> \"$band\" would be a cool name for a band.";
-
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
 
         public AcronymDefinitionHandler(IVariableHandler variableHandler)
         {

@@ -9,7 +9,7 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Inventory
 {
-    class InventoryCommandHandler : IMessageHandler
+    class InventoryCommandHandler : IMessageProducer
     {
         private IDataStore invDataStore;
         private IDataStore factoidDataStore;
@@ -17,11 +17,6 @@ namespace Gambot.Modules.Inventory
 
         private const string CurrentInventoryKey = "CurrentInventory";
         private const string HistoryKey = "History";
-
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
 
         public InventoryCommandHandler(IVariableHandler variableHandler)
         {

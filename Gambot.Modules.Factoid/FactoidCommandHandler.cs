@@ -5,13 +5,8 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Factoid
 {
-    internal class FactoidCommandHandler : IMessageHandler
+    internal class FactoidCommandHandler : IMessageProducer
     {
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
-
         private IDataStore dataStore;
 
         public void Initialize(IDataStoreManager dataStoreManager)

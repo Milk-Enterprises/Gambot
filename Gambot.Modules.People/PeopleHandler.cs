@@ -6,13 +6,8 @@ using Gambot.Data;
 
 namespace Gambot.Modules.People
 {
-    internal class PeopleHandler : IMessageHandler
+    internal class PeopleHandler : IMessageProducer
     {
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
-
         private readonly IVariableHandler variableHandler;
 
         protected class Person

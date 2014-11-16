@@ -5,41 +5,33 @@ using Gambot.Data;
 
 namespace Gambot.Core
 {
-    public interface IMessagePipeline
+    public interface IMessageProcessor
     {
-        void AddHandler(IMessageHandler variableHandler);
+        void AddHandler(IMessageProducer messageProducer);
         void Process(IMessenger messenger, IMessage message, bool addressed);
     }
 
-    public class MessagePipeline : IMessagePipeline
+    public class MessageProcessor : IMessageProcessor
     {
-        private readonly
-            SortedDictionary<HandlerPriority, Queue<IMessageHandler>>
-            messageHandlers =
-                new SortedDictionary<HandlerPriority, Queue<IMessageHandler>>();
-
+        private readonly List<IMessageProducer> messageHandlers;
         private readonly IDataStoreManager dataStoreManager;
         private readonly IVariableHandler variableHandler;
 
-        public MessagePipeline(IDataStoreManager dataStoreManager,
+        public MessageProcessor(IDataStoreManager dataStoreManager,
                                IVariableHandler variableHandler)
         {
             this.dataStoreManager = dataStoreManager;
             this.variableHandler = variableHandler;
+            this.messageHandlers = new List<IMessageProducer>();
         }
 
-        public void AddHandler(IMessageHandler handler)
+        public void AddHandler(IMessageProducer messageProducer)
         {
-            handler.Initialize(dataStoreManager);
-            if (!messageHandlers.ContainsKey(handler.Priority))
-            {
-                messageHandlers.Add(handler.Priority,
-                                    new Queue<IMessageHandler>());
-            }
-            messageHandlers[handler.Priority].Enqueue(handler);
+            messageProducer.Initialize(dataStoreManager);
+            messageHandlers.Add(messageProducer);
 
             // it awaits
-            var instance = handler as IVariableFallbackHandler;
+            var instance = messageProducer as IVariableFallbackHandler;
             if (instance != null)
                 variableHandler.AddFallbackHandler(instance);
         }
@@ -48,10 +40,9 @@ namespace Gambot.Core
                             bool addressed)
         {
             var response = String.Empty;
-            foreach (var handler in messageHandlers.SelectMany(kvp => kvp.Value)
-                )
+            foreach (var handler in messageHandlers)
             {
-                response = handler.Process(response, message, addressed);
+                response = handler.Process(message, addressed);
 
                 if (response == null)
                     break;

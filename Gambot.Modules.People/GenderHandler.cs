@@ -7,13 +7,8 @@ using Gambot.Data;
 
 namespace Gambot.Modules.People
 {
-    internal class GenderHandler : IMessageHandler
+    internal class GenderHandler : IMessageProducer
     {
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
-
         public enum Gender
         {
             Androgynous,

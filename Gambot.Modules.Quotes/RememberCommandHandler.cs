@@ -6,13 +6,8 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Quotes
 {
-    internal class RememberCommandHandler : IMessageHandler
+    internal class RememberCommandHandler : IMessageProducer
     {
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
-
         private IDataStore quotesDataStore;
         private readonly IRecentMessageStore recentMessageStore;
 

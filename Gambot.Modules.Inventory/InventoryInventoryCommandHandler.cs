@@ -8,14 +8,9 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Inventory
 {
-    class InventoryInventoryCommandHandler : IMessageHandler
+    class InventoryInventoryCommandHandler : IMessageProducer
     {
         private IDataStore invDataStore;
-
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
 
         public void Initialize(IDataStoreManager dataStoreManager)
         {

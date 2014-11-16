@@ -4,13 +4,8 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Simple
 {
-    internal class SimpleResponseHandler : IMessageHandler
+    internal class SimpleResponseHandler : IMessageProducer
     {
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
-
         private readonly IVariableHandler variableHandler;
 
         internal SimpleResponseHandler(IVariableHandler variableHandler)

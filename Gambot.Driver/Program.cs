@@ -41,7 +41,7 @@ namespace Gambot.Driver
             container.Verify();
 #if DEBUG
             messenger = new ConsoleMessenger();
-            var pipeline = container.GetInstance<IMessagePipeline>();
+            var pipeline = container.GetInstance<IMessageProcessor>();
 
             var modules = container.GetAllInstances<IModule>();
             var handlers = modules.SelectMany(mo => mo.GetMessageHandlers());
@@ -64,7 +64,7 @@ namespace Gambot.Driver
         {
             var container = new Container();
 
-            container.RegisterSingle<IMessagePipeline, MessagePipeline>();
+            container.RegisterSingle<IMessageProcessor, MessageProcessor>();
             container.RegisterSingle<IVariableHandler, VariableHandler>();
             container
                 .RegisterSingle<IDataStoreManager, InMemoryDataStoreManager>();

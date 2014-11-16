@@ -5,13 +5,8 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Config
 {
-    internal class ConfigCommandHandler : IMessageHandler
+    internal class ConfigCommandHandler : IMessageProducer
     {
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
-
         public void Initialize(IDataStoreManager dataStoreManager) {}
 
         public string Process(string currentResponse, IMessage message, bool addressed)

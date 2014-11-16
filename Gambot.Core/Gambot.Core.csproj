@@ -55,9 +55,9 @@
     <Compile Include="Config.cs" />
     <Compile Include="FactoidUtilities.cs" />
     <Compile Include="IMessage.cs" />
-    <Compile Include="IMessageHandler.cs" />
+    <Compile Include="IMessageProducer.cs" />
     <Compile Include="IModule.cs" />
-    <Compile Include="MessagePipeline.cs" />
+    <Compile Include="MessageProcessor.cs" />
     <Compile Include="IMessenger.cs" />
     <Compile Include="IVariableFallbackHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

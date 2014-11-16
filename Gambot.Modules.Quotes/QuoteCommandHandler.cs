@@ -9,13 +9,8 @@ using MiscUtil;
 
 namespace Gambot.Modules.Quotes
 {
-    internal class QuoteCommandHandler : IMessageHandler
+    internal class QuoteCommandHandler : IMessageProducer
     {
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
-
         private readonly IVariableHandler variableHandler;
         private IDataStore quotesDataStore;
 

@@ -5,13 +5,8 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Variables
 {
-    internal class VariableHandler : IMessageHandler, IVariableFallbackHandler
+    internal class VariableHandler : IMessageProducer, IVariableFallbackHandler
     {
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
-
         protected IDataStore variableStore;
 
         public void Initialize(IDataStoreManager dataStoreManager)

@@ -7,14 +7,14 @@ namespace Gambot.Core
 {
     public abstract class AbstractModule : IModule
     {
-        protected IList<IMessageHandler> MessageHandlers { get; set; }
+        protected IList<IMessageProducer> MessageHandlers { get; set; }
 
         protected AbstractModule()
         {
-            MessageHandlers = new List<IMessageHandler>();
+            MessageHandlers = new List<IMessageProducer>();
         }
 
-        public virtual IEnumerable<IMessageHandler> GetMessageHandlers()
+        public virtual IEnumerable<IMessageProducer> GetMessageHandlers()
         {
             return MessageHandlers;
         }

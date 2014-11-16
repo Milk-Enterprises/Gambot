@@ -7,13 +7,8 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Quotes
 {
-    internal class RecentMessageListener : IMessageHandler
+    internal class RecentMessageListener : IMessageProducer
     {
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
-
         private readonly IRecentMessageStore recentMessageStore;
 
         public RecentMessageListener(IRecentMessageStore recentMessageStore)

@@ -7,6 +7,6 @@ namespace Gambot.Core
 {
     public interface IModule
     {
-        IEnumerable<IMessageHandler> GetMessageHandlers();
+        IEnumerable<IMessageProducer> GetMessageHandlers();
     }
 }

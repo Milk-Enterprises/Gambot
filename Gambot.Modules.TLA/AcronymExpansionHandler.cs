@@ -9,17 +9,12 @@ using Gambot.Data;
 
 namespace Gambot.Modules.TLA
 {
-    internal class AcronymExpansionHandler : IMessageHandler
+    internal class AcronymExpansionHandler : IMessageProducer
     {
         private const char Wildcard = '*';
         private const string AcronymKey = "Acronyms";
         private readonly IVariableHandler variableHandler;
         private IDataStore tlaDataStore;
-
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
 
         public AcronymExpansionHandler(IVariableHandler variableHandler)
         {
