@@ -6,7 +6,7 @@ namespace Gambot.Modules.Variables
     {
         public VariablesModule()
         {
-            MessageHandlers.Add(new VariableHandler());
+            MessageProducers.Add(new VariableCommandProducer());
         }
     }
 }
