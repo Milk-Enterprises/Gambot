@@ -1,22 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Gambot.Core
 {
     public abstract class AbstractModule : IModule
     {
-        protected IList<IMessageProducer> MessageHandlers { get; set; }
+        protected IList<IMessageListener> MessageListeners { get; set; }
+        protected IList<IMessageProducer> MessageProducers { get; set; }
+        protected IList<IMessageReactor> MessageReactors { get; set; }
+        protected IList<IMessageTransformer> MessageTransformers { get; set; }
 
         protected AbstractModule()
         {
-            MessageHandlers = new List<IMessageProducer>();
+            MessageListeners = new List<IMessageListener>();
+            MessageProducers = new List<IMessageProducer>();
+            MessageReactors = new List<IMessageReactor>();
+            MessageTransformers = new List<IMessageTransformer>();
         }
 
-        public virtual IEnumerable<IMessageProducer> GetMessageHandlers()
+        public virtual IEnumerable<IMessageListener> GetMessageListeners()
         {
-            return MessageHandlers;
+            return MessageListeners;
+        }
+
+        public virtual IEnumerable<IMessageProducer> GetMessageProducers()
+        {
+            return MessageProducers;
+        }
+
+        public virtual IEnumerable<IMessageReactor> GetMessageReactors()
+        {
+            return MessageReactors;
+        }
+
+        public virtual IEnumerable<IMessageTransformer> GetMessageTransformers()
+        {
+            return MessageTransformers;
         }
     }
 }

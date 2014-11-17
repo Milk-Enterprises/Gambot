@@ -41,12 +41,25 @@ namespace Gambot.Driver
             container.Verify();
 #if DEBUG
             messenger = new ConsoleMessenger();
-            var pipeline = container.GetInstance<IMessageProcessor>();
+            var pipeline = container.GetInstance<IMessageProcessOverseer>();
 
-            var modules = container.GetAllInstances<IModule>();
-            var handlers = modules.SelectMany(mo => mo.GetMessageHandlers());
-            foreach (var handler in handlers)
-                pipeline.AddHandler(handler);
+            var modules = container.GetAllInstances<IModule>().ToList();
+            var listeners = modules.SelectMany(mo => mo.GetMessageListeners());
+            var producers = modules.SelectMany(mo => mo.GetMessageProducers());
+            var reactors = modules.SelectMany(mo => mo.GetMessageReactors());
+            var transformers = modules.SelectMany(mo => mo.GetMessageTransformers());
+
+            foreach (var listener in listeners)
+                pipeline.AddListener(listener);
+
+            foreach (var producer in producers)
+                pipeline.AddProducer(producer);
+
+            foreach (var reactor in reactors)
+                pipeline.AddReactor(reactor);
+
+            foreach (var transformer in transformers)
+                pipeline.AddTransformer(transformer);
 #else
     // TODO: Select implementation at run-time
             messenger = new IrcMessenger();
@@ -64,7 +77,7 @@ namespace Gambot.Driver
         {
             var container = new Container();
 
-            container.RegisterSingle<IMessageProcessor, MessageProcessOverseer>();
+            container.RegisterSingle<IMessageProcessOverseer, MessageProcessOverseer>();
             container.RegisterSingle<IVariableHandler, VariableHandler>();
             container
                 .RegisterSingle<IDataStoreManager, InMemoryDataStoreManager>();
