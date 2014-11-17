@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigCommandHandler.cs" />
+    <Compile Include="ConfigCommandProducer.cs" />
     <Compile Include="ConfigModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
