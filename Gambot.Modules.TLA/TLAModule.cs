@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gambot.Core;
+﻿using Gambot.Core;
 
 namespace Gambot.Modules.TLA
 {
@@ -10,8 +6,9 @@ namespace Gambot.Modules.TLA
     {
         public TLAModule(IVariableHandler variableHandler)
         {
-            MessageHandlers.Add(new AcronymDefinitionHandler(variableHandler));
-            MessageHandlers.Add(new AcronymExpansionHandler(variableHandler));
+            MessageProducers.Add(new AcronymExpansionProducer(variableHandler));
+
+            MessageReactors.Add(new AcronymDefinitionReactor(variableHandler));
         }
     }
 }
