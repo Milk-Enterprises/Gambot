@@ -6,7 +6,7 @@ namespace Gambot.Modules.Simple
     {
         public SimpleModule(IVariableHandler variableHandler)
         {
-            MessageHandlers.Add(new SimpleResponseProducer(variableHandler));
+            MessageProducers.Add(new SimpleResponseProducer(variableHandler));
         }
     }
 }
