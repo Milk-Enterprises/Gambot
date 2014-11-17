@@ -8,7 +8,7 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Inventory
 {
-    class InventoryInventoryCommandHandler : IMessageProducer
+    class InventoryInventoryCommandProducer : IMessageProducer
     {
         private IDataStore invDataStore;
 
@@ -17,10 +17,10 @@ namespace Gambot.Modules.Inventory
             invDataStore = dataStoreManager.Get("Inventory");
         }
 
-        public string Process(string currentResponse, IMessage message, bool addressed)
+        public ProducerResponse Process(IMessage message, bool addressed)
         {
             if (message.Action)
-                return currentResponse;
+                return null;
 
             var match = Regex.Match(message.Text, @"^inventory\??$");
 
@@ -28,13 +28,10 @@ namespace Gambot.Modules.Inventory
             {
                 var items = invDataStore.GetAllValues("Items").ToList();
 
-                return String.Format("/me contains {0}.",
-                                     items.Any()
-                                         ? String.Join(", ", items)
-                                         : "nothing");
+                return new ProducerResponse(String.Format("contains {0}.", items.Any() ? String.Join(", ", items) : "nothing"), true);
             }
 
-            return currentResponse;
+            return null;
         }
     }
 }
