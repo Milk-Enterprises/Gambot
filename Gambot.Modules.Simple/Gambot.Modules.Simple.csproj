@@ -37,7 +37,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleModule.cs" />
-    <Compile Include="SimpleResponseHandler.cs" />
+    <Compile Include="SimpleResponseProducer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gambot.Core\Gambot.Core.csproj">
