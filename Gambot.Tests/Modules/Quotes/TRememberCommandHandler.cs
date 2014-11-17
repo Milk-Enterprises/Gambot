@@ -113,11 +113,10 @@ namespace Gambot.Tests.Modules.Quotes
                 InitializeSubject();
 
                 // Act
-                var returnValue = Subject.Process(String.Empty, messageStub,
-                                                  true);
+                var returnValue = Subject.Process(messageStub, true);
 
                 // Verify
-                returnValue.Should().Be(expectedResponse);
+                returnValue.Message.Should().Be(expectedResponse);
             }
 
             private void VerifyQuoteIsInDataStore()

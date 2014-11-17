@@ -26,18 +26,18 @@ namespace Gambot.Tests.Modules.Reply
             [TestMethod]
             public void ShouldParseMessageWithTrigger()
             {
-                var replyDataStore = GetDataStore("Reply");
+                var factoidDataStore = GetDataStore("Factoid");
                 InitializeSubject();
 
                 // todo: use an auto mocker so i dont have to do this shit manually
                 const string trigger = "hello";
                 const string reply = "sup man";
-                replyDataStore.Setup(dsm => dsm.GetRandomValue(trigger))
-                              .Returns(reply);
+                factoidDataStore.Setup(dsm => dsm.GetRandomValue(trigger))
+                              .Returns("<reply> " + reply);
                 VariableHandler.Setup(
                     vh =>
-                    vh.Substitute(It.IsAny<string>(), It.IsAny<IMessage>()))
-                               .Returns<string, IMessage>((val, msg) => val);
+                    vh.Substitute(It.IsAny<string>(), It.IsAny<IMessage>(), It.IsAny<VariableReplacement[]>()))
+                               .Returns<string, IMessage, VariableReplacement[]>((val, msg, repls) => val);
                 var messageStub = new StubMessage()
                 {
                     Action = false,
@@ -48,8 +48,8 @@ namespace Gambot.Tests.Modules.Reply
 
                 var returnValue = Subject.Process(messageStub, true);
 
-                returnValue.Should().Be(reply);
-                replyDataStore.Verify(dsm => dsm.GetRandomValue(trigger),
+                returnValue.Message.Should().Be(reply);
+                factoidDataStore.Verify(dsm => dsm.GetRandomValue(trigger),
                                       Times.Once);
                 VariableHandler.Verify(
                     vh =>

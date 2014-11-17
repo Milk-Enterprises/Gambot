@@ -24,7 +24,10 @@ namespace Gambot.Tests.Modules.Reply
             [TestMethod]
             public void ShouldParseMessageWithNoVariables()
             {
-                var replyDataStore = GetDataStore("Reply");
+                var factoidDataStore = GetDataStore("Factoid");
+                factoidDataStore.Setup(
+                    rds => rds.Put(It.IsAny<string>(), It.IsAny<string>()))
+                              .Returns(true);
                 InitializeSubject();
 
                 // todo: use an auto mocker so i dont have to do this shit manually
@@ -39,10 +42,9 @@ namespace Gambot.Tests.Modules.Reply
                     Who = name
                 };
 
-                var returnValue = Subject.Process(String.Empty, messageStub,
-                                                  true);
+                var returnValue = Subject.Process(messageStub, true);
 
-                returnValue.Should().Be(expectedResponse);
+                returnValue.Message.Should().Be(expectedResponse);
             }
         }
     }

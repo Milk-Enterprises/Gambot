@@ -70,7 +70,7 @@ namespace Gambot.Tests.Modules.Quotes
                 var returnValue = Subject.Process(messageStub, true);
 
                 // Verify
-                returnValue.Should().Be(expectedResponse);
+                returnValue.Message.Should().Be(expectedResponse);
             }
         }
     }
