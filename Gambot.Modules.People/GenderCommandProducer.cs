@@ -7,7 +7,7 @@ using Gambot.Data;
 
 namespace Gambot.Modules.People
 {
-    internal class GenderHandler : IMessageProducer
+    internal class GenderCommandProducer : IMessageProducer
     {
         public enum Gender
         {
@@ -20,7 +20,7 @@ namespace Gambot.Modules.People
         private readonly IVariableHandler variableHandler;
         protected IDataStore genderStore;
 
-        internal GenderHandler(IVariableHandler variableHandler)
+        internal GenderCommandProducer(IVariableHandler variableHandler)
         {
             this.variableHandler = variableHandler;
         }
@@ -80,27 +80,27 @@ namespace Gambot.Modules.People
                 new Func<IMessage, string>(
                     (IMessage context) =>
                     subjectivePronouns[
-                        GetGender(KnownPeopleHandler.LastReferencedPerson)]);
+                        GetGender(KnownPeopleListener.LastReferencedPerson)]);
             var objectiveHandler =
                 new Func<IMessage, string>(
                     (IMessage context) =>
                     objectivePronouns[
-                        GetGender(KnownPeopleHandler.LastReferencedPerson)]);
+                        GetGender(KnownPeopleListener.LastReferencedPerson)]);
             var reflexiveHandler =
                 new Func<IMessage, string>(
                     (IMessage context) =>
                     reflexivePronouns[
-                        GetGender(KnownPeopleHandler.LastReferencedPerson)]);
+                        GetGender(KnownPeopleListener.LastReferencedPerson)]);
             var possessiveHandler =
                 new Func<IMessage, string>(
                     (IMessage context) =>
                     possessivePronouns[
-                        GetGender(KnownPeopleHandler.LastReferencedPerson)]);
+                        GetGender(KnownPeopleListener.LastReferencedPerson)]);
             var possessiveDHandler =
                 new Func<IMessage, string>(
                     (IMessage context) =>
                     possessiveDeterminers[
-                        GetGender(KnownPeopleHandler.LastReferencedPerson)]);
+                        GetGender(KnownPeopleListener.LastReferencedPerson)]);
 
             foreach (
                 var pronoun in
@@ -131,8 +131,7 @@ namespace Gambot.Modules.People
                 variableHandler.DefineMagicVariable(pronoun, possessiveDHandler);
         }
 
-        public string Process(string currentResponse, IMessage message,
-                              bool addressed)
+        public ProducerResponse Process(IMessage message, bool addressed)
         {
             if (addressed)
             {
@@ -143,11 +142,13 @@ namespace Gambot.Modules.People
                 {
                     genderStore.RemoveAllValues(message.Who);
                     genderStore.Put(message.Who, personalMatch.Groups[1].Value);
-                    return String.Format("Okay, {0}.", message.Who);
+                    return
+                        new ProducerResponse(
+                            String.Format("Okay, {0}.", message.Who), false);
                 }
             }
 
-            return currentResponse;
+            return null;
         }
     }
 }
