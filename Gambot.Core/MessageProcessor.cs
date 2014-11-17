@@ -15,9 +15,9 @@ namespace Gambot.Core
 
     public class MessageProcessor : IMessageProcessor
     {
-        private readonly List<IMessageProducer> messageProducers,
-                                                messageReactors,
-                                                messageTransformers;
+        private readonly List<IMessageProducer> messageProducers;
+        private readonly List<IMessageReactor> messageReactors;
+        private readonly List<IMessageTransformer> messageTransformers;
         private readonly IDataStoreManager dataStoreManager;
         private readonly IVariableHandler variableHandler;
 
@@ -28,8 +28,8 @@ namespace Gambot.Core
             this.variableHandler = variableHandler;
 
             messageProducers = new List<IMessageProducer>();
-            messageReactors = new List<IMessageProducer>();
-            messageTransformers = new List<IMessageProducer>();
+            messageReactors = new List<IMessageReactor>();
+            messageTransformers = new List<IMessageTransformer>();
         }
         
         public void AddProducer(IMessageProducer messageProducer)
@@ -55,7 +55,7 @@ namespace Gambot.Core
         public void AddTransformer(IMessageTransformer messageTransformer)
         {
             messageTransformer.Initialize(dataStoreManager);
-            messageReactors.Add(messageTransformer);
+            messageTransformers.Add(messageTransformer);
 
             var instance = messageTransformer as IVariableFallbackHandler;
             if (instance != null)
@@ -68,41 +68,42 @@ namespace Gambot.Core
             // producers -> reactors (if no message was produced) -> transformers (if any message was produced)
 
             // producers
-            IMessage responseMessage = null;
+            ProducerResponse response = null;
             foreach (var producer in messageProducers)
             {
-                responseMessage = producer.Process(message, addressed);
+                response = producer.Process(message, addressed);
 
-                if (responseMessage != null)
+                if (response != null)
                     break;
             }
             
             // reactors
-            if (responseMessage == null)
+            if (response == null)
             {
                 foreach (var reactor in messageReactors)
                 {
-                    responseMessage = reactor.Process(message, addressed);
+                    response = reactor.Process(message, addressed);
 
-                    if (responseMessage != null)
+                    if (response != null)
                         break;
                 }
             }
 
+            var transformedResponseText = response == null ? null : response.Message;
+
             // finally, transformers
-            if (responseMessage != null)
+            if (response != null)
             {
                 foreach (var transformer in messageTransformers)
                 {
                     // TODO: this indicates cumulative transformations on the message
                     // perhaps we limit it to only 1 transformation at a time?
-                    responseMessage = transformer.Process(responseMessage,
-                                                          addressed);
+                    transformedResponseText = transformer.Transform(response.IsAction, transformedResponseText, addressed);
                 }
             }
 
-            if (responseMessage != null)
-                messenger.SendMessage(responseMessage.Text, responseMessage.Where, responseMessage.Action);
+            if (response != null)
+                messenger.SendMessage(transformedResponseText, message.Where, response.IsAction);
         }
     }
 }
