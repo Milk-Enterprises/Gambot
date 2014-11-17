@@ -80,27 +80,27 @@ namespace Gambot.Modules.People
                 new Func<IMessage, string>(
                     (IMessage context) =>
                     subjectivePronouns[
-                        GetGender(PeopleHandler.LastReferencedPerson)]);
+                        GetGender(KnownPeopleHandler.LastReferencedPerson)]);
             var objectiveHandler =
                 new Func<IMessage, string>(
                     (IMessage context) =>
                     objectivePronouns[
-                        GetGender(PeopleHandler.LastReferencedPerson)]);
+                        GetGender(KnownPeopleHandler.LastReferencedPerson)]);
             var reflexiveHandler =
                 new Func<IMessage, string>(
                     (IMessage context) =>
                     reflexivePronouns[
-                        GetGender(PeopleHandler.LastReferencedPerson)]);
+                        GetGender(KnownPeopleHandler.LastReferencedPerson)]);
             var possessiveHandler =
                 new Func<IMessage, string>(
                     (IMessage context) =>
                     possessivePronouns[
-                        GetGender(PeopleHandler.LastReferencedPerson)]);
+                        GetGender(KnownPeopleHandler.LastReferencedPerson)]);
             var possessiveDHandler =
                 new Func<IMessage, string>(
                     (IMessage context) =>
                     possessiveDeterminers[
-                        GetGender(PeopleHandler.LastReferencedPerson)]);
+                        GetGender(KnownPeopleHandler.LastReferencedPerson)]);
 
             foreach (
                 var pronoun in

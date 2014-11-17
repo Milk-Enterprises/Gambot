@@ -15,6 +15,16 @@ namespace Gambot.Core
         }
     }
     
+    public interface IMessageListener
+    {
+        void Initialize(IDataStoreManager dataStoreManager);
+
+        /// <summary>
+        /// Listens to a message and acts upon it.
+        /// </summary>
+        void Listen(IMessage message, bool addressed);
+    }
+    
     public interface IMessageProducer
     {
         void Initialize(IDataStoreManager dataStoreManager);
@@ -28,19 +38,27 @@ namespace Gambot.Core
         ProducerResponse Process(IMessage message, bool addressed);
     }
 
-    /// <summary>
-    /// Reacts to user inputs that they did not necessarily intend (like TLAs).
-    /// </summary>
-    public interface IMessageReactor : IMessageProducer
-    { }
+    public interface IMessageReactor
+    {
+        void Initialize(IDataStoreManager dataStoreManager);
 
-    /// <summary>
-    /// Transforms messages before they are finally sent.
-    /// </summary>
+        /// <summary>
+        /// Reacts to user inputs that they did not necessarily intend (like TLAs).
+        /// </summary>
+        /// <param name="message">The message to react to.</param>
+        /// <param name="addressed">A boolean indicating whether or not the bot was mentioned in the message. For example, if the bot's name is "Gambot", then <paramref name="addressed"/> would be true if the user typed "gambot, some thing here".</param>
+        /// <returns>Returns the response message (if it responds to the input message); <b>null</b> if the reactor did not react to the message.</returns>
+        ProducerResponse Process(IMessage message, bool addressed);
+    }
+
     public interface IMessageTransformer
     {
         void Initialize(IDataStoreManager dataStoreManager);
 
+        /// <summary>
+        /// Transforms messages before they are finally sent.
+        /// </summary>
+        /// <returns>Returns the transformed message. It should return the input message text if it does not plan on transforming the message.</returns>
         string Transform(bool isAction, string messageText, bool addressed);
     }
 }

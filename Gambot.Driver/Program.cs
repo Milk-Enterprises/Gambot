@@ -64,7 +64,7 @@ namespace Gambot.Driver
         {
             var container = new Container();
 
-            container.RegisterSingle<IMessageProcessor, MessageProcessor>();
+            container.RegisterSingle<IMessageProcessor, MessageProcessOverseer>();
             container.RegisterSingle<IVariableHandler, VariableHandler>();
             container
                 .RegisterSingle<IDataStoreManager, InMemoryDataStoreManager>();

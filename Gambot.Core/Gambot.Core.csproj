@@ -57,7 +57,7 @@
     <Compile Include="IMessage.cs" />
     <Compile Include="IMessageProducer.cs" />
     <Compile Include="IModule.cs" />
-    <Compile Include="MessageProcessor.cs" />
+    <Compile Include="MessageProcessOverseer.cs" />
     <Compile Include="IMessenger.cs" />
     <Compile Include="IVariableFallbackHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

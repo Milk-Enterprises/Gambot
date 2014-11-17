@@ -5,33 +5,46 @@ using Gambot.Data;
 
 namespace Gambot.Core
 {
-    public interface IMessageProcessor
+    public interface IMessageProcessOverseer
     {
+        void AddListener(IMessageListener messageListener);
         void AddProducer(IMessageProducer messageProducer);
         void AddReactor(IMessageReactor messageReactor);
         void AddTransformer(IMessageTransformer messageTransformer);
         void Process(IMessenger messenger, IMessage message, bool addressed);
     }
 
-    public class MessageProcessor : IMessageProcessor
+    public class MessageProcessOverseer : IMessageProcessOverseer
     {
+        private readonly List<IMessageListener> messageListeners;
         private readonly List<IMessageProducer> messageProducers;
         private readonly List<IMessageReactor> messageReactors;
         private readonly List<IMessageTransformer> messageTransformers;
         private readonly IDataStoreManager dataStoreManager;
         private readonly IVariableHandler variableHandler;
 
-        public MessageProcessor(IDataStoreManager dataStoreManager,
+        public MessageProcessOverseer(IDataStoreManager dataStoreManager,
                                IVariableHandler variableHandler)
         {
             this.dataStoreManager = dataStoreManager;
             this.variableHandler = variableHandler;
 
+            messageListeners = new List<IMessageListener>();
             messageProducers = new List<IMessageProducer>();
             messageReactors = new List<IMessageReactor>();
             messageTransformers = new List<IMessageTransformer>();
         }
-        
+
+        public void AddListener(IMessageListener messageListener)
+        {
+            messageListener.Initialize(dataStoreManager);
+            messageListeners.Add(messageListener);
+
+            var instance = messageListener as IVariableFallbackHandler;
+            if (instance != null)
+                variableHandler.AddFallbackHandler(instance);
+        }
+
         public void AddProducer(IMessageProducer messageProducer)
         {
             messageProducer.Initialize(dataStoreManager);
