@@ -9,14 +9,14 @@ namespace Gambot.Tests.Modules.Reply
 {
     [TestClass]
     internal class TFactoidTriggerHandler :
-        MessageHandlerTestBase<FactoidTriggerHandler>
+        MessageHandlerTestBase<FactoidTriggerProducer>
     {
         protected Mock<IVariableHandler> VariableHandler { get; set; }
 
         public override void InitializeSubject()
         {
             VariableHandler = new Mock<IVariableHandler>();
-            Subject = new FactoidTriggerHandler(VariableHandler.Object);
+            Subject = new FactoidTriggerProducer(VariableHandler.Object);
             Subject.Initialize(DataStoreManager.Object);
         }
 
@@ -46,8 +46,7 @@ namespace Gambot.Tests.Modules.Reply
                     Who = "SomeDude69"
                 };
 
-                var returnValue = Subject.Process(String.Empty, messageStub,
-                                                  true);
+                var returnValue = Subject.Process(messageStub, true);
 
                 returnValue.Should().Be(reply);
                 replyDataStore.Verify(dsm => dsm.GetRandomValue(trigger),

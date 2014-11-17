@@ -10,11 +10,11 @@ namespace Gambot.Tests.Modules.Reply
 {
     [TestClass]
     internal class TFactoidCommandHandler :
-        MessageHandlerTestBase<FactoidCommandHandler>
+        MessageHandlerTestBase<FactoidCommandProducer>
     {
         public override void InitializeSubject()
         {
-            Subject = new FactoidCommandHandler();
+            Subject = new FactoidCommandProducer();
             Subject.Initialize(DataStoreManager.Object);
         }
 

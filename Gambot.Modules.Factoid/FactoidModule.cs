@@ -6,8 +6,8 @@ namespace Gambot.Modules.Factoid
     {
         public FactoidModule(IVariableHandler variableHandler)
         {
-            MessageHandlers.Add(new FactoidCommandHandler());
-            MessageHandlers.Add(new FactoidTriggerHandler(variableHandler));
+            MessageHandlers.Add(new FactoidCommandProducer());
+            MessageHandlers.Add(new FactoidTriggerProducer(variableHandler));
         }
     }
 }

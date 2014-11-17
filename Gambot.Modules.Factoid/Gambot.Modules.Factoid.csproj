@@ -40,9 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FactoidCommandHandler.cs" />
+    <Compile Include="FactoidCommandProducer.cs" />
     <Compile Include="FactoidModule.cs" />
-    <Compile Include="FactoidTriggerHandler.cs" />
+    <Compile Include="FactoidTriggerProducer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gambot.Core\Gambot.Core.csproj">

@@ -19,8 +19,7 @@ namespace Gambot.Modules.Variables
             return variableStore.GetRandomValue(variable);
         }
 
-        public string Process(string currentResponse, IMessage message,
-                              bool addressed)
+        public IMessage Process(IMessage message, bool addressed)
         {
             if (addressed)
             {
