@@ -10,13 +10,13 @@ namespace Gambot.Tests.Modules.Quotes
 {
     [TestClass]
     internal class TRememberCommandHandler :
-        MessageHandlerTestBase<RememberCommandHandler>
+        MessageHandlerTestBase<RememberCommandProducer>
     {
         protected Mock<IRecentMessageStore> RecentMessageStore { get; set; }
 
         public override void InitializeSubject()
         {
-            Subject = new RememberCommandHandler(RecentMessageStore.Object);
+            Subject = new RememberCommandProducer(RecentMessageStore.Object);
             Subject.Initialize(DataStoreManager.Object);
         }
 

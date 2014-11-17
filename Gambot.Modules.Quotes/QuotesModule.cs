@@ -13,9 +13,10 @@ namespace Gambot.Modules.Quotes
                     Int32.Parse(Config.Get("MaxMessagesRememberedPerUser")));
                 // todo: use tryparse + default value + logging
 
-            MessageHandlers.Add(new RecentMessageListener(recentMessageStore));
-            MessageHandlers.Add(new QuoteCommandHandler(variableHandler));
-            MessageHandlers.Add(new RememberCommandHandler(recentMessageStore));
+            MessageListeners.Add(new RecentMessageListener(recentMessageStore));
+
+            MessageProducers.Add(new QuoteCommandProducer(variableHandler));
+            MessageProducers.Add(new RememberCommandProducer(recentMessageStore));
         }
     }
 }

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gambot.Core;
+﻿using Gambot.Core;
 using Gambot.Data;
 
 namespace Gambot.Modules.Quotes
 {
-    internal class RecentMessageListener : IMessageProducer
+    internal class RecentMessageListener : IMessageListener
     {
         private readonly IRecentMessageStore recentMessageStore;
 
@@ -18,12 +14,9 @@ namespace Gambot.Modules.Quotes
 
         public void Initialize(IDataStoreManager dataStoreManager) { }
 
-        public string Process(string currentResponse, IMessage message,
-                              bool addressed)
+        public void Listen(IMessage message, bool addressed)
         {
             recentMessageStore.AddMessageFromUser(message.Who, message);
-
-            return currentResponse;
         }
     }
 }

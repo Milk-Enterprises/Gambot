@@ -9,14 +9,14 @@ namespace Gambot.Tests.Modules.Quotes
 {
     [TestClass]
     internal class TQuoteCommandHandler :
-        MessageHandlerTestBase<QuoteCommandHandler>
+        MessageHandlerTestBase<QuoteCommandProducer>
     {
         protected Mock<IVariableHandler> VariableHandler;
 
         public override void InitializeSubject()
         {
             VariableHandler = new Mock<IVariableHandler>();
-            Subject = new QuoteCommandHandler(VariableHandler.Object);
+            Subject = new QuoteCommandProducer(VariableHandler.Object);
             Subject.Initialize(DataStoreManager.Object);
         }
 
@@ -67,8 +67,7 @@ namespace Gambot.Tests.Modules.Quotes
                 InitializeSubject();
 
                 // Act
-                var returnValue = Subject.Process(String.Empty, messageStub,
-                                                  true);
+                var returnValue = Subject.Process(messageStub, true);
 
                 // Verify
                 returnValue.Should().Be(expectedResponse);
