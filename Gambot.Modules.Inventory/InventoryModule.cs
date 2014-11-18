@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Gambot.Core;
+﻿using Gambot.Core;
 
 namespace Gambot.Modules.Inventory
 {
@@ -11,8 +6,8 @@ namespace Gambot.Modules.Inventory
     {
         public InventoryModule(IVariableHandler varHandler)
         {
-            MessageHandlers.Add(new InventoryCommandHandler(varHandler));
-            MessageHandlers.Add(new InventoryInventoryCommandHandler());
+            MessageProducers.Add(new InventoryCommandProducer(varHandler));
+            MessageProducers.Add(new InventoryInventoryCommandProducer());
         }
     }
 }

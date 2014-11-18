@@ -43,8 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AcronymDefinitionHandler.cs" />
-    <Compile Include="AcronymExpansionHandler.cs" />
+    <Compile Include="AcronymDefinitionReactor.cs" />
+    <Compile Include="AcronymExpansionProducer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TLAModule.cs" />
   </ItemGroup>

@@ -5,16 +5,11 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Config
 {
-    internal class ConfigCommandHandler : IMessageHandler
+    internal class ConfigCommandProducer : IMessageProducer
     {
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
-
         public void Initialize(IDataStoreManager dataStoreManager) {}
 
-        public string Process(string currentResponse, IMessage message, bool addressed)
+        public ProducerResponse Process(IMessage message, bool addressed)
         {
             if (addressed)
             {
@@ -31,24 +26,17 @@ namespace Gambot.Modules.Config
                         var value = match.Groups[3].Value.TrimStart();
                         Core.Config.Set(key, value);
 
-                        return
-                            String.Format(
-                                "Okay {0}, changed the value of \"{1}\" to \"{2}.\"",
-                                message.Who, key, value);
+                        return new ProducerResponse(String.Format("Okay {0}, changed the value of \"{1}\" to \"{2}.\"", message.Who, key, value), false);
                     }
                     else
                     {
                         var currentValue = Core.Config.Get(key);
-                        return String.Format(
-                            "The current value for \"{0}\" is {1}.", key,
-                            currentValue != null
-                                ? "\"" + currentValue + "\""
-                                : "<null>");
+                        return new ProducerResponse(String.Format("The current value for \"{0}\" is {1}.", key, currentValue != null ? "\"" + currentValue + "\"" : "<null>"), false);
                     }
                 }
             }
 
-            return currentResponse;
+            return null;
         }
     }
 }

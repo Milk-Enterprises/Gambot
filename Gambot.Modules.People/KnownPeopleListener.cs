@@ -6,13 +6,8 @@ using Gambot.Data;
 
 namespace Gambot.Modules.People
 {
-    internal class PeopleHandler : IMessageHandler
+    internal class KnownPeopleListener : IMessageListener
     {
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
-
         private readonly IVariableHandler variableHandler;
 
         protected class Person
@@ -27,7 +22,7 @@ namespace Gambot.Modules.People
 
         public static string LastReferencedPerson { get; protected set; }
 
-        internal PeopleHandler(IVariableHandler variableHandler)
+        internal KnownPeopleListener(IVariableHandler variableHandler)
         {
             this.variableHandler = variableHandler;
         }
@@ -69,8 +64,7 @@ namespace Gambot.Modules.People
             });
         }
 
-        public string Process(string currentResponse, IMessage message,
-                              bool addressed)
+        public void Listen(IMessage message, bool addressed)
         {
             var person =
                 knownPeople.SingleOrDefault(
@@ -80,14 +74,12 @@ namespace Gambot.Modules.People
             else
             {
                 knownPeople.Add(new Person
-                {
-                    Name = message.Who,
-                    Room = message.Where,
-                    LastActive = DateTime.Now
-                });
+                                {
+                                    Name = message.Who,
+                                    Room = message.Where,
+                                    LastActive = DateTime.Now
+                                });
             }
-
-            return currentResponse;
         }
     }
 }

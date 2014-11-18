@@ -6,7 +6,7 @@ namespace Gambot.Modules.Config
     {
         public ConfigModule()
         {
-            MessageHandlers.Add(new ConfigCommandHandler());
+            MessageProducers.Add(new ConfigCommandProducer());
         }
     }
 }

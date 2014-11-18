@@ -4,24 +4,18 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Simple
 {
-    internal class SimpleResponseHandler : IMessageHandler
+    internal class SimpleResponseProducer : IMessageProducer
     {
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
-
         private readonly IVariableHandler variableHandler;
 
-        internal SimpleResponseHandler(IVariableHandler variableHandler)
+        internal SimpleResponseProducer(IVariableHandler variableHandler)
         {
             this.variableHandler = variableHandler;
         }
 
         public void Initialize(IDataStoreManager dataStoreManager) { }
 
-        public string Process(string currentResponse, IMessage message,
-                              bool addressed)
+        public ProducerResponse Process(IMessage message, bool addressed)
         {
             Match match;
             if (addressed)
@@ -29,19 +23,23 @@ namespace Gambot.Modules.Simple
                 match = Regex.Match(message.Text, "say \"(.+)\"");
                 if (match.Success)
                 {
-                    return variableHandler.Substitute(match.Groups[1].Value,
-                                                      message);
+                    return
+                        new ProducerResponse(
+                            variableHandler.Substitute(match.Groups[1].Value,
+                                                       message), false);
                 }
             }
 
             match = Regex.Match(message.Text, @"say (\S)([^.?!]+)[.?!]*$");
             if (match.Success)
             {
-                return match.Groups[1].Value.ToUpper() + match.Groups[2].Value +
-                       "!";
+                return
+                    new ProducerResponse(
+                        match.Groups[1].Value.ToUpper() + match.Groups[2].Value +
+                        "!", false);
             }
 
-            return currentResponse;
+            return null;
         }
     }
 }

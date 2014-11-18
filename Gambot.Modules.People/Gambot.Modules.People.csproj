@@ -35,8 +35,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GenderHandler.cs" />
-    <Compile Include="PeopleHandler.cs" />
+    <Compile Include="GenderCommandProducer.cs" />
+    <Compile Include="KnownPeopleListener.cs" />
     <Compile Include="PeopleModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

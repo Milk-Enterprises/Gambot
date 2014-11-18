@@ -9,17 +9,12 @@ using MiscUtil;
 
 namespace Gambot.Modules.Quotes
 {
-    internal class QuoteCommandHandler : IMessageHandler
+    internal class QuoteCommandProducer : IMessageProducer
     {
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
-
         private readonly IVariableHandler variableHandler;
         private IDataStore quotesDataStore;
 
-        public QuoteCommandHandler(IVariableHandler variableHandler)
+        public QuoteCommandProducer(IVariableHandler variableHandler)
         {
             this.variableHandler = variableHandler;
         }
@@ -33,8 +28,7 @@ namespace Gambot.Modules.Quotes
                                                 GetRandomQuoteFromAnyUser());
         }
 
-        public string Process(string currentResponse, IMessage message,
-                              bool addressed)
+        public ProducerResponse Process(IMessage message, bool addressed)
         {
             if (addressed)
             {
@@ -43,7 +37,7 @@ namespace Gambot.Modules.Quotes
                 if (match.Success)
                 {
                     var quoteTarget = match.Groups[1].Value.Trim();
-                    return GetRandomQuoteFromUser(quoteTarget);
+                    return new ProducerResponse(GetRandomQuoteFromUser(quoteTarget), false);
                 }
                 else
                 {
@@ -51,7 +45,7 @@ namespace Gambot.Modules.Quotes
                 }
             }
 
-            return currentResponse;
+            return null;
         }
 
         private string GetRandomQuoteFromAnyUser()

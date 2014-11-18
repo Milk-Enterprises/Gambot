@@ -7,8 +7,9 @@ namespace Gambot.Modules.People
     {
         public PeopleModule(IVariableHandler variableHandler)
         {
-            MessageHandlers.Add(new GenderHandler(variableHandler));
-            MessageHandlers.Add(new PeopleHandler(variableHandler));
+            MessageListeners.Add(new KnownPeopleListener(variableHandler));
+
+            MessageProducers.Add(new GenderCommandProducer(variableHandler));
         }
     }
 }

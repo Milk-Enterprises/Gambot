@@ -6,17 +6,12 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Quotes
 {
-    internal class RememberCommandHandler : IMessageHandler
+    internal class RememberCommandProducer : IMessageProducer
     {
-        public HandlerPriority Priority
-        {
-            get { return HandlerPriority.Normal; }
-        }
-
         private IDataStore quotesDataStore;
         private readonly IRecentMessageStore recentMessageStore;
 
-        public RememberCommandHandler(IRecentMessageStore recentMessageStore)
+        public RememberCommandProducer(IRecentMessageStore recentMessageStore)
         {
             this.recentMessageStore = recentMessageStore;
         }
@@ -26,8 +21,7 @@ namespace Gambot.Modules.Quotes
             quotesDataStore = dataStoreManager.Get("Quotes");
         }
 
-        public string Process(string currentResponse, IMessage message,
-                              bool addressed)
+        public ProducerResponse Process(IMessage message, bool addressed)
         {
             if (addressed)
             {
@@ -43,10 +37,7 @@ namespace Gambot.Modules.Quotes
                                               StringComparison
                                                   .InvariantCultureIgnoreCase))
                     {
-                        return
-                            String.Format(
-                                "Sorry {0}, but you can't quote yourself.",
-                                message.Who);
+                        return new ProducerResponse(String.Format("Sorry {0}, but you can't quote yourself.", message.Who), false);
                     }
 
                     // check if target said such a thing
@@ -55,10 +46,7 @@ namespace Gambot.Modules.Quotes
                             rememberTarget);
                     if (usersRecentMessages == null)
                     {
-                        return
-                            String.Format(
-                                "Sorry, I don't know anyone named \"{0}.\"",
-                                rememberTarget);
+                        return new ProducerResponse(String.Format("Sorry, I don't know anyone named \"{0}.\"", rememberTarget), false);
                     }
 
                     var matchingMsg =
@@ -71,15 +59,14 @@ namespace Gambot.Modules.Quotes
 
                     if (matchingMsg == null)
                     {
-                        return
-                            String.Format(
-                                "Sorry, I don't remember what {0} said about \"{1}.\"",
-                                rememberTarget, rememberMsg);
+                        return new ProducerResponse(String.Format("Sorry, I don't remember what {0} said about \"{1}.\"", rememberTarget, rememberMsg), false);
                     }
 
                     quotesDataStore.Put(matchingMsg.Who, matchingMsg.Text);
-                    return String.Format("Okay, {0}, remembering \"{1}.\"",
-                                         message.Who, matchingMsg.Text);
+                    return
+                        new ProducerResponse(
+                            String.Format("Okay, {0}, remembering \"{1}.\"",
+                                          message.Who, matchingMsg.Text), false);
                 }
                 else
                 {
@@ -87,7 +74,7 @@ namespace Gambot.Modules.Quotes
                 }
             }
 
-            return currentResponse;
+            return null;
         }
     }
 }
