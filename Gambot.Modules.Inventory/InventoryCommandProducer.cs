@@ -83,7 +83,7 @@ namespace Gambot.Modules.Inventory
                             randomDropItemReply);
                     return new ProducerResponse(variableHandler.Substitute(dropItemFactoid.Response,
                                                       message,
-                                                      Replace.VarWith("item", randomItemToDrop),
+                                                      Replace.VarWith("giveitem", randomItemToDrop),
                                                       Replace.VarWith("newitem", itemName)), true);
                 }
                 else
