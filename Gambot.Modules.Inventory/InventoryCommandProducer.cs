@@ -77,8 +77,11 @@ namespace Gambot.Modules.Inventory
 
                     AddItem(itemName);
 
-                    const string reply = "drops $item and takes $newitem.";
-                    return new ProducerResponse(variableHandler.Substitute(reply,
+                    var randomDropItemReply = factoidDataStore.GetRandomValue("drops item");
+                    var dropItemFactoid =
+                        FactoidUtilities.GetVerbAndResponseFromPartialFactoid(
+                            randomDropItemReply);
+                    return new ProducerResponse(variableHandler.Substitute(dropItemFactoid.Response,
                                                       message,
                                                       Replace.VarWith("item", randomItemToDrop),
                                                       Replace.VarWith("newitem", itemName)), true);
