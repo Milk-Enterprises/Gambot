@@ -10,7 +10,7 @@ namespace Gambot.Modules.Quotes
             // todo: maybe move out to ioc, incase other shit need want this thing do?
             var recentMessageStore =
                 new RecentMessageStore(
-                    Int32.Parse(Config.Get("MaxMessagesRememberedPerUser")));
+                    Int32.Parse(Config.Get("MaxMessagesRememberedPerUser", "10")));
                 // todo: use tryparse + default value + logging
 
             MessageListeners.Add(new RecentMessageListener(recentMessageStore));

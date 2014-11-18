@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Core", "Gambot.Core\Gambot.Core.csproj", "{63582468-1FE5-483F-B6BC-6E7F4C722C89}"
 EndProject
@@ -34,6 +34,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Modules.Config", "Gambot.Modules.Config\Gambot.Modules.Config.csproj", "{6F556522-0C4D-476A-8265-EAD36D49127F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Modules.Inventory", "Gambot.Modules.Inventory\Gambot.Modules.Inventory.csproj", "{71565C9E-0FF7-4855-8589-F6F2BB29DEAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Modules.Conjugation", "Gambot.Modules.Conjugation\Gambot.Modules.Conjugation.csproj", "{35CFBABB-C672-4042-8743-F7909ED1D1A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +107,10 @@ Global
 		{71565C9E-0FF7-4855-8589-F6F2BB29DEAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71565C9E-0FF7-4855-8589-F6F2BB29DEAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71565C9E-0FF7-4855-8589-F6F2BB29DEAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35CFBABB-C672-4042-8743-F7909ED1D1A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35CFBABB-C672-4042-8743-F7909ED1D1A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35CFBABB-C672-4042-8743-F7909ED1D1A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35CFBABB-C672-4042-8743-F7909ED1D1A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -103,23 +103,22 @@ namespace Gambot.Core
                     memoizedDic[var][key] = subVal;
                 }
 
-                if (
-                    match.Groups[1].Value.All(
-                        c => !Char.IsLetter(c) || Char.IsUpper(c)))
-                    subVal = subVal.ToUpper();
-                else if (Char.IsUpper(match.Groups[1].Value[0]))
-                {
-                    subVal = String.Join(" ",
-                                         subVal.Split(' ')
-                                               .Select(
-                                                   word =>
-                                                   Char.ToUpper(word[0])
-                                                       .ToString() +
-                                                   word.Substring(1)));
-                }
+                subVal = MatchCase(match.Groups[1].Value, subVal);
 
                 return subVal;
             });
+        }
+
+        public static string MatchCase(string sourceCase, string destination)
+        {
+            if (sourceCase.All(c => !Char.IsLetter(c) || Char.IsUpper(c)))
+                return destination.ToUpper();
+            if (Char.IsUpper(sourceCase[0]))
+                return String.Join(" ",
+                    destination.Split(' ').Select(word =>
+                                             Char.ToUpper(word[0]).ToString() +
+                                             word.Substring(1)));
+            return destination;
         }
     }
 }
