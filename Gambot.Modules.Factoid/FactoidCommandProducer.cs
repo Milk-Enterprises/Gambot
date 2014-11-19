@@ -31,6 +31,15 @@ namespace Gambot.Modules.Factoid
                         verb = String.Format("<{0}>", verb);
                     }
 
+                    if (verb == "alias" && term == response)
+                    {
+                        return
+                            new ProducerResponse(
+                                String.Format(
+                                    "Sorry {0}, but you can't alias {1} to itself.",
+                                    message.Who, term), false);
+                    }
+
                     return new ProducerResponse(String.Format(dataStore.Put(term, verb + " " + response) ? "Okay, {0}." : "{0}: I already had it that way!", message.Who), false);
                 }
             }
