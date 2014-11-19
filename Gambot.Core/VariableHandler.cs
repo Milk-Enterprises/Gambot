@@ -67,7 +67,7 @@ namespace Gambot.Core
                 replacements.ToDictionary(vr => vr.VariableToReplace,
                                           vr => vr.ValueToReplaceWith);
 
-            return variableRegex.Replace(input, match =>
+            var result = variableRegex.Replace(input, match =>
             {
                 var var = match.Groups[1].Value.ToLower();
                 var key = match.Groups[2].Success
@@ -107,6 +107,14 @@ namespace Gambot.Core
 
                 return subVal;
             });
+
+            // :smug:
+            return Regex.Replace(result, @"\$an? ([aeiou]?)",
+                                 match =>
+                                 match.Groups[1].Value.Length == 1
+                                     ? "an " + match.Groups[1].Value
+                                     : "a ",
+                                 RegexOptions.IgnoreCase);
         }
 
         public static string MatchCase(string sourceCase, string destination)
