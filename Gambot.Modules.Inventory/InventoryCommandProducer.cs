@@ -26,7 +26,7 @@ namespace Gambot.Modules.Inventory
         public void Initialize(IDataStoreManager dataStoreManager)
         {
             invDataStore = dataStoreManager.Get("Inventory");
-            factoidDataStore = dataStoreManager.Get("Factoid");
+            factoidDataStore = dataStoreManager.Get("Factoids");
             
             variableHandler.DefineMagicVariable("item", GetRandomItem);
             variableHandler.DefineMagicVariable("giveitem", GetRandomItemAndDiscard);

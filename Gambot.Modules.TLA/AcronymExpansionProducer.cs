@@ -23,7 +23,7 @@ namespace Gambot.Modules.TLA
 
         public void Initialize(IDataStoreManager dataStoreManager)
         {
-            tlaDataStore = dataStoreManager.Get("TLA");
+            tlaDataStore = dataStoreManager.Get("TLAs");
         }
 
         public ProducerResponse Process(IMessage message, bool addressed)

@@ -18,7 +18,7 @@ namespace Gambot.Modules.Conjugation
 
         public void Initialize(IDataStoreManager dataStoreManager)
         {
-            variableTypeStore = dataStoreManager.Get("Variable Types");
+            variableTypeStore = dataStoreManager.Get("VariableTypes");
             variableStore = dataStoreManager.Get("Variables");
             irregularStore = dataStoreManager.Get("Irregulars");
             conjugator = new Conjugator(irregularStore);
