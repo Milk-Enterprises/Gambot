@@ -34,7 +34,7 @@ namespace Gambot.Modules.People
 
         public void Initialize(IDataStoreManager dataStoreManager)
         {
-            genderStore = dataStoreManager.Get("Gender");
+            genderStore = dataStoreManager.Get("Genders");
 
             var subjectivePronouns = new Dictionary<Gender, string>
             {

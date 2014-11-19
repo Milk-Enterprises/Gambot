@@ -11,7 +11,7 @@ namespace Gambot.Modules.Factoid
 
         public void Initialize(IDataStoreManager dataStoreManager)
         {
-            dataStore = dataStoreManager.Get("Factoid");
+            dataStore = dataStoreManager.Get("Factoids");
         }
 
         public ProducerResponse Process(IMessage message, bool addressed)
