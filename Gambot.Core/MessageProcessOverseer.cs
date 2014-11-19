@@ -82,14 +82,17 @@ namespace Gambot.Core
 
             // producers
             ProducerResponse response = null;
-            foreach (var producer in messageProducers)
+            if (addressed)
             {
-                response = producer.Process(message, addressed);
+                foreach (var producer in messageProducers)
+                {
+                    response = producer.Process(message, addressed);
 
-                if (response != null)
-                    break;
+                    if (response != null)
+                        break;
+                }
             }
-            
+
             // reactors
             if (response == null)
             {

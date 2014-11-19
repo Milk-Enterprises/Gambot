@@ -9,14 +9,14 @@ namespace Gambot.Tests.Modules.Reply
 {
     [TestClass]
     internal class TFactoidTriggerHandler :
-        MessageHandlerTestBase<FactoidTriggerProducer>
+        MessageHandlerTestBase<FactoidTriggerReactor>
     {
         protected Mock<IVariableHandler> VariableHandler { get; set; }
 
         public override void InitializeSubject()
         {
             VariableHandler = new Mock<IVariableHandler>();
-            Subject = new FactoidTriggerProducer(VariableHandler.Object);
+            Subject = new FactoidTriggerReactor(VariableHandler.Object);
             Subject.Initialize(DataStoreManager.Object);
         }
 

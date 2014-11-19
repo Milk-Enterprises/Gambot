@@ -14,8 +14,10 @@ namespace Gambot.Core
             IsAction = isAction;
         }
     }
+
+    public interface IMessageHandler { }
     
-    public interface IMessageListener
+    public interface IMessageListener : IMessageHandler
     {
         void Initialize(IDataStoreManager dataStoreManager);
 
@@ -25,7 +27,7 @@ namespace Gambot.Core
         void Listen(IMessage message, bool addressed);
     }
     
-    public interface IMessageProducer
+    public interface IMessageProducer : IMessageHandler
     {
         void Initialize(IDataStoreManager dataStoreManager);
 
@@ -38,7 +40,7 @@ namespace Gambot.Core
         ProducerResponse Process(IMessage message, bool addressed);
     }
 
-    public interface IMessageReactor
+    public interface IMessageReactor : IMessageHandler
     {
         void Initialize(IDataStoreManager dataStoreManager);
 
@@ -51,7 +53,7 @@ namespace Gambot.Core
         ProducerResponse Process(IMessage message, bool addressed);
     }
 
-    public interface IMessageTransformer
+    public interface IMessageTransformer : IMessageHandler
     {
         void Initialize(IDataStoreManager dataStoreManager);
 

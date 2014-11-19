@@ -7,7 +7,7 @@ using Moq;
 namespace Gambot.Tests.Modules
 {
     public abstract class MessageHandlerTestBase<THandlerType>
-        where THandlerType : IMessageProducer
+        where THandlerType : IMessageHandler
     {
         protected THandlerType Subject { get; set; }
 

@@ -4,12 +4,12 @@ using Gambot.Data;
 
 namespace Gambot.Modules.Factoid
 {
-    internal class FactoidTriggerProducer : IMessageProducer
+    internal class FactoidTriggerReactor : IMessageReactor
     {
         private readonly IVariableHandler variableHandler;
         private IDataStore dataStore;
 
-        internal FactoidTriggerProducer(IVariableHandler variableHandler)
+        internal FactoidTriggerReactor(IVariableHandler variableHandler)
         {
             this.variableHandler = variableHandler;
         }
