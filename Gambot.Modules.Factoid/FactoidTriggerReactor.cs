@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Gambot.Core;
 using Gambot.Data;
 
@@ -26,31 +27,37 @@ namespace Gambot.Modules.Factoid
                   int.Parse(Config.Get("FactoidTriggerLength"))))
                 return null;
 
-            var randomReply = dataStore.GetRandomValue(message.Text);
-            if (randomReply == null)
-                return null;
+            return ProcessFactoid(message.Text, message);
+        }
 
-            var factoid =
-                FactoidUtilities.GetVerbAndResponseFromPartialFactoid(
-                    randomReply);
-            factoid.Trigger = message.Text;
-
-            var factoidResponse = variableHandler.Substitute(factoid.Response,
-                                                             message);
-
-            switch (factoid.Verb)
+        private ProducerResponse ProcessFactoid(string messageText, IMessage message)
+        {
+            var seenAliases = new HashSet<string>();
+            while (true)
             {
-                case "reply":
-                    return new ProducerResponse(factoidResponse, false);
-                case "action":
-                    return new ProducerResponse(factoidResponse, true);
-                default:
-                    return
-                        new ProducerResponse(String.Format("{0} {1} {2}",
-                                                           message.Text,
-                                                           factoid.Verb,
-                                                           factoid.Response),
-                                             false);
+                var randomReply = dataStore.GetRandomValue(messageText);
+                if (randomReply == null)
+                    return null;
+
+                var factoid = FactoidUtilities.GetVerbAndResponseFromPartialFactoid(randomReply);
+                factoid.Trigger = message.Text;
+
+                var factoidResponse = variableHandler.Substitute(factoid.Response, message);
+
+                switch (factoid.Verb)
+                {
+                    case "reply":
+                        return new ProducerResponse(factoidResponse, false);
+                    case "action":
+                        return new ProducerResponse(factoidResponse, true);
+                    case "alias":
+                        if(!seenAliases.Add(messageText))
+                            return new ProducerResponse(String.Format("Sorry {0}, but this factoid resolves to a circular reference.", message.Who), false);
+                        messageText = factoid.Response;
+                        continue;
+                    default:
+                        return new ProducerResponse(String.Format("{0} {1} {2}", message.Text, factoid.Verb, factoid.Response), false);
+                }
             }
         }
     }
