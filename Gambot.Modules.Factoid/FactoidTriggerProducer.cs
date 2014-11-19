@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Gambot.Core;
 using Gambot.Data;
 
@@ -31,6 +32,7 @@ namespace Gambot.Modules.Factoid
 
         private ProducerResponse ProcessFactoid(string messageText, IMessage message)
         {
+            var seenAliases = new HashSet<string>();
             while (true)
             {
                 var randomReply = dataStore.GetRandomValue(messageText);
@@ -49,6 +51,8 @@ namespace Gambot.Modules.Factoid
                     case "action":
                         return new ProducerResponse(factoidResponse, true);
                     case "alias":
+                        if(!seenAliases.Add(messageText))
+                            return new ProducerResponse(String.Format("Sorry {0}, but this factoid resolves to a circular reference.", message.Who), false);
                         messageText = factoid.Response;
                         continue;
                     default:
