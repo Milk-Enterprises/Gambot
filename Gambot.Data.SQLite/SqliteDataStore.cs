@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SQLite;
+using Mono.Data.Sqlite;
 using System.Linq;
 
 namespace Gambot.Data.SQLite
@@ -15,7 +15,7 @@ namespace Gambot.Data.SQLite
             var connStr =
                 string.Format(
                     "Data Source={0};Version=3;New=False;Compress=True;", path);
-            connection = new SQLiteConnection(connStr);
+            connection = new SqliteConnection(connStr);
             connection.Open();
 
             Initialize();
@@ -35,7 +35,7 @@ namespace Gambot.Data.SQLite
 
         public int RemoveAllValues(string key)
         {
-            const string query = "DELETE FROM data WHERE \"key\"=@key;";
+            const string query = "DELETE FROM data WHERE \"key\" LIKE @key;";
             var queryArgs = new Dictionary<string, string>
             {
                 {"@key", key},
@@ -46,7 +46,7 @@ namespace Gambot.Data.SQLite
         public bool RemoveValue(string key, string val)
         {
             const string query =
-                "DELETE FROM data WHERE \"key\"=@key AND value=@value;";
+                "DELETE FROM data WHERE \"key\" LIKE @key AND value LIKE @value;";
             var queryArgs = new Dictionary<string, string>
             {
                 {"@key", key},
@@ -63,7 +63,7 @@ namespace Gambot.Data.SQLite
 
         public IEnumerable<string> GetAllValues(string key)
         {
-            const string query = "SELECT value FROM data WHERE \"key\"=@key;";
+            const string query = "SELECT value FROM data WHERE \"key\" LIKE @key;";
             var queryArgs = new Dictionary<string, string>
             {
                 {"@key", key},
@@ -74,7 +74,7 @@ namespace Gambot.Data.SQLite
         public string GetRandomValue(string key)
         {
             const string query =
-                "SELECT value FROM data WHERE \"key\"=@key ORDER BY RANDOM() LIMIT 1;";
+                "SELECT value FROM data WHERE \"key\" LIKE @key ORDER BY RANDOM() LIMIT 1;";
             var queryArgs = new Dictionary<string, string>
             {
                 {"@key", key},
@@ -132,7 +132,7 @@ namespace Gambot.Data.SQLite
                 return cmd;
 
             foreach (var kvp in queryArgs)
-                cmd.Parameters.Add(new SQLiteParameter(kvp.Key, kvp.Value));
+                cmd.Parameters.Add(new SqliteParameter(kvp.Key, kvp.Value));
 
             return cmd;
         }
@@ -140,7 +140,7 @@ namespace Gambot.Data.SQLite
         private void Initialize()
         {
             const string query =
-                "CREATE TABLE IF NOT EXISTS data(\"key\" VARCHAR(50), value VARCHAR(255));";
+                "CREATE TABLE IF NOT EXISTS data(\"key\" TEXT, \"value\" TEXT);";
             Execute(query);
         }
     }

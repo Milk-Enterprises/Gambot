@@ -67,6 +67,10 @@
       <Project>{49F0D5AE-3CDB-4F48-BBD8-F1DA00BBA0BB}</Project>
       <Name>Gambot.Data.InMemory</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Gambot.Data.SQLite\Gambot.Data.SQLite.csproj">
+      <Project>{543565a4-0641-4fe2-be17-6662598ef781}</Project>
+      <Name>Gambot.Data.SQLite</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Gambot.Data\Gambot.Data.csproj">
       <Project>{B9DEFF18-ACEC-4A5B-9DCC-3D1EF212EDD5}</Project>
       <Name>Gambot.Data</Name>

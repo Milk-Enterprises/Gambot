@@ -28,7 +28,7 @@ namespace Gambot.Data.SQLite
 
         private string MakeDbPath(string name)
         {
-            var dir = Config.Get("Sqlite.DatastoreDirectory");
+            var dir = Config.Get("Sqlite.DatastoreDirectory", "./");
             return Path.Combine(dir, name + ".db");
         }
     }

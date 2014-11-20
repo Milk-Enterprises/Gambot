@@ -12,7 +12,7 @@ namespace Gambot.Modules.TLA
     internal class AcronymExpansionProducer : IMessageProducer
     {
         private const char Wildcard = '*';
-        private const string AcronymKey = "Acronyms";
+        private const string AcronymKey = "band";
         private IDataStore tlaDataStore;
 
         public AcronymExpansionProducer(IVariableHandler variableHandler)

@@ -7,7 +7,9 @@ using System.Threading;
 using Gambot.Core;
 using Gambot.Data;
 using Gambot.Data.InMemory;
+using Gambot.Data.SQLite;
 using Gambot.IO.Console;
+using Gambot.IO.IRC;
 using Gambot.Modules.Config;
 using Gambot.Modules.Factoid;
 using Gambot.Modules.Inventory;
@@ -41,6 +43,11 @@ namespace Gambot.Driver
             container.Verify();
 #if DEBUG
             messenger = new ConsoleMessenger();
+#else
+            // TODO: Select implementation at run-time
+            messenger = new IrcMessenger();
+#endif
+
             var pipeline = container.GetInstance<IMessageProcessOverseer>();
 
             var modules = container.GetAllInstances<IModule>().ToList();
@@ -48,7 +55,7 @@ namespace Gambot.Driver
             var producers = modules.SelectMany(mo => mo.GetMessageProducers());
             var reactors = modules.SelectMany(mo => mo.GetMessageReactors());
             var transformers = modules.SelectMany(mo => mo.GetMessageTransformers());
-
+            
             foreach (var listener in listeners)
                 pipeline.AddListener(listener);
 
@@ -60,10 +67,6 @@ namespace Gambot.Driver
 
             foreach (var transformer in transformers)
                 pipeline.AddTransformer(transformer);
-#else
-    // TODO: Select implementation at run-time
-            messenger = new IrcMessenger();
-#endif
 
             messenger.MessageReceived += (sender, eventArgs) =>
                                          pipeline.Process(messenger,
@@ -79,13 +82,23 @@ namespace Gambot.Driver
 
             container.RegisterSingle<IMessageProcessOverseer, MessageProcessOverseer>();
             container.RegisterSingle<IVariableHandler, VariableHandler>();
+#if DEBUG
             container
                 .RegisterSingle<IDataStoreManager, InMemoryDataStoreManager>();
+#else
+            container
+                .RegisterSingle<IDataStoreManager, SqliteDataStoreManager>();
+#endif
 
             // Register all the IModules in the currently loaded assemblies
             var execPath = Assembly.GetExecutingAssembly().CodeBase;
             var assemblyPath =
+#if DEBUG
                 new Uri(Path.GetDirectoryName(execPath)).LocalPath;
+#else
+                Environment.CurrentDirectory;
+#endif
+
             LoadAssembliesFromPath(assemblyPath);
 
             var moduleTypes = AppDomain.CurrentDomain.GetAssemblies()
@@ -122,8 +135,12 @@ namespace Gambot.Driver
                     !AppDomain.CurrentDomain.GetAssemblies()
                               .Any(
                                   ass =>
+#if DEBUG
                                   AssemblyName.ReferenceMatchesDefinition(
                                       assembly, ass.GetName())))
+#else
+                                      assembly.Name == ass.GetName().Name))
+#endif
                 {
                     logger.Info("Loading {0}...", assemblyName);
                     Assembly.Load(assembly);

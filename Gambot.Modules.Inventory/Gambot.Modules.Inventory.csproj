@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InventoryCommandProducer.cs" />
+    <Compile Include="InventoryCommandReactor.cs" />
     <Compile Include="InventoryInventoryCommandProducer.cs" />
     <Compile Include="InventoryModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

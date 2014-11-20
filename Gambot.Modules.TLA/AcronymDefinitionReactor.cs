@@ -40,7 +40,7 @@ namespace Gambot.Modules.TLA
                 var words = new[] { match.Groups[1].Value, match.Groups[2].Value, match.Groups[3].Value };
 
                 var expandedAcronym = String.Join(" ", words);
-                var tlaChance = int.Parse(Config.Get("PercentChanceOfNewTLA"));
+                var tlaChance = int.Parse(Config.Get("PercentChanceOfNewTLA", "5"));
                 var shouldCreateNewAcronym = StaticRandom.Next(0, 100) < tlaChance;
 
                 if (shouldCreateNewAcronym)

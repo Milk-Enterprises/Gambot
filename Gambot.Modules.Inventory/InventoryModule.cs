@@ -6,7 +6,7 @@ namespace Gambot.Modules.Inventory
     {
         public InventoryModule(IVariableHandler varHandler)
         {
-            MessageProducers.Add(new InventoryCommandProducer(varHandler));
+            MessageReactors.Add(new InventoryCommandReactor(varHandler));
             MessageProducers.Add(new InventoryInventoryCommandProducer());
         }
     }

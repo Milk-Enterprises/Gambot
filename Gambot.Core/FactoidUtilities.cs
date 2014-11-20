@@ -18,7 +18,7 @@ namespace Gambot.Core
         public static Factoid GetVerbAndResponseFromPartialFactoid(
             string factoid)
         {
-            var match = Regex.Match(factoid, @"<(.+)> (.+)");
+            var match = Regex.Match(factoid, @"<(.+?)> (.+)");
 
             if (match.Success)
             {

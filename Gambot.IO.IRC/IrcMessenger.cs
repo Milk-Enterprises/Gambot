@@ -24,6 +24,8 @@ namespace Gambot.IO.IRC
             client = new IrcClient(server, new IrcUser(nick, user, password),
                                    ssl);
 
+            client.SetHandler("372", (c, m) => { }); // Ignore MOTD
+
             client.PrivateMessageRecieved += (sender, args) =>
             {
                 if (MessageReceived != null)
