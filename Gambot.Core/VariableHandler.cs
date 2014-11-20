@@ -40,7 +40,7 @@ namespace Gambot.Core
             new Dictionary<string, Func<IMessage, string>>();
 
         private readonly Regex variableRegex =
-            new Regex(@"\$([a-z][a-z0-9_]*)(?:\[([^\]]+)\])?",
+            new Regex(@"((?:^| )an? )?\$([a-z][a-z0-9_]*)(?:\[([^\]]+)\])?",
                       RegexOptions.IgnoreCase);
 
         private readonly List<IVariableFallbackHandler> fallbackHandlers =
@@ -67,11 +67,11 @@ namespace Gambot.Core
                 replacements.ToDictionary(vr => vr.VariableToReplace,
                                           vr => vr.ValueToReplaceWith);
 
-            var result = variableRegex.Replace(input, match =>
+            return variableRegex.Replace(input, match =>
             {
-                var var = match.Groups[1].Value.ToLower();
-                var key = match.Groups[2].Success
-                              ? match.Groups[2].Value.ToLower()
+                var var = match.Groups[2].Value.ToLower();
+                var key = match.Groups[3].Success
+                              ? match.Groups[3].Value.ToLower()
                               : null;
 
                 var subVal = match.Value;
@@ -103,27 +103,31 @@ namespace Gambot.Core
                     memoizedDic[var][key] = subVal;
                 }
 
-                subVal = MatchCase(match.Groups[1].Value, subVal);
+                subVal = MatchCase(match.Groups[2].Value, subVal);
+
+                // a/an
+                if (match.Groups[1].Success)
+                {
+                    var an = match.Groups[1].Value;
+                    var leadingSpace = an[0] == ' ';
+                    var vowel = new[] {'a', 'e', 'i', 'o', 'u'}.Contains(subVal.ToLower()[0]);
+                    subVal = (leadingSpace ? " " : "") +
+                             MatchCase(match.Groups[1].Value.Trim(), vowel ? "an" : "a") + 
+                             " " + subVal;
+                }
 
                 return subVal;
             });
-
-            // :smug:
-            return Regex.Replace(result, @"\$an? ([aeiou]?)",
-                                 match =>
-                                 match.Groups[1].Value.Length == 1
-                                     ? "an " + match.Groups[1].Value
-                                     : "a ",
-                                 RegexOptions.IgnoreCase);
         }
 
         public static string MatchCase(string sourceCase, string destination)
         {
-            if (sourceCase.All(c => !Char.IsLetter(c) || Char.IsUpper(c)))
+            if (sourceCase.Length > 1 && sourceCase.All(c => !Char.IsLetter(c) || Char.IsUpper(c)))
                 return destination.ToUpper();
             if (Char.IsUpper(sourceCase[0]))
                 return String.Join(" ",
-                    destination.Split(' ').Select(word =>
+                    destination.Split(' ').Where(word => !String.IsNullOrWhiteSpace(word))
+                                          .Select(word =>
                                              Char.ToUpper(word[0]).ToString() +
                                              word.Substring(1)));
             return destination;
