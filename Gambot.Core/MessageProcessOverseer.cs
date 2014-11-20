@@ -78,7 +78,11 @@ namespace Gambot.Core
         public void Process(IMessenger messenger, IMessage message,
                             bool addressed)
         {
-            // producers -> reactors (if no message was produced) -> transformers (if any message was produced)
+            // listeners -> producers -> reactors (if no message was produced) -> transformers (if any message was produced)
+
+            // listeners
+            foreach (var listener in messageListeners)
+                listener.Listen(message, addressed);
 
             // producers
             ProducerResponse response = null;
