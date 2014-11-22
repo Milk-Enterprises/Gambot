@@ -113,7 +113,7 @@ namespace Gambot.Tests.Modules.Quotes
                 InitializeSubject();
 
                 // Act
-                var returnValue = Subject.Process(messageStub, true);
+                var returnValue = Subject.Process(messageStub);
 
                 // Verify
                 returnValue.Message.Should().Be(expectedResponse);

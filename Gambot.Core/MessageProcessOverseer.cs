@@ -7,6 +7,7 @@ namespace Gambot.Core
 {
     public interface IMessageProcessOverseer
     {
+        void AddFilter(IMessageFilter messageFilter);
         void AddListener(IMessageListener messageListener);
         void AddProducer(IMessageProducer messageProducer);
         void AddReactor(IMessageReactor messageReactor);
@@ -16,6 +17,7 @@ namespace Gambot.Core
 
     public class MessageProcessOverseer : IMessageProcessOverseer
     {
+        private readonly List<IMessageFilter> messageFilters;
         private readonly List<IMessageListener> messageListeners;
         private readonly List<IMessageProducer> messageProducers;
         private readonly List<IMessageReactor> messageReactors;
@@ -29,10 +31,21 @@ namespace Gambot.Core
             this.dataStoreManager = dataStoreManager;
             this.variableHandler = variableHandler;
 
+            messageFilters = new List<IMessageFilter>();
             messageListeners = new List<IMessageListener>();
             messageProducers = new List<IMessageProducer>();
             messageReactors = new List<IMessageReactor>();
             messageTransformers = new List<IMessageTransformer>();
+        }
+
+        public void AddFilter(IMessageFilter messageFilter)
+        {
+            messageFilter.Initialize(dataStoreManager);
+            messageFilters.Add(messageFilter);
+
+            var instance = messageFilter as IVariableFallbackHandler;
+            if (instance != null)
+                variableHandler.AddFallbackHandler(instance);
         }
 
         public void AddListener(IMessageListener messageListener)
@@ -78,7 +91,16 @@ namespace Gambot.Core
         public void Process(IMessenger messenger, IMessage message,
                             bool addressed)
         {
-            // listeners -> producers -> reactors (if no message was produced) -> transformers (if any message was produced)
+            // filters -> listeners -> producers -> reactors (if no message was produced) -> transformers (if any message was produced)
+
+            // filters
+            if (
+                messageFilters.Any(
+                    filter =>
+                    !filter.ShouldMessagePassThrough(message, addressed)))
+            {
+                return;
+            }
 
             // listeners
             foreach (var listener in messageListeners)
@@ -90,7 +112,7 @@ namespace Gambot.Core
             {
                 foreach (var producer in messageProducers)
                 {
-                    response = producer.Process(message, addressed);
+                    response = producer.Process(message);
 
                     if (response != null)
                         break;

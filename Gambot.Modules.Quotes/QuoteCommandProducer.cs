@@ -28,21 +28,18 @@ namespace Gambot.Modules.Quotes
                                                 GetRandomQuoteFromAnyUser());
         }
 
-        public ProducerResponse Process(IMessage message, bool addressed)
+        public ProducerResponse Process(IMessage message)
         {
-            if (addressed)
+            var match = Regex.Match(message.Text, @"quote (\w+)",
+                                    RegexOptions.IgnoreCase);
+            if (match.Success)
             {
-                var match = Regex.Match(message.Text, @"quote (\w+)",
-                                        RegexOptions.IgnoreCase);
-                if (match.Success)
-                {
-                    var quoteTarget = match.Groups[1].Value.Trim();
-                    return new ProducerResponse(GetRandomQuoteFromUser(quoteTarget), false);
-                }
-                else
-                {
-                    // TODO: add the snide comment gambot makes when someone FUCKS UP
-                }
+                var quoteTarget = match.Groups[1].Value.Trim();
+                return new ProducerResponse(GetRandomQuoteFromUser(quoteTarget), false);
+            }
+            else
+            {
+                // TODO: add the snide comment gambot makes when someone FUCKS UP
             }
 
             return null;

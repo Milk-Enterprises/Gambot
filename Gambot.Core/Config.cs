@@ -46,7 +46,17 @@ namespace Gambot.Core
 
         public static void Set(string key, string value)
         {
-            ConfigurationManager.AppSettings.Set(key, value);
+            // simple, works even if the user destroys appSettings, works even if the key does not exist prior to setting
+            var config =
+                ConfigurationManager.OpenExeConfiguration(
+                    ConfigurationUserLevel.None);
+
+            if (!config.AppSettings.Settings.AllKeys.Contains(key))
+                config.AppSettings.Settings.Add(key, value);
+            else
+                config.AppSettings.Settings[key].Value = value;
+
+            config.Save(ConfigurationSaveMode.Modified);
         }
     }
 }

@@ -14,34 +14,31 @@ namespace Gambot.Modules.Factoid
             dataStore = dataStoreManager.Get("Factoids");
         }
 
-        public ProducerResponse Process(IMessage message, bool addressed)
+        public ProducerResponse Process(IMessage message)
         {
-            if (addressed)
+            var match = Regex.Match(message.Text, @"(.+) (is|are|<[^>]+>) (.+)",
+                                    RegexOptions.IgnoreCase);
+            if (match.Success)
             {
-                var match = Regex.Match(message.Text, @"(.+) (is|are|<[^>]+>) (.+)",
-                                        RegexOptions.IgnoreCase);
-                if (match.Success)
+                var term = match.Groups[1].Value;
+                var verb = match.Groups[2].Value;
+                var response = match.Groups[3].Value;
+
+                if (!verb.StartsWith("<"))
                 {
-                    var term = match.Groups[1].Value;
-                    var verb = match.Groups[2].Value;
-                    var response = match.Groups[3].Value;
-
-                    if (!verb.StartsWith("<"))
-                    {
-                        verb = String.Format("<{0}>", verb);
-                    }
-
-                    if (verb == "alias" && term == response)
-                    {
-                        return
-                            new ProducerResponse(
-                                String.Format(
-                                    "Sorry {0}, but you can't alias {1} to itself.",
-                                    message.Who, term), false);
-                    }
-
-                    return new ProducerResponse(String.Format(dataStore.Put(term, verb + " " + response) ? "Okay, {0}." : "{0}: I already had it that way!", message.Who), false);
+                    verb = String.Format("<{0}>", verb);
                 }
+
+                if (verb == "alias" && term == response)
+                {
+                    return
+                        new ProducerResponse(
+                            String.Format(
+                                "Sorry {0}, but you can't alias {1} to itself.",
+                                message.Who, term), false);
+                }
+
+                return new ProducerResponse(String.Format(dataStore.Put(term, verb + " " + response) ? "Okay, {0}." : "{0}: I already had it that way!", message.Who), false);
             }
 
             return null;

@@ -15,21 +15,17 @@ namespace Gambot.Modules.Simple
 
         public void Initialize(IDataStoreManager dataStoreManager) { }
 
-        public ProducerResponse Process(IMessage message, bool addressed)
+        public ProducerResponse Process(IMessage message)
         {
-            Match match;
-            if (addressed)
+            var match = Regex.Match(message.Text, "say \"(.+)\"");
+            if (match.Success)
             {
-                match = Regex.Match(message.Text, "say \"(.+)\"");
-                if (match.Success)
-                {
-                    return
-                        new ProducerResponse(
-                            variableHandler.Substitute(match.Groups[1].Value,
-                                                       message), false);
-                }
+                return
+                    new ProducerResponse(
+                        variableHandler.Substitute(match.Groups[1].Value,
+                                                    message), false);
             }
-
+            
             match = Regex.Match(message.Text, @"say (\S)([^.?!]+)[.?!]*$");
             if (match.Success)
             {

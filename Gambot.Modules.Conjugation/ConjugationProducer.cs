@@ -72,39 +72,36 @@ namespace Gambot.Modules.Conjugation
             return null;
         }
 
-        public ProducerResponse Process(IMessage message, bool addressed)
+        public ProducerResponse Process(IMessage message)
         {
-            if (addressed)
+            var match = Regex.Match(message.Text, "var ([a-z0-9_-]+) type (var|noun|verb)", RegexOptions.IgnoreCase);
+            if (match.Success)
             {
-                var match = Regex.Match(message.Text, "var ([a-z0-9_-]+) type (var|noun|verb)", RegexOptions.IgnoreCase);
-                if (match.Success)
+                var var = match.Groups[1].Value.ToLower();
+                var type = match.Groups[2].Value.ToLower();
+
+                foreach (var t in new[] { "noun", "verb" })
                 {
-                    var var = match.Groups[1].Value.ToLower();
-                    var type = match.Groups[2].Value.ToLower();
-
-                    foreach (var t in new[] { "noun", "verb" })
-                    {
-                        if (type == t)
-                            variableTypeStore.Put(t, var);
-                        else
-                            variableTypeStore.RemoveValue(t, var);
-                    }
-
-                    return new ProducerResponse(String.Format("Okay, {0}.", message.Who), false);
+                    if (type == t)
+                        variableTypeStore.Put(t, var);
+                    else
+                        variableTypeStore.RemoveValue(t, var);
                 }
 
-                match = Regex.Match(message.Text, "irregular (stem|participle|gerund|present|plural) (.+) => (.+)", RegexOptions.IgnoreCase);
-                if (match.Success)
-                {
-                    var type = match.Groups[1].Value.ToLower();
-                    var word = match.Groups[2].Value.ToLower();
-                    var conjugation = match.Groups[3].Value.ToLower();
+                return new ProducerResponse(String.Format("Okay, {0}.", message.Who), false);
+            }
 
-                    irregularStore.RemoveAllValues(word + "." + type);
-                    irregularStore.Put(word + "." + type, conjugation);
+            match = Regex.Match(message.Text, "irregular (stem|participle|gerund|present|plural) (.+) => (.+)", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                var type = match.Groups[1].Value.ToLower();
+                var word = match.Groups[2].Value.ToLower();
+                var conjugation = match.Groups[3].Value.ToLower();
 
-                    return new ProducerResponse(String.Format("Okay, {0}.", message.Who), false);
-                }
+                irregularStore.RemoveAllValues(word + "." + type);
+                irregularStore.Put(word + "." + type, conjugation);
+
+                return new ProducerResponse(String.Format("Okay, {0}.", message.Who), false);
             }
 
             return null;
