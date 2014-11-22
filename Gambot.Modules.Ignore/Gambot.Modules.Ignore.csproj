@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IgnoreByUsernameFilter.cs" />
+    <Compile Include="IgnoreCommandProducer.cs" />
     <Compile Include="IgnoreModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
