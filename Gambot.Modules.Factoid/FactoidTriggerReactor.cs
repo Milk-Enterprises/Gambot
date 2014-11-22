@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Text.RegularExpressions;
 using Gambot.Core;
 using Gambot.Data;
 
@@ -44,6 +46,14 @@ namespace Gambot.Modules.Factoid
 
                 var factoidResponse = variableHandler.Substitute(factoid.Response, message);
 
+                if (IsAddressedToBot(message.To ?? message.Who, factoid.Response) && ShouldFuckShitUp())
+                {
+                    var factoidResponseBytes =
+                        Encoding.UTF8.GetBytes(factoidResponse);
+                    factoidResponse =
+                        Encoding.UTF7.GetString(factoidResponseBytes);
+                }
+
                 switch (factoid.Verb)
                 {
                     case "reply":
@@ -59,6 +69,17 @@ namespace Gambot.Modules.Factoid
                         return new ProducerResponse(String.Format("{0} {1} {2}", message.Text, factoid.Verb, factoid.Response), false);
                 }
             }
+        }
+
+        private bool ShouldFuckShitUp()
+        {
+            return Config.GetBool("ShouldMangleSelfMessages");
+        }
+
+        private bool IsAddressedToBot(string target, string responseMessage)
+        {
+            var botName = Config.Get("Name", "gambot");
+            return Regex.Match(responseMessage, @"^\$to[:,]").Success && String.Equals(target, botName, StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }
