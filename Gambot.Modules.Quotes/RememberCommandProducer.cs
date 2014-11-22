@@ -21,57 +21,54 @@ namespace Gambot.Modules.Quotes
             quotesDataStore = dataStoreManager.Get("Quotes");
         }
 
-        public ProducerResponse Process(IMessage message, bool addressed)
+        public ProducerResponse Process(IMessage message)
         {
-            if (addressed)
+            var match = Regex.Match(message.Text, @"remember (\w+) (.+)",
+                                    RegexOptions.IgnoreCase);
+            if (match.Success)
             {
-                var match = Regex.Match(message.Text, @"remember (\w+) (.+)",
-                                        RegexOptions.IgnoreCase);
-                if (match.Success)
+                var rememberTarget = match.Groups[1].Value.Trim();
+                var rememberMsg = match.Groups[2].Value.Trim();
+
+                // cant let the user remember his own quotes
+                if (rememberTarget.Equals(message.Who,
+                                            StringComparison
+                                                .InvariantCultureIgnoreCase))
                 {
-                    var rememberTarget = match.Groups[1].Value.Trim();
-                    var rememberMsg = match.Groups[2].Value.Trim();
-
-                    // cant let the user remember his own quotes
-                    if (rememberTarget.Equals(message.Who,
-                                              StringComparison
-                                                  .InvariantCultureIgnoreCase))
-                    {
-                        return new ProducerResponse(String.Format("Sorry {0}, but you can't quote yourself.", message.Who), false);
-                    }
-
-                    // check if target said such a thing
-                    var usersRecentMessages =
-                        recentMessageStore.GetRecentMessagesFromUser(
-                            rememberTarget);
-                    if (usersRecentMessages == null)
-                    {
-                        return new ProducerResponse(String.Format("Sorry, I don't know anyone named \"{0}.\"", rememberTarget), false);
-                    }
-
-                    var matchingMsg =
-                        usersRecentMessages.FirstOrDefault(
-                            msg =>
-                            msg.Text.IndexOf(rememberMsg,
-                                             StringComparison
-                                                 .InvariantCultureIgnoreCase) !=
-                            -1);
-
-                    if (matchingMsg == null)
-                    {
-                        return new ProducerResponse(String.Format("Sorry, I don't remember what {0} said about \"{1}.\"", rememberTarget, rememberMsg), false);
-                    }
-
-                    quotesDataStore.Put(matchingMsg.Who, matchingMsg.Text);
-                    return
-                        new ProducerResponse(
-                            String.Format("Okay, {0}, remembering \"{1}.\"",
-                                          message.Who, matchingMsg.Text), false);
+                    return new ProducerResponse(String.Format("Sorry {0}, but you can't quote yourself.", message.Who), false);
                 }
-                else
+
+                // check if target said such a thing
+                var usersRecentMessages =
+                    recentMessageStore.GetRecentMessagesFromUser(
+                        rememberTarget);
+                if (usersRecentMessages == null)
                 {
-                    // TODO: add the snide comment gambot makes when someone FUCKS UP
+                    return new ProducerResponse(String.Format("Sorry, I don't know anyone named \"{0}.\"", rememberTarget), false);
                 }
+
+                var matchingMsg =
+                    usersRecentMessages.FirstOrDefault(
+                        msg =>
+                        msg.Text.IndexOf(rememberMsg,
+                                            StringComparison
+                                                .InvariantCultureIgnoreCase) !=
+                        -1);
+
+                if (matchingMsg == null)
+                {
+                    return new ProducerResponse(String.Format("Sorry, I don't remember what {0} said about \"{1}.\"", rememberTarget, rememberMsg), false);
+                }
+
+                quotesDataStore.Put(matchingMsg.Who, matchingMsg.Text);
+                return
+                    new ProducerResponse(
+                        String.Format("Okay, {0}, remembering \"{1}.\"",
+                                        message.Who, matchingMsg.Text), false);
+            }
+            else
+            {
+                // TODO: add the snide comment gambot makes when someone FUCKS UP
             }
 
             return null;

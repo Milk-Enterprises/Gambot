@@ -17,7 +17,7 @@ namespace Gambot.Modules.Inventory
             invDataStore = dataStoreManager.Get("Inventory");
         }
 
-        public ProducerResponse Process(IMessage message, bool addressed)
+        public ProducerResponse Process(IMessage message)
         {
             if (message.Action)
                 return null;

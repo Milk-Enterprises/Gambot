@@ -131,22 +131,20 @@ namespace Gambot.Modules.People
                 variableHandler.DefineMagicVariable(pronoun, possessiveDHandler);
         }
 
-        public ProducerResponse Process(IMessage message, bool addressed)
+        public ProducerResponse Process(IMessage message)
         {
-            if (addressed)
+            var personalMatch = Regex.Match(message.Text,
+                                            @"I am (androgynous|male|female|inanimate)[.!?]?",
+                                            RegexOptions.IgnoreCase);
+            if (personalMatch.Success)
             {
-                var personalMatch = Regex.Match(message.Text,
-                                                @"I am (androgynous|male|female|inanimate)[.!?]?",
-                                                RegexOptions.IgnoreCase);
-                if (personalMatch.Success)
-                {
-                    genderStore.RemoveAllValues(message.Who);
-                    genderStore.Put(message.Who, personalMatch.Groups[1].Value);
-                    return
-                        new ProducerResponse(
-                            String.Format("Okay, {0}.", message.Who), false);
-                }
+                genderStore.RemoveAllValues(message.Who);
+                genderStore.Put(message.Who, personalMatch.Groups[1].Value);
+                return
+                    new ProducerResponse(
+                        String.Format("Okay, {0}.", message.Who), false);
             }
+            
 
             return null;
         }

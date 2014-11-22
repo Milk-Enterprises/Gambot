@@ -11,7 +11,7 @@ namespace Gambot.Modules.Ignore
             throw new NotImplementedException();
         }
 
-        public ProducerResponse Process(IMessage message, bool addressed)
+        public ProducerResponse Process(IMessage message)
         {
             throw new NotImplementedException();
         }

@@ -112,7 +112,7 @@ namespace Gambot.Core
             {
                 foreach (var producer in messageProducers)
                 {
-                    response = producer.Process(message, addressed);
+                    response = producer.Process(message);
 
                     if (response != null)
                         break;

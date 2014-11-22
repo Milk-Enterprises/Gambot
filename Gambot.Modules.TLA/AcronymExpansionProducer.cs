@@ -26,7 +26,7 @@ namespace Gambot.Modules.TLA
             tlaDataStore = dataStoreManager.Get("TLAs");
         }
 
-        public ProducerResponse Process(IMessage message, bool addressed)
+        public ProducerResponse Process(IMessage message)
         {
             var trimmedMsg = message.Text.Trim();
             if (trimmedMsg.Length != 3 ||

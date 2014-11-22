@@ -42,7 +42,7 @@ namespace Gambot.Tests.Modules.Reply
                     Who = name
                 };
 
-                var returnValue = Subject.Process(messageStub, true);
+                var returnValue = Subject.Process(messageStub);
 
                 returnValue.Message.Should().Be(expectedResponse);
             }
