@@ -7,6 +7,8 @@ namespace Gambot.Core
 {
     public interface IModule
     {
+        IEnumerable<IMessageFilter> GetMessageFilters();
+
         IEnumerable<IMessageListener> GetMessageListeners();
 
         IEnumerable<IMessageProducer> GetMessageProducers();
