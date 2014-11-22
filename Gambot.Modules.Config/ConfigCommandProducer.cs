@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Gambot.Core;
 using Gambot.Data;
@@ -13,9 +15,9 @@ namespace Gambot.Modules.Config
         {
             if (addressed)
             {
-                var match = Regex.Match(message.Text, @"(set|get) (\w+)( .+)?",
+                var match = Regex.Match(message.Text, @"(set|get) config (\w+)( .+)?",
                                         RegexOptions.IgnoreCase);
-
+                
                 if (match.Success)
                 {
                     var action = match.Groups[1].Value;
@@ -23,6 +25,11 @@ namespace Gambot.Modules.Config
 
                     if (action == "set")
                     {
+                        if (!UserCanUpdateConfig(message.Who))
+                        {
+                            return new ProducerResponse("Sorry {0}, you do not have permissions to update the config.", false);
+                        }
+
                         var value = match.Groups[3].Value.TrimStart();
                         Core.Config.Set(key, value);
 
@@ -37,6 +44,16 @@ namespace Gambot.Modules.Config
             }
 
             return null;
+        }
+
+        private bool UserCanUpdateConfig(string username)
+        {
+            return GetUsersWhoCanChangeConfig().Contains(username, StringComparer.InvariantCultureIgnoreCase);
+        }
+
+        private IEnumerable<string> GetUsersWhoCanChangeConfig()
+        {
+            return new[] { "rob" }; // todo: change to config.getlist once its in
         }
     }
 }
