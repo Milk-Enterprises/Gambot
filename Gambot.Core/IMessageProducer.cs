@@ -16,6 +16,17 @@ namespace Gambot.Core
     }
 
     public interface IMessageHandler { }
+
+    public interface IMessageFilter : IMessageHandler
+    {
+        void Initialize(IDataStoreManager dataStoreManager);
+
+        /// <summary>
+        /// Returns whether or not a message should be filtered.
+        /// </summary>
+        /// <returns><b>true</b> if the message should be processed; <b>false</b> if it should be discarded</returns>
+        bool ShouldMessagePassThrough(IMessage message, bool addressed);
+    }
     
     public interface IMessageListener : IMessageHandler
     {
