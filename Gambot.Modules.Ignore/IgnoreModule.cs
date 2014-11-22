@@ -10,6 +10,7 @@ namespace Gambot.Modules.Ignore
     {
         public IgnoreModule()
         {
+            MessageFilters.Add(new IgnoreByUsernameFilter());
         }
     }
 }
