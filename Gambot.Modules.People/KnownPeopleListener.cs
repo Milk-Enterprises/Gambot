@@ -69,16 +69,17 @@ namespace Gambot.Modules.People
             var person =
                 knownPeople.SingleOrDefault(
                     p => p.Name == message.Who && p.Room == message.Where);
+
             if (person != null)
                 person.LastActive = DateTime.Now;
             else
             {
                 knownPeople.Add(new Person
-                                {
-                                    Name = message.Who,
-                                    Room = message.Where,
-                                    LastActive = DateTime.Now
-                                });
+                {
+                    Name = message.Who,
+                    Room = message.Where,
+                    LastActive = DateTime.Now
+                });
             }
         }
     }

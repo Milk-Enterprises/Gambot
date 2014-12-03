@@ -22,9 +22,8 @@ namespace Gambot.Modules.Factoid
 
         public ProducerResponse Process(IMessage message, bool addressed)
         {
-            if (!(addressed ||
-                  message.Text.Length >
-                  int.Parse(Config.Get("FactoidTriggerLength", "6"))))
+            if (!addressed &&
+                  message.Text.Length < int.Parse(Config.Get("FactoidTriggerLength", "6")))
                 return null;
 
             return ProcessFactoid(message.Text, message);

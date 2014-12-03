@@ -18,18 +18,13 @@ namespace Gambot.Modules.Factoid
         {
             if (addressed)
             {
-                var match = Regex.Match(message.Text, @"(.+) (is|are|<[^>]+>) (.+)",
+                var match = Regex.Match(message.Text, @"(.+) (<[^>]+>) (.+)",
                                         RegexOptions.IgnoreCase);
                 if (match.Success)
                 {
                     var term = match.Groups[1].Value;
                     var verb = match.Groups[2].Value;
                     var response = match.Groups[3].Value;
-
-                    if (!verb.StartsWith("<"))
-                    {
-                        verb = String.Format("<{0}>", verb);
-                    }
 
                     if (verb == "alias" && term == response)
                     {

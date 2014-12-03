@@ -6,8 +6,7 @@ namespace Gambot.Modules.TLA
     {
         public TLAModule(IVariableHandler variableHandler)
         {
-            MessageProducers.Add(new AcronymExpansionProducer(variableHandler));
-
+            MessageReactors.Add(new AcronymExpansionReactor(variableHandler));
             MessageReactors.Add(new AcronymDefinitionReactor(variableHandler));
         }
     }
