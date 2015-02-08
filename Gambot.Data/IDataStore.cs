@@ -37,5 +37,6 @@ namespace Gambot.Data
         /// </summary>
         /// <returns>A random value associated with <paramref name="key"/> if <paramref name="key"/> exists as a key in the data store; <b>null</b> otherwise.</returns>
         string GetRandomValue(string key);
+        string GetRandomValue();
     }
 }

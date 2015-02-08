@@ -17,8 +17,8 @@ namespace Gambot.Modules.TLA
 
         public AcronymExpansionReactor(IVariableHandler variableHandler)
         {
-            variableHandler.DefineMagicVariable("tla", msg => GetRandomAcronym("tla", msg));
-            variableHandler.DefineMagicVariable("band", msg => GetRandomAcronym("band", msg));
+            variableHandler.DefineMagicVariable("tla", msg => tlaDataStore.GetRandomValue());
+            variableHandler.DefineMagicVariable("band", msg => tlaDataStore.GetRandomValue());
         }
 
         public void Initialize(IDataStoreManager dataStoreManager)

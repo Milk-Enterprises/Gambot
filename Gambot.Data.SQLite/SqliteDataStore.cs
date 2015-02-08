@@ -84,6 +84,12 @@ namespace Gambot.Data.SQLite
                     .Select(r => r["value"])
                     .FirstOrDefault();
         }
+        
+        public string GetRandomValue() {
+            const string query =
+                "SELECT value FROM data ORDER BY RANDOM() LIMIT 1;";
+            return GetRows(query).Select(r => r["value"]).FirstOrDefault();
+        }
 
         private IEnumerable<Dictionary<string, string>> GetRows(string query,
                                                                 Dictionary

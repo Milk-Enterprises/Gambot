@@ -55,8 +55,7 @@ namespace Gambot.Modules.TLA
                         FactoidUtilities.GetVerbAndResponseFromPartialFactoid(bandNameFactoidStr);
 
                     // GHETTO ALERT
-                    var coercedResponse = bandNameFactoid.Response.Replace("$band", expandedAcronym)
-                        .Replace("$tla", expandedAcronym);
+                    var coercedResponse = Regex.Replace(bandNameFactoid.Response, @"\$(?:band|tla)", expandedAcronym, RegexOptions.IgnoreCase);
                     return new ProducerResponse(variableHandler.Substitute(coercedResponse, message), false);
                 }
             }

@@ -57,5 +57,10 @@ namespace Gambot.Data.InMemory
                        ? null
                        : values.ElementAt(StaticRandom.Next(0, values.Count));
         }
+
+        public string GetRandomValue()
+        {
+            throw new NotImplementedException(); // :smug:
+        }
     }
 }
