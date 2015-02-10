@@ -40,7 +40,7 @@ namespace Gambot.Core
             new Dictionary<string, Func<IMessage, string>>();
 
         private readonly Regex variableRegex =
-            new Regex(@"((?:^| )an? )?\$([a-z][a-z0-9_]*)(?:\[([^\]]+)\])?",
+            new Regex(@"((?:^| )an? )?\$([a-z][a-z0-9_]*(?<!_))(?:\[([^\]]+)\])?",
                       RegexOptions.IgnoreCase);
 
         private readonly List<IVariableFallbackHandler> fallbackHandlers =
