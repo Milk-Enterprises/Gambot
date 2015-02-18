@@ -58,7 +58,7 @@ namespace Gambot.Modules.People
 
             variableHandler.DefineMagicVariable("someone", (message) =>
             {
-                var person = GetSomeone(message.Who) ?? message.Who;
+                var person = GetSomeone(message.Where) ?? message.Who;
                 LastReferencedPerson = person;
                 return person;
             });

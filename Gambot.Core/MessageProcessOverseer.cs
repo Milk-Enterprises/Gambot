@@ -80,6 +80,9 @@ namespace Gambot.Core
         {
             // listeners -> producers -> reactors (if no message was produced) -> transformers (if any message was produced)
 
+            if (message.Who.ToLower() == "slackbot")
+                return; // :smug:
+
             // listeners
             foreach (var listener in messageListeners)
                 listener.Listen(message, addressed);

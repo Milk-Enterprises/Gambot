@@ -15,7 +15,7 @@ namespace Gambot.Modules.Config
         {
             if (addressed)
             {
-                var match = Regex.Match(message.Text, @"(set|get) config (\w+)( .+)?",
+                var match = Regex.Match(message.Text, @"^(set|get) config (\w+)( .+)?$",
                                         RegexOptions.IgnoreCase);
                 
                 if (match.Success)

@@ -17,7 +17,7 @@ namespace Gambot.IO.IRC
             Who = raw.User.Nick;
             Where = raw.Source;
 
-            var toMatch = Regex.Match(raw.Message, @"(.+?)[,:]\s");
+            var toMatch = Regex.Match(raw.Message, @"^((?:[^:]+?)|(?::.+?:))[,:]\s");
             if (toMatch.Success)
             {
                 To = toMatch.Groups[1].Value;

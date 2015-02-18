@@ -32,7 +32,7 @@ namespace Gambot.Modules.Quotes
         {
             if (addressed)
             {
-                var match = Regex.Match(message.Text, @"quote (\w+)",
+                var match = Regex.Match(message.Text, @"^quote (\w+)$",
                                         RegexOptions.IgnoreCase);
                 if (match.Success)
                 {

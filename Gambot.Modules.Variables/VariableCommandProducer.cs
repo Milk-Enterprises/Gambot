@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.IO;
 using Gambot.Core;
 using Gambot.Data;
 
@@ -23,7 +25,7 @@ namespace Gambot.Modules.Variables
         {
             if (addressed)
             {
-                var match = Regex.Match(message.Text, @"create var .+",
+                var match = Regex.Match(message.Text, @"^create var .+$",
                                         RegexOptions.IgnoreCase);
                 if (match.Success)
                 {
@@ -35,7 +37,7 @@ namespace Gambot.Modules.Variables
                 }
 
                 match = Regex.Match(message.Text,
-                                    @"add value ([a-z][a-z0-9_-]*) (.+)",
+                                    @"^add value ([a-z][a-z0-9_-]*) (.+)$",
                                     RegexOptions.IgnoreCase);
                 if (match.Success)
                 {
@@ -51,7 +53,7 @@ namespace Gambot.Modules.Variables
                 }
 
                 match = Regex.Match(message.Text,
-                                    @"remove value ([a-z][a-z0-9_-]*) (.+)",
+                                    @"^remove value ([a-z][a-z0-9_-]*) (.+)$",
                                     RegexOptions.IgnoreCase);
                 if (match.Success)
                 {
@@ -67,7 +69,7 @@ namespace Gambot.Modules.Variables
                 }
 
                 match = Regex.Match(message.Text,
-                                    @"delete var ([a-z][a-z0-9_-]*)",
+                                    @"^delete var ([a-z][a-z0-9_-]*)$",
                                     RegexOptions.IgnoreCase);
                 if (match.Success)
                 {
@@ -84,6 +86,24 @@ namespace Gambot.Modules.Variables
                                           : "{0}: Deleted variable \"{1}\" and its {2} values.",
                                 message.Who, match.Groups[1].Value, values),
                             false);
+                }
+
+                match = Regex.Match(message.Text, @"^list var ([a-z][a-z0-9_-]*)$", RegexOptions.IgnoreCase);
+                if (match.Success)
+                {
+                    var term = match.Groups[1].Value;
+                    var values = variableStore.GetAllValues(term);
+                    if (!values.Any())
+                        return new ProducerResponse(String.Format("Sorry, {0}, but the variable \"{1}\" does not exist.", message.Who, term), false);
+                    var result = String.Format("${0}: {1}", term, String.Join(", ", values));
+                    if (result.Length < 500)
+                        return new ProducerResponse(result, false);
+                    var safeTerm = String.Join("", term.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
+                    if (String.IsNullOrWhiteSpace(safeTerm))
+                        safeTerm = "_";
+                    File.WriteAllLines(Path.Combine(Config.Get("VariableDumpDir", "dump/variable"), safeTerm + ".txt"), values.ToArray());
+                    return new ProducerResponse(String.Format("{0}: {1}{2}.txt", term, 
+                        Config.Get("VariableDumpUrl", "https://aorist.co/gambot/variable/"), Uri.EscapeUriString(safeTerm)), false);
                 }
             }
 

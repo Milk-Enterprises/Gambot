@@ -19,8 +19,8 @@ namespace Gambot.Modules.Inventory
 
         public ProducerResponse Process(IMessage message, bool addressed)
         {
-            if (message.Action)
-                return null;
+            //if (message.Action)
+            //    return null;
 
             var match = Regex.Match(message.Text, @"^inventory\??$");
 

@@ -12,6 +12,9 @@ namespace Gambot.Modules.Factoid
         private readonly IVariableHandler variableHandler;
         private IDataStore dataStore;
 
+        // :smug:
+        internal static string LastFactoid = "";
+
         internal FactoidTriggerReactor(IVariableHandler variableHandler)
         {
             this.variableHandler = variableHandler;
@@ -44,6 +47,8 @@ namespace Gambot.Modules.Factoid
                 factoid.Trigger = message.Text;
 
                 var factoidResponse = variableHandler.Substitute(factoid.Response, message);
+
+                LastFactoid = String.Format("{0} <{1}> {2}", factoid.Trigger, factoid.Verb, factoid.Response);
 
                 if (IsAddressedToBot(message.To ?? message.Who, factoid.Response) && ShouldFuckShitUp())
                 {

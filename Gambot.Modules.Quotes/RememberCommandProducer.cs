@@ -25,7 +25,7 @@ namespace Gambot.Modules.Quotes
         {
             if (addressed)
             {
-                var match = Regex.Match(message.Text, @"remember (\w+) (.+)",
+                var match = Regex.Match(message.Text, @"^remember (\w+) (.+)$",
                                         RegexOptions.IgnoreCase);
                 if (match.Success)
                 {

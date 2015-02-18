@@ -72,7 +72,7 @@ namespace Gambot.Core
                 var var = match.Groups[2].Value.ToLower();
                 var key = match.Groups[3].Success
                               ? match.Groups[3].Value.ToLower()
-                              : null;
+                              : null; 
 
                 var subVal = match.Value;
 

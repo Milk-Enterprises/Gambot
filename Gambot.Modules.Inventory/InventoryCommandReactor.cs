@@ -35,73 +35,66 @@ namespace Gambot.Modules.Inventory
 
         public ProducerResponse Process(IMessage message, bool addressed)
         {
-            if (message.Action)
+            var botName = Config.Get("Name");
+            var match = Regex.Match(message.Text,
+                                    String.Format(@"^gives (?:(.+) to {0}|{0} (.+))$", botName),
+                                    RegexOptions.IgnoreCase);
+
+            if (!match.Success)
+                return null;
+
+            var itemName = String.IsNullOrEmpty(match.Groups[1].Value)
+                               ? match.Groups[2].Value
+                               : match.Groups[1].Value;
+            if (itemName.EndsWith("?"))
+                return null;
+
+            var inventoryLimit = Int32.Parse(Config.Get("InventoryLimit"));
+            var allItems = GetInventory();
+            var currentInventorySize = allItems.Count(); // we dont have a .GetCount lololo
+
+            if (allItems.Contains(itemName))
             {
-                var botName = Config.Get("Name");
-                var match = Regex.Match(message.Text,
-                                        String.Format(@"gives (?:(.+) to {0}|{0} (.+))", botName),
-                                        RegexOptions.IgnoreCase);
+                var randomDuplicateAddReply = factoidDataStore.GetRandomValue("duplicate item");
+                var duplicateFactoid =
+                    FactoidUtilities.GetVerbAndResponseFromPartialFactoid(
+                        randomDuplicateAddReply);
+                return
+                    new ProducerResponse(
+                        variableHandler.Substitute(
+                            duplicateFactoid.Response,
+                            message,
+                            Replace.VarWith("who", message.Who)), false);
+            }
 
-                if (!match.Success)
+            if (currentInventorySize >= inventoryLimit)
+            {
+                var randomItemToDrop = RemoveRandomItem();
+                if (randomItemToDrop == null)
                     return null;
 
-                var itemName = String.IsNullOrEmpty(match.Groups[1].Value)
-                                   ? match.Groups[2].Value
-                                   : match.Groups[1].Value;
-                if (itemName.EndsWith("?"))
-                    return null;
+                AddItem(itemName);
 
-                var inventoryLimit = Int32.Parse(Config.Get("InventoryLimit"));
-                var allItems = GetInventory();
-                var currentInventorySize = allItems.Count(); // we dont have a .GetCount lololo
-
-                if (allItems.Contains(itemName))
-                {
-                    var randomDuplicateAddReply = factoidDataStore.GetRandomValue("duplicate item");
-                    var duplicateFactoid =
-                        FactoidUtilities.GetVerbAndResponseFromPartialFactoid(
-                            randomDuplicateAddReply);
-                    return
-                        new ProducerResponse(
-                            variableHandler.Substitute(
-                                duplicateFactoid.Response,
-                                message,
-                                Replace.VarWith("who", message.Who)), false);
-                }
-
-                if (currentInventorySize >= inventoryLimit)
-                {
-                    var randomItemToDrop = RemoveRandomItem();
-                    if (randomItemToDrop == null)
-                        return null;
-
-                    AddItem(itemName);
-
-                    var randomDropItemReply = factoidDataStore.GetRandomValue("drops item");
-                    var dropItemFactoid =
-                        FactoidUtilities.GetVerbAndResponseFromPartialFactoid(
-                            randomDropItemReply);
-                    return new ProducerResponse(variableHandler.Substitute(dropItemFactoid.Response,
-                                                      message,
-                                                      Replace.VarWith("giveitem", randomItemToDrop),
-                                                      Replace.VarWith("newitem", itemName)), true);
-                }
-                else
-                {
-                    AddItem(itemName);
-
-                    var randomSuccessfulAddReply = factoidDataStore.GetRandomValue("takes item");
-                    var successfulFactoid =
-                        FactoidUtilities.GetVerbAndResponseFromPartialFactoid(
-                            randomSuccessfulAddReply);
-                    return new ProducerResponse(variableHandler.Substitute(successfulFactoid.Response,
-                                                      message,
-                                                      Replace.VarWith("item", itemName)), false);
-                }
+                var randomDropItemReply = factoidDataStore.GetRandomValue("drops item");
+                var dropItemFactoid =
+                    FactoidUtilities.GetVerbAndResponseFromPartialFactoid(
+                        randomDropItemReply);
+                return new ProducerResponse(variableHandler.Substitute(dropItemFactoid.Response,
+                                                  message,
+                                                  Replace.VarWith("giveitem", randomItemToDrop),
+                                                  Replace.VarWith("newitem", itemName)), true);
             }
             else
             {
+                AddItem(itemName);
 
+                var randomSuccessfulAddReply = factoidDataStore.GetRandomValue("takes item");
+                var successfulFactoid =
+                    FactoidUtilities.GetVerbAndResponseFromPartialFactoid(
+                        randomSuccessfulAddReply);
+                return new ProducerResponse(variableHandler.Substitute(successfulFactoid.Response,
+                                                  message,
+                                                  Replace.VarWith("item", itemName)), false);
             }
 
             return null;

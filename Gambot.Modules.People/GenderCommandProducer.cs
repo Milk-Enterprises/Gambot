@@ -136,7 +136,7 @@ namespace Gambot.Modules.People
             if (addressed)
             {
                 var personalMatch = Regex.Match(message.Text,
-                                                @"I am (androgynous|male|female|inanimate)[.!?]?",
+                                                @"^I am (androgynous|male|female|inanimate)[.!?]?$",
                                                 RegexOptions.IgnoreCase);
                 if (personalMatch.Success)
                 {

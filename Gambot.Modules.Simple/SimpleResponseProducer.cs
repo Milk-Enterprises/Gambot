@@ -30,7 +30,7 @@ namespace Gambot.Modules.Simple
                 }
             }
 
-            match = Regex.Match(message.Text, @"say (\S)([^.?!]+)[.?!]*$");
+            match = Regex.Match(message.Text, @"^say (\S)([^.?!]+)[.?!]*$");
             if (match.Success)
             {
                 return
