@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using Gambot.Core;
 using Gambot.Data;
+using Newtonsoft.Json.Linq;
 
 namespace Gambot.Modules.Quotes
 {
@@ -62,7 +65,19 @@ namespace Gambot.Modules.Quotes
                         return new ProducerResponse(String.Format("Sorry, I don't remember what {0} said about \"{1}.\"", rememberTarget, rememberMsg), false);
                     }
 
-                    quotesDataStore.Put(matchingMsg.Who, matchingMsg.Text);
+                    // Send off an API request
+                    var wc = new WebClient();
+                    var jsonObject = new JObject();
+                    jsonObject["Id"] = 0;
+                    jsonObject["Text"] = matchingMsg.Text;
+                    jsonObject["Author"] = matchingMsg.Who;
+                    jsonObject["CreatedAt"] = DateTime.Now;
+                    jsonObject["Submitter"] = message.Who;
+                    wc.UploadString(
+                        ConfigurationManager
+                        .ConnectionStrings["OTSS.Systems"]
+                        .ConnectionString, "POST", jsonObject.ToString());
+
                     return
                         new ProducerResponse(
                             String.Format("Okay, {0}, remembering \"{1}.\"",
