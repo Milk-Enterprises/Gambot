@@ -25,7 +25,7 @@ namespace Gambot.Data.SQLite
         {
             const string query =
                 "INSERT INTO data(\"key\", value) VALUES(@key, @value);";
-            var queryArgs = new Dictionary<string, string>
+            var queryArgs = new Dictionary<string, object>
             {
                 {"@key", key},
                 {"@value", val}
@@ -36,7 +36,7 @@ namespace Gambot.Data.SQLite
         public int RemoveAllValues(string key)
         {
             const string query = "DELETE FROM data WHERE \"key\" LIKE @key;";
-            var queryArgs = new Dictionary<string, string>
+            var queryArgs = new Dictionary<string, object>
             {
                 {"@key", key},
             };
@@ -47,7 +47,7 @@ namespace Gambot.Data.SQLite
         {
             const string query =
                 "DELETE FROM data WHERE \"key\" LIKE @key AND value LIKE @value;";
-            var queryArgs = new Dictionary<string, string>
+            var queryArgs = new Dictionary<string, object>
             {
                 {"@key", key},
                 {"@value", val}
@@ -55,46 +55,57 @@ namespace Gambot.Data.SQLite
             return Execute(query, queryArgs) > 0;
         }
 
+        public bool RemoveValue(long id)
+        {
+            const string query =
+                "DELETE FROM data WHERE \"rowid\" = @id;";
+            var queryArgs = new Dictionary<string, object>
+            {
+                {"@id", id}
+            };
+            return Execute(query, queryArgs) > 0;
+        }
+
         public IEnumerable<string> GetAllKeys()
         {
             const string query = "SELECT DISTINCT \"key\" FROM data;";
-            return GetRows(query).Select(r => r["key"]);
+            return GetRows(query).Select(r => (string)r["key"]);
         }
 
-        public IEnumerable<string> GetAllValues(string key)
+        public IEnumerable<DataStoreValue> GetAllValues(string key)
         {
-            const string query = "SELECT value FROM data WHERE \"key\" LIKE @key;";
-            var queryArgs = new Dictionary<string, string>
+            const string query = "SELECT rowid, key, value FROM data WHERE \"key\" LIKE @key;";
+            var queryArgs = new Dictionary<string, object>
             {
                 {"@key", key},
             };
-            return GetRows(query, queryArgs).Select(r => r["value"]);
+            return GetRows(query, queryArgs).Select(r => new DataStoreValue((long)r["rowid"], (string)r["key"], (string)r["value"]));
         }
 
-        public string GetRandomValue(string key)
+        public DataStoreValue GetRandomValue(string key)
         {
             const string query =
-                "SELECT value FROM data WHERE \"key\" LIKE @key ORDER BY RANDOM() LIMIT 1;";
-            var queryArgs = new Dictionary<string, string>
+                "SELECT rowid, key, value FROM data WHERE \"key\" LIKE @key ORDER BY RANDOM() LIMIT 1;";
+            var queryArgs = new Dictionary<string, object>
             {
                 {"@key", key},
             };
             return
                 GetRows(query, queryArgs)
-                    .Select(r => r["value"])
+                    .Select(r => new DataStoreValue((long)r["rowid"], (string)r["key"], (string)r["value"]))
                     .FirstOrDefault();
         }
         
-        public string GetRandomValue() {
+        public DataStoreValue GetRandomValue() {
             const string query =
-                "SELECT value FROM data ORDER BY RANDOM() LIMIT 1;";
-            return GetRows(query).Select(r => r["value"]).FirstOrDefault();
+                "SELECT rowid, key, value FROM data ORDER BY RANDOM() LIMIT 1;";
+            return GetRows(query).Select(r => new DataStoreValue((long)r["rowid"], (string)r["key"], (string)r["value"])).FirstOrDefault();
         }
 
-        private IEnumerable<Dictionary<string, string>> GetRows(string query,
+        private IEnumerable<Dictionary<string, object>> GetRows(string query,
                                                                 Dictionary
                                                                     <string,
-                                                                    string>
+                                                                    object>
                                                                     queryArgs =
                                                                     null)
         {
@@ -104,12 +115,12 @@ namespace Gambot.Data.SQLite
                 {
                     while (rdr.Read())
                     {
-                        var rowDict = new Dictionary<string, string>();
+                        var rowDict = new Dictionary<string, object>();
 
                         for (var i = 0; i < rdr.FieldCount; i++)
                         {
                             var name = rdr.GetName(i);
-                            var val = rdr.GetValue(i).ToString();
+                            var val = rdr.GetValue(i);
                             rowDict[name] = val;
                         }
 
@@ -120,7 +131,7 @@ namespace Gambot.Data.SQLite
         }
 
         private int Execute(string query,
-                            Dictionary<string, string> queryArgs = null)
+                            Dictionary<string, object> queryArgs = null)
         {
             using (var cmd = CreateCommand(query, queryArgs))
             {
@@ -129,7 +140,7 @@ namespace Gambot.Data.SQLite
         }
 
         private IDbCommand CreateCommand(string query,
-                                         Dictionary<string, string> queryArgs =
+                                         Dictionary<string, object> queryArgs =
                                              null)
         {
             var cmd = connection.CreateCommand();

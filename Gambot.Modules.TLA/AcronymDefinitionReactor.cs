@@ -50,7 +50,7 @@ namespace Gambot.Modules.TLA
                         return null;
 
                     // grab a random band name reply factoid and :shipit:
-                    var bandNameFactoidStr = factoidDataStore.GetRandomValue("band name reply") ?? DefaultBandNameReply;
+                    var bandNameFactoidStr = factoidDataStore.GetRandomValue("band name reply")?.Value ?? DefaultBandNameReply;
                     var bandNameFactoid =
                         FactoidUtilities.GetVerbAndResponseFromPartialFactoid(bandNameFactoidStr);
 

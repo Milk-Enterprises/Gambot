@@ -11,14 +11,14 @@ namespace Gambot.Modules.TLA
 {
     internal class AcronymExpansionReactor : IMessageReactor
     {
-        private const char Wildcard = '*';
+        private const char Wildcard = '_';
         private const string AcronymKey = "band";
         private IDataStore tlaDataStore;
 
         public AcronymExpansionReactor(IVariableHandler variableHandler)
         {
-            variableHandler.DefineMagicVariable("tla", msg => tlaDataStore.GetRandomValue());
-            variableHandler.DefineMagicVariable("band", msg => tlaDataStore.GetRandomValue());
+            variableHandler.DefineMagicVariable("tla", msg => tlaDataStore.GetRandomValue().Value);
+            variableHandler.DefineMagicVariable("band", msg => tlaDataStore.GetRandomValue().Value);
         }
 
         public void Initialize(IDataStoreManager dataStoreManager)
@@ -38,7 +38,7 @@ namespace Gambot.Modules.TLA
             // TODO: wildcards
             // don't attempt to do this before the datastore supports queries!
 
-            var tla = tlaDataStore.GetRandomValue(trimmedMsg);
+            var tla = tlaDataStore.GetRandomValue(trimmedMsg)?.Value;
             return tla != null ? new ProducerResponse(tla, false) : null;
         }
 
@@ -46,7 +46,7 @@ namespace Gambot.Modules.TLA
         {
             var quote = tlaDataStore.GetRandomValue(AcronymKey);
 
-            return quote ?? variableName;
+            return quote?.Value ?? variableName;
         }
     }
 }

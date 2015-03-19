@@ -18,7 +18,7 @@ namespace Gambot.Modules.Variables
 
         public string Fallback(string variable, IMessage context)
         {
-            return variableStore.GetRandomValue(variable);
+            return variableStore.GetRandomValue(variable).Value;
         }
 
         public ProducerResponse Process(IMessage message, bool addressed)
@@ -68,6 +68,18 @@ namespace Gambot.Modules.Variables
                             false);
                 }
 
+                match = Regex.Match(message.Text, @"^remove value #([0-9]+)$", RegexOptions.IgnoreCase);
+                if (match.Success)
+                {
+                    return
+                        new ProducerResponse(
+                            String.Format(
+                                variableStore.RemoveValue(Int32.Parse(match.Groups[1].Value))
+                                ? "Okay, {0}."
+                                : "{0}: There's no such value!", message.Who),
+                            false);
+                }
+
                 match = Regex.Match(message.Text,
                                     @"^delete var ([a-z][a-z0-9_-]*)$",
                                     RegexOptions.IgnoreCase);
@@ -101,7 +113,8 @@ namespace Gambot.Modules.Variables
                     var safeTerm = String.Join("", term.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
                     if (String.IsNullOrWhiteSpace(safeTerm))
                         safeTerm = "_";
-                    File.WriteAllLines(Path.Combine(Config.Get("VariableDumpDir", "dump/variable"), safeTerm + ".txt"), values.ToArray());
+                    File.WriteAllLines(Path.Combine(Config.Get("VariableDumpDir", "dump/variable"), safeTerm + ".txt"), 
+                        values.Select(dsv => String.Format("(#{0}) {1}", dsv.Id, dsv.Value)).ToArray());
                     return new ProducerResponse(String.Format("{0}: {1}{2}.txt", term, 
                         Config.Get("VariableDumpUrl", "https://aorist.co/gambot/variable/"), Uri.EscapeUriString(safeTerm)), false);
                 }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -46,11 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gambot.Core\Gambot.Core.csproj">
-      <Project>{63582468-1fe5-483f-b6bc-6e7f4c722c89}</Project>
+      <Project>{63582468-1FE5-483F-B6BC-6E7F4C722C89}</Project>
       <Name>Gambot.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.Data\Gambot.Data.csproj">
-      <Project>{b9deff18-acec-4a5b-9dcc-3d1ef212edd5}</Project>
+      <Project>{B9DEFF18-ACEC-4A5B-9DCC-3D1EF212EDD5}</Project>
       <Name>Gambot.Data</Name>
     </ProjectReference>
   </ItemGroup>

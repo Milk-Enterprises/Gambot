@@ -12,7 +12,7 @@ using Gambot.IO.Console;
 using Gambot.IO.IRC;
 using Gambot.Modules.Config;
 using Gambot.Modules.Factoid;
-using Gambot.Modules.Inventory;
+//using Gambot.Modules.Inventory;
 using Gambot.Modules.Quotes;
 using Gambot.Modules.People;
 using Gambot.Modules.TLA;
@@ -92,12 +92,7 @@ namespace Gambot.Driver
 
             // Register all the IModules in the currently loaded assemblies
             var execPath = Assembly.GetExecutingAssembly().CodeBase;
-            var assemblyPath =
-#if DEBUG
-                new Uri(Path.GetDirectoryName(execPath)).LocalPath;
-#else
-                Environment.CurrentDirectory;
-#endif
+            var assemblyPath = Environment.CurrentDirectory;
 
             LoadAssembliesFromPath(assemblyPath);
 

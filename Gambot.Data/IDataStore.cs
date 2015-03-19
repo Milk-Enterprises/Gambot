@@ -23,6 +23,13 @@ namespace Gambot.Data
         bool RemoveValue(string key, string val);
 
         /// <summary>
+        /// Attempts to remove the key-value pair with the specified ID.
+        /// </summary>
+        /// <returns><b>true</b>, if the operation succeeded; <b>false</b> otherwise.</returns>
+        /// <param name="id">ID of the key-value pair (returned when fetching a value).</param>
+        bool RemoveValue(long id);
+
+        /// <summary>
         /// Gets all keys from the data store.
         /// </summary>
         IEnumerable<string> GetAllKeys();
@@ -30,13 +37,13 @@ namespace Gambot.Data
         /// <summary>
         /// Gets all values associated with <paramref name="key"/>.
         /// </summary>
-        IEnumerable<string> GetAllValues(string key);
+        IEnumerable<DataStoreValue> GetAllValues(string key);
 
         /// <summary>
         /// Gets a random value associated with <paramref name="key"/>.
         /// </summary>
         /// <returns>A random value associated with <paramref name="key"/> if <paramref name="key"/> exists as a key in the data store; <b>null</b> otherwise.</returns>
-        string GetRandomValue(string key);
-        string GetRandomValue();
+        DataStoreValue GetRandomValue(string key);
+        DataStoreValue GetRandomValue();
     }
 }

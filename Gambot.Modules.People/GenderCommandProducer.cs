@@ -27,7 +27,7 @@ namespace Gambot.Modules.People
 
         protected Gender GetGender(string who)
         {
-            var gender = genderStore.GetAllValues(who).SingleOrDefault() ??
+            var gender = genderStore.GetAllValues(who).Select(dsv => dsv.Value).SingleOrDefault() ??
                          default(Gender).ToString();
             return (Gender)Enum.Parse(typeof(Gender), gender, true);
         }

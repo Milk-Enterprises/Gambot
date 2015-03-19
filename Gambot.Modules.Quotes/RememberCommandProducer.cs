@@ -65,23 +65,27 @@ namespace Gambot.Modules.Quotes
                         return new ProducerResponse(String.Format("Sorry, I don't remember what {0} said about \"{1}.\"", rememberTarget, rememberMsg), false);
                     }
 
-                    // Send off an API request
-                    var wc = new WebClient();
-                    var jsonObject = new JObject();
-                    jsonObject["Id"] = 0;
-                    jsonObject["Text"] = matchingMsg.Text;
-                    jsonObject["Author"] = matchingMsg.Who;
-                    jsonObject["CreatedAt"] = DateTime.Now;
-                    jsonObject["Submitter"] = message.Who;
-                    wc.UploadString(
-                        ConfigurationManager
-                        .ConnectionStrings["OTSS.Systems"]
-                        .ConnectionString, "POST", jsonObject.ToString());
+                    try
+                    {
+                        // Send off an API request
+                        var wc = new WebClient();
+                        var jsonObject = new JObject();
+                        jsonObject["Id"] = 0;
+                        jsonObject["Text"] = matchingMsg.Text;
+                        jsonObject["Author"] = matchingMsg.Who;
+                        jsonObject["CreatedAt"] = DateTime.Now;
+                        jsonObject["Submitter"] = message.Who;
+                        wc.UploadString(Config.Get("Quotes.Endpoint"), "PUT", jsonObject.ToString());
 
-                    return
-                        new ProducerResponse(
-                            String.Format("Okay, {0}, remembering \"{1}.\"",
-                                          message.Who, matchingMsg.Text), false);
+                        return
+                            new ProducerResponse(
+                                String.Format("You got it, {0}.",
+                                              message.Who, matchingMsg.Text), false);
+                    }
+                    catch (Exception e)
+                    {
+                        return new ProducerResponse(String.Format("Error uploading quote: ({0}) {1}", e, e.Message), false);
+                    }
                 }
                 else
                 {

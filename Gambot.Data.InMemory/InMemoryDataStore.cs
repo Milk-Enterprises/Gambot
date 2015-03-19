@@ -40,25 +40,30 @@ namespace Gambot.Data.InMemory
             return data.Remove(key, val);
         }
 
+        public bool RemoveValue(long id)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<string> GetAllKeys()
         {
             return data.Select(group => group.Key);
         }
 
-        public IEnumerable<string> GetAllValues(string key)
+        public IEnumerable<DataStoreValue> GetAllValues(string key)
         {
-            return data[key];
+            return data[key].Select(s => new DataStoreValue(-1, key, s));
         }
 
-        public string GetRandomValue(string key)
+        public DataStoreValue GetRandomValue(string key)
         {
             var values = data[key].ToList();
             return values.Count == 0
                        ? null
-                       : values.ElementAt(StaticRandom.Next(0, values.Count));
+                    : new DataStoreValue(-1, key, values.ElementAt(StaticRandom.Next(0, values.Count)));
         }
 
-        public string GetRandomValue()
+        public DataStoreValue GetRandomValue()
         {
             throw new NotImplementedException(); // :smug:
         }

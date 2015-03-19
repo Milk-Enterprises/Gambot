@@ -33,17 +33,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NLog, Version=3.1.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NLog.3.1.0.0\lib\net40\NLog.dll</HintPath>
-    </Reference>
     <Reference Include="SimpleInjector">
       <HintPath>..\packages\SimpleInjector.2.5.2\lib\net40-client\SimpleInjector.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="SimpleInjector.Diagnostics">
       <HintPath>..\packages\SimpleInjector.2.5.2\lib\net40-client\SimpleInjector.Diagnostics.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -53,6 +47,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.3.1.0.0\lib\net40\NLog.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -60,7 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gambot.Core\Gambot.Core.csproj">
-      <Project>{63582468-1fe5-483f-b6bc-6e7f4c722c89}</Project>
+      <Project>{63582468-1FE5-483F-B6BC-6E7F4C722C89}</Project>
       <Name>Gambot.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.Data.InMemory\Gambot.Data.InMemory.csproj">
@@ -68,7 +65,7 @@
       <Name>Gambot.Data.InMemory</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.Data.SQLite\Gambot.Data.SQLite.csproj">
-      <Project>{543565a4-0641-4fe2-be17-6662598ef781}</Project>
+      <Project>{543565A4-0641-4FE2-BE17-6662598EF781}</Project>
       <Name>Gambot.Data.SQLite</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.Data\Gambot.Data.csproj">
@@ -76,31 +73,27 @@
       <Name>Gambot.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.IO.Console\Gambot.IO.Console.csproj">
-      <Project>{87b21279-321c-4a28-bedd-1317a571476a}</Project>
+      <Project>{87B21279-321C-4A28-BEDD-1317A571476A}</Project>
       <Name>Gambot.IO.Console</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.IO.IRC\Gambot.IO.IRC.csproj">
-      <Project>{619d107b-6666-4d14-b02a-b3c795f2b5df}</Project>
+      <Project>{619D107B-6666-4D14-B02A-B3C795F2B5DF}</Project>
       <Name>Gambot.IO.IRC</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.Modules.Config\Gambot.Modules.Config.csproj">
-      <Project>{6f556522-0c4d-476a-8265-ead36d49127f}</Project>
+      <Project>{6F556522-0C4D-476A-8265-EAD36D49127F}</Project>
       <Name>Gambot.Modules.Config</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.Modules.Conjugation\Gambot.Modules.Conjugation.csproj">
-      <Project>{35cfbabb-c672-4042-8743-f7909ed1d1a3}</Project>
+      <Project>{35CFBABB-C672-4042-8743-F7909ED1D1A3}</Project>
       <Name>Gambot.Modules.Conjugation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Gambot.Modules.Inventory\Gambot.Modules.Inventory.csproj">
-      <Project>{71565c9e-0ff7-4855-8589-f6f2bb29deab}</Project>
-      <Name>Gambot.Modules.Inventory</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.Modules.People\Gambot.Modules.People.csproj">
       <Project>{68A19C32-180C-4EC0-B412-B732CE37C375}</Project>
       <Name>Gambot.Modules.People</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.Modules.Quotes\Gambot.Modules.Quotes.csproj">
-      <Project>{0a4197c4-f23a-4719-b102-d922af5a9e20}</Project>
+      <Project>{0A4197C4-F23A-4719-B102-D922AF5A9E20}</Project>
       <Name>Gambot.Modules.Quotes</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.Modules.Factoid\Gambot.Modules.Factoid.csproj">
@@ -112,7 +105,7 @@
       <Name>Gambot.Modules.Simple</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.Modules.TLA\Gambot.Modules.TLA.csproj">
-      <Project>{b801b69a-a822-4c9e-b943-31e2c37b2b31}</Project>
+      <Project>{B801B69A-A822-4C9E-B943-31E2C37B2B31}</Project>
       <Name>Gambot.Modules.TLA</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.Modules.Variables\Gambot.Modules.Variables.csproj">
@@ -124,9 +117,6 @@
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="App.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>

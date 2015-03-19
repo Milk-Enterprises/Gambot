@@ -1,0 +1,28 @@
+﻿<Properties StartupItem="Gambot.Driver/Gambot.Driver.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Gambot.Modules.Factoid/FactoidTriggerReactor.cs">
+    <Files>
+      <File FileName="Gambot.Modules.People/GenderCommandProducer.cs" Line="1" Column="1" />
+      <File FileName="Gambot.Data/IDataStore.cs" Line="1" Column="1" />
+      <File FileName="Gambot.Modules.Factoid/FactoidCommandProducer.cs" Line="10" Column="10" />
+      <File FileName="Gambot.Modules.Factoid/FactoidTriggerReactor.cs" Line="25" Column="25" />
+      <File FileName="Gambot.Modules.TLA/AcronymDefinitionReactor.cs" Line="1" Column="1" />
+      <File FileName="Gambot.Modules.TLA/AcronymExpansionReactor.cs" Line="10" Column="10" />
+      <File FileName="Gambot.Modules.Variables/VariableCommandProducer.cs" Line="1" Column="1" />
+      <File FileName="Gambot.Modules.Factoid/FactoidModule.cs" Line="1" Column="1" />
+      <File FileName="Gambot.Data.SQLite/SqliteDataStore.cs" Line="14" Column="14" />
+      <File FileName="Gambot.Data/DataStoreValue.cs" Line="23" Column="23" />
+      <File FileName="Gambot.Data.InMemory/InMemoryDataStore.cs" Line="48" Column="48" />
+      <File FileName="Gambot.Modules.TLA/TLAModule.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/home/rob/Gambot/Gambot.Core/MessageProcessOverseer.cs" line="81" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <DisabledProjects>
+    <String>Gambot.Modules.Inventory/Gambot.Modules.Inventory.csproj</String>
+  </DisabledProjects>
+</Properties>

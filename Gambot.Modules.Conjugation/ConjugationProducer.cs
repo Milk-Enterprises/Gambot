@@ -30,10 +30,10 @@ namespace Gambot.Modules.Conjugation
             {
                 foreach (var verb in variableTypeStore.GetAllValues("verb"))
                 {
-                    if (conjugator.Verbed(verb) == variable)
+                    if (conjugator.Verbed(verb.Value) == variable)
                     {
-                        var sub = variableStore.GetRandomValue(verb);
-                        return VariableHandler.MatchCase(sub, conjugator.Verbed(sub));
+                        var sub = variableStore.GetRandomValue(verb.Value);
+                        return VariableHandler.MatchCase(sub.Value, conjugator.Verbed(sub.Value));
                     }
                 }
             }
@@ -41,10 +41,10 @@ namespace Gambot.Modules.Conjugation
             {
                 foreach (var verb in variableTypeStore.GetAllValues("verb"))
                 {
-                    if (conjugator.Verbing(verb) == variable)
+                    if (conjugator.Verbing(verb.Value) == variable)
                     {
-                        var sub = variableStore.GetRandomValue(verb);
-                        return VariableHandler.MatchCase(sub, conjugator.Verbing(sub));
+                        var sub = variableStore.GetRandomValue(verb.Value);
+                        return VariableHandler.MatchCase(sub.Value, conjugator.Verbing(sub.Value));
                     }
                 }
             }
@@ -52,19 +52,19 @@ namespace Gambot.Modules.Conjugation
             {
                 foreach (var noun in variableTypeStore.GetAllValues("noun"))
                 {
-                    if (conjugator.Nouns(noun) == variable)
+                    if (conjugator.Nouns(noun.Value) == variable)
                     {
-                        var sub = variableStore.GetRandomValue(noun);
-                        return VariableHandler.MatchCase(sub, conjugator.Nouns(sub));
+                        var sub = variableStore.GetRandomValue(noun.Value);
+                        return VariableHandler.MatchCase(sub.Value, conjugator.Nouns(sub.Value));
                     }
                 }
 
                 foreach (var verb in variableTypeStore.GetAllValues("verb"))
                 {
-                    if (conjugator.Verbs(verb) == variable)
+                    if (conjugator.Verbs(verb.Value) == variable)
                     {
-                        var sub = variableStore.GetRandomValue(verb);
-                        return VariableHandler.MatchCase(sub, conjugator.Verbs(sub));
+                        var sub = variableStore.GetRandomValue(verb.Value);
+                        return VariableHandler.MatchCase(sub.Value, conjugator.Verbs(sub.Value));
                     }
                 }
             }

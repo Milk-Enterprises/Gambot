@@ -43,12 +43,12 @@ namespace Gambot.Modules.Factoid
                 if (randomReply == null)
                     return null;
 
-                var factoid = FactoidUtilities.GetVerbAndResponseFromPartialFactoid(randomReply);
-                factoid.Trigger = message.Text;
+                var factoid = FactoidUtilities.GetVerbAndResponseFromPartialFactoid(randomReply.Value);
+                factoid.Trigger = randomReply.Key;
 
                 var factoidResponse = variableHandler.Substitute(factoid.Response, message);
 
-                LastFactoid = String.Format("{0} <{1}> {2}", factoid.Trigger, factoid.Verb, factoid.Response);
+                LastFactoid = String.Format("(#{3}) {0} <{1}> {2}", factoid.Trigger, factoid.Verb, factoid.Response, randomReply.Id);
 
                 if (IsAddressedToBot(message.To ?? message.Who, factoid.Response) && ShouldFuckShitUp())
                 {

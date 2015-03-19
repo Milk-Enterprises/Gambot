@@ -24,7 +24,7 @@ namespace Gambot.Modules.Conjugation
         {
             var irregular = irregularDataStore.GetRandomValue(infinitive + ".stem");
             if (irregular != null)
-                return irregular;
+                return irregular.Value;
 
             if (Regex.IsMatch(infinitive, @"[bcdfghjklmnpqrstvwxyz][aeiou][bcdfghjklmnpqrstv]$", RegexOptions.IgnoreCase))
                 return Regex.Replace(infinitive, @"(\w)$", "$1$1");
@@ -89,7 +89,7 @@ namespace Gambot.Modules.Conjugation
         {
             var irregular = irregularDataStore.GetRandomValue(singular + ".plural");
             if (irregular != null)
-                return irregular;
+                return irregular.Value;
 
             string plural = null;
             Action<string, string> replace = (string regex, string replacement) =>

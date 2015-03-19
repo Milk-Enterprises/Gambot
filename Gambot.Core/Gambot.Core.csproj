@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -32,23 +32,18 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NLog, Version=3.1.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NLog.3.1.0.0\lib\net40\NLog.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.3.1.0.0\lib\net40\NLog.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractModule.cs" />
@@ -65,11 +60,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gambot.Data.InMemory\Gambot.Data.InMemory.csproj">
-      <Project>{49f0d5ae-3cdb-4f48-bbd8-f1da00bba0bb}</Project>
+      <Project>{49F0D5AE-3CDB-4F48-BBD8-F1DA00BBA0BB}</Project>
       <Name>Gambot.Data.InMemory</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gambot.Data\Gambot.Data.csproj">
-      <Project>{b9deff18-acec-4a5b-9dcc-3d1ef212edd5}</Project>
+      <Project>{B9DEFF18-ACEC-4A5B-9DCC-3D1EF212EDD5}</Project>
       <Name>Gambot.Data</Name>
     </ProjectReference>
   </ItemGroup>
