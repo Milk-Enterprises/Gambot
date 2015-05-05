@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2557ED71-C8B3-4A28-95A4-AFB54375BC9D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Gambot.Modules.Ratings</RootNamespace>
+    <AssemblyName>Gambot.Modules.Ratings</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RatingsModule.cs" />
+    <Compile Include="RatingsProducer.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Gambot.Core\Gambot.Core.csproj">
+      <Project>{63582468-1FE5-483F-B6BC-6E7F4C722C89}</Project>
+      <Name>Gambot.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gambot.Data\Gambot.Data.csproj">
+      <Project>{B9DEFF18-ACEC-4A5B-9DCC-3D1EF212EDD5}</Project>
+      <Name>Gambot.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
