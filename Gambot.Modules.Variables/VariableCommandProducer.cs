@@ -18,7 +18,7 @@ namespace Gambot.Modules.Variables
 
         public string Fallback(string variable, IMessage context)
         {
-            return variableStore.GetRandomValue(variable).Value;
+            return variableStore.GetRandomValue(variable)?.Value;
         }
 
         public ProducerResponse Process(IMessage message, bool addressed)
@@ -107,14 +107,15 @@ namespace Gambot.Modules.Variables
                     var values = variableStore.GetAllValues(term);
                     if (!values.Any())
                         return new ProducerResponse(String.Format("Sorry, {0}, but the variable \"{1}\" does not exist.", message.Who, term), false);
-                    var result = String.Format("${0}: {1}", term, String.Join(", ", values));
+                    var valueStrings = values.Select(dsv => String.Format("(#{0}) {1}", dsv.Id, dsv.Value)).ToArray();
+                    var result = String.Format("${0}: {1}", term, String.Join(", ", valueStrings));
                     if (result.Length < 500)
                         return new ProducerResponse(result, false);
                     var safeTerm = String.Join("", term.Where(c => !Path.GetInvalidFileNameChars().Contains(c)));
                     if (String.IsNullOrWhiteSpace(safeTerm))
                         safeTerm = "_";
                     File.WriteAllLines(Path.Combine(Config.Get("VariableDumpDir", "dump/variable"), safeTerm + ".txt"), 
-                        values.Select(dsv => String.Format("(#{0}) {1}", dsv.Id, dsv.Value)).ToArray());
+                        valueStrings);
                     return new ProducerResponse(String.Format("{0}: {1}{2}.txt", term, 
                         Config.Get("VariableDumpUrl", "https://aorist.co/gambot/variable/"), Uri.EscapeUriString(safeTerm)), false);
                 }

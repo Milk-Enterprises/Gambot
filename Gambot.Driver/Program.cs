@@ -37,6 +37,18 @@ namespace Gambot.Driver
                 Environment.Exit(0);
             };
 
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) => 
+            {
+                logger.Error(e.ExceptionObject);
+                if (messenger != null)
+                {
+                    messenger.SendMessage("Farewell, cruel world!", "#botulism");
+                    messenger.SendMessage(((Exception)e.ExceptionObject).Message, "#rob");
+                    messenger.Dispose();
+                }
+                Environment.Exit(0);
+            };
+
             logger.Info("Starting up... ");
 
             var container = CreateContainer();

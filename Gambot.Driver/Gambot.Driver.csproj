@@ -112,6 +112,10 @@
       <Project>{08EFC5DE-DD22-4B00-813B-6C81B523FBEE}</Project>
       <Name>Gambot.Modules.Variables</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Gambot.Modules.Mohammed\Gambot.Modules.Mohammed.csproj">
+      <Project>{5937326B-E558-4C79-944F-2A6F89ADA489}</Project>
+      <Name>Gambot.Modules.Mohammed</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="NLog.config">
