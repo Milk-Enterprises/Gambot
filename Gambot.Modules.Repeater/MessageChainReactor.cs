@@ -22,9 +22,18 @@ namespace Gambot.Modules.Repeater
             chainStore.AddMessage(message.Where, message.Text);
             var currentChain = chainStore.GetCurrentChain(message.Where);
 
-            return ShouldParticipateInChain(currentChain)
-                       ? new ProducerResponse(message.Text, message.Action)
-                       : null;
+            if (ShouldParticipateInChain(currentChain))
+            {
+                ResetChain(currentChain);
+                return new ProducerResponse(message.Text, message.Action);
+            }
+            
+            return null;
+        }
+
+        private void ResetChain(MessageChainData chain)
+        {
+            chain.Length = 0;
         }
 
         private bool ShouldParticipateInChain(MessageChainData currentChain)
