@@ -13,6 +13,7 @@ namespace Gambot.Modules.Repeater
     {
         void AddMessage(string channel, string message);
         MessageChainData GetCurrentChain(string channel);
+        void ResetChain(MessageChainData chain);
     }
 
     internal class MessageChainStore : IMessageChainStore
@@ -56,6 +57,14 @@ namespace Gambot.Modules.Repeater
             chains.TryGetValue(channel, out chain);
 
             return chain;
+        }
+
+        public void ResetChain(MessageChainData chain)
+        {
+            if (chain == null)
+                return;
+
+            ResetChain(chain, chain.Message);
         }
 
         private void ResetChain(MessageChainData chain, string newMessage)
