@@ -35,6 +35,7 @@
     <Compile Include="MessageChainReactor.cs" />
     <Compile Include="MessageChainStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepeaterModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MiscUtil">

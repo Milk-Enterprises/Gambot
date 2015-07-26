@@ -15,6 +15,7 @@ using Gambot.Modules.Factoid;
 //using Gambot.Modules.Inventory;
 using Gambot.Modules.Quotes;
 using Gambot.Modules.People;
+using Gambot.Modules.Repeater;
 using Gambot.Modules.TLA;
 using Gambot.Modules.Variables;
 using NLog;
