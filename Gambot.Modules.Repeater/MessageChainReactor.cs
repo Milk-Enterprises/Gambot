@@ -19,6 +19,7 @@ namespace Gambot.Modules.Repeater
 
         public ProducerResponse Process(IMessage message, bool addressed)
         {
+            chainStore.AddMessage(message.Where, message.Text);
             var currentChain = chainStore.GetCurrentChain(message.Where);
 
             return ShouldParticipateInChain(currentChain)
