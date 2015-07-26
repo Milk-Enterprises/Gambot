@@ -68,14 +68,14 @@ namespace Gambot.Modules.Quotes
                     try
                     {
                         // Send off an API request
-                        var wc = new WebClient();
-                        var jsonObject = new JObject();
-                        jsonObject["Id"] = 0;
-                        jsonObject["Text"] = matchingMsg.Text;
-                        jsonObject["Author"] = matchingMsg.Who;
-                        jsonObject["CreatedAt"] = DateTime.Now;
-                        jsonObject["Submitter"] = message.Who;
-                        wc.UploadString(Config.Get("Quotes.Endpoint"), "PUT", jsonObject.ToString());
+                        //var wc = new WebClient();
+                        //var jsonObject = new JObject();
+                        //jsonObject["Id"] = 0;
+                        //jsonObject["Text"] = matchingMsg.Text;
+                        //jsonObject["Author"] = matchingMsg.Who;
+                        //jsonObject["CreatedAt"] = DateTime.Now;
+                        //jsonObject["Submitter"] = message.Who;
+                        //wc.UploadString(Config.Get("Quotes.Endpoint"), "PUT", jsonObject.ToString());
 
                         return
                             new ProducerResponse(

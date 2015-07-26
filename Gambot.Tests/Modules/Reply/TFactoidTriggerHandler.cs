@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using Gambot.Core;
+using Gambot.Data;
 using Gambot.Modules.Factoid;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -33,7 +34,7 @@ namespace Gambot.Tests.Modules.Reply
                 const string trigger = "hello";
                 const string reply = "sup man";
                 factoidDataStore.Setup(dsm => dsm.GetRandomValue(trigger))
-                              .Returns("<reply> " + reply);
+                              .Returns(new DataStoreValue(0, trigger, "<reply> " + reply));
                 VariableHandler.Setup(
                     vh =>
                     vh.Substitute(It.IsAny<string>(), It.IsAny<IMessage>(), It.IsAny<VariableReplacement[]>()))

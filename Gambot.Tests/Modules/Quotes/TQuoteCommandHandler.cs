@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using Gambot.Core;
+using Gambot.Data;
 using Gambot.Modules.Quotes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -53,7 +54,7 @@ namespace Gambot.Tests.Modules.Quotes
             {
                 GetDataStore("Quotes")
                     .Setup(ids => ids.GetRandomValue(who))
-                    .Returns(randomMsg);
+                    .Returns(new DataStoreValue(0, who, randomMsg));
             }
 
             private void TestQuoteCommand(string quoteTarget,

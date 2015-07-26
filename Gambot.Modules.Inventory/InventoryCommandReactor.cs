@@ -55,10 +55,9 @@ namespace Gambot.Modules.Inventory
 
             if (allItems.Contains(itemName))
             {
-                var randomDuplicateAddReply = factoidDataStore.GetRandomValue("duplicate item");
+                var randomDuplicateAddReply = factoidDataStore.GetRandomValue("duplicate item")?.Value;
                 var duplicateFactoid =
-                    FactoidUtilities.GetVerbAndResponseFromPartialFactoid(
-                        randomDuplicateAddReply);
+                    FactoidUtilities.GetVerbAndResponseFromPartialFactoid(randomDuplicateAddReply);
                 return
                     new ProducerResponse(
                         variableHandler.Substitute(
@@ -75,10 +74,9 @@ namespace Gambot.Modules.Inventory
 
                 AddItem(itemName);
 
-                var randomDropItemReply = factoidDataStore.GetRandomValue("drops item");
+                var randomDropItemReply = factoidDataStore.GetRandomValue("drops item")?.Value;
                 var dropItemFactoid =
-                    FactoidUtilities.GetVerbAndResponseFromPartialFactoid(
-                        randomDropItemReply);
+                    FactoidUtilities.GetVerbAndResponseFromPartialFactoid(randomDropItemReply);
                 return new ProducerResponse(variableHandler.Substitute(dropItemFactoid.Response,
                                                   message,
                                                   Replace.VarWith("giveitem", randomItemToDrop),
@@ -88,7 +86,7 @@ namespace Gambot.Modules.Inventory
             {
                 AddItem(itemName);
 
-                var randomSuccessfulAddReply = factoidDataStore.GetRandomValue("takes item");
+                var randomSuccessfulAddReply = factoidDataStore.GetRandomValue("takes item")?.Value;
                 var successfulFactoid =
                     FactoidUtilities.GetVerbAndResponseFromPartialFactoid(
                         randomSuccessfulAddReply);
@@ -102,7 +100,7 @@ namespace Gambot.Modules.Inventory
 
         private string GetRandomItem(IMessage msg)
         {
-            return invDataStore.GetRandomValue(CurrentInventoryKey) ?? "bananas";
+            return invDataStore.GetRandomValue(CurrentInventoryKey)?.Value ?? "bananas";
         }
 
         private string GetRandomItemAndDiscard(IMessage msg)
@@ -137,7 +135,7 @@ namespace Gambot.Modules.Inventory
 
         private string RemoveRandomItem()
         {
-            var randomItemToDrop = invDataStore.GetRandomValue(CurrentInventoryKey);
+            var randomItemToDrop = invDataStore.GetRandomValue(CurrentInventoryKey)?.Value;
             if (randomItemToDrop == null)
                 return null;
 
@@ -148,12 +146,12 @@ namespace Gambot.Modules.Inventory
 
         private List<string> GetInventory()
         {
-            return invDataStore.GetAllValues(CurrentInventoryKey).ToList();
+            return invDataStore.GetAllValues(CurrentInventoryKey).Select(dsv => dsv.Value).ToList();
         }
 
         private string GetRandomItemFromHistory()
         {
-            return invDataStore.GetRandomValue(HistoryKey);
+            return invDataStore.GetRandomValue(HistoryKey)?.Value;
         }
     }
 }
