@@ -28,7 +28,7 @@ namespace Gambot.Modules.Inventory
             {
                 var items = invDataStore.GetAllValues("Items").ToList();
 
-                return new ProducerResponse(String.Format("contains {0}.", items.Any() ? String.Join(", ", items) : "nothing"), true);
+                return new ProducerResponse(String.Format("contains {0}.", items.Any() ? String.Join(", ", items.Select(dsv => dsv.Value)) : "nothing"), true);
             }
 
             return null;
