@@ -74,7 +74,7 @@ namespace Gambot.Modules.Quotes
                         username);
             }
             else
-                return String.Format("<{0}> {1}", username, randomQuote);
+                return String.Format("<{0}> {1}", username, randomQuote.Value);
         }
     }
 }
