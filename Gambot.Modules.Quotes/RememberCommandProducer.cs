@@ -67,6 +67,7 @@ namespace Gambot.Modules.Quotes
 
                     try
                     {
+                        quotesDataStore.Put(matchingMsg.Who, matchingMsg.Text);
                         // Send off an API request
                         //var wc = new WebClient();
                         //var jsonObject = new JObject();
@@ -77,10 +78,7 @@ namespace Gambot.Modules.Quotes
                         //jsonObject["Submitter"] = message.Who;
                         //wc.UploadString(Config.Get("Quotes.Endpoint"), "PUT", jsonObject.ToString());
 
-                        return
-                            new ProducerResponse(
-                                String.Format("You got it, {0}.",
-                                              message.Who, matchingMsg.Text), false);
+                        return new ProducerResponse(String.Format("You got it, {0}.", message.Who), false);
                     }
                     catch (Exception e)
                     {
