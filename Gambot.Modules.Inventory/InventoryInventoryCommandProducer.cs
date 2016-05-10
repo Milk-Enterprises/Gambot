@@ -22,13 +22,21 @@ namespace Gambot.Modules.Inventory
             //if (message.Action)
             //    return null;
 
-            var match = Regex.Match(message.Text, @"^inventory\??$");
+            var match = Regex.Match(message.Text, @"^inventory\??$", RegexOptions.IgnoreCase);
 
             if (match.Success)
             {
-                var items = invDataStore.GetAllValues("Items").ToList();
+                var items = invDataStore.GetAllValues("CurrentInventory").ToList();
 
-                return new ProducerResponse(String.Format("contains {0}.", items.Any() ? String.Join(", ", items.Select(dsv => dsv.Value)) : "nothing"), true);
+                var itemString = "nothing";
+                if (items.Count == 1)
+                    itemString = items.Single().Value;
+                else if (items.Count == 2)
+                    itemString = items[0].Value + " and " + items[1].Value;
+                else if (items.Count > 0)
+                    itemString = String.Join(", ", items.Take(items.Count - 1).Select(i => i.Value)) + ", and " + items.Last().Value;
+
+                return new ProducerResponse("I have " + itemString + ".", false);
             }
 
             return null;

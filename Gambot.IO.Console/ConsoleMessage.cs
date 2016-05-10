@@ -15,12 +15,12 @@ namespace Gambot.IO.Console
         {
             Who = Environment.UserName;
             To = Config.Get("Name", "gambot");
+            Where = "#stdin";
 
             if (message.StartsWith("/me "))
             {
                 Action = true;
                 Text = message.Substring(4);
-                ;
             }
             else
                 Text = message;

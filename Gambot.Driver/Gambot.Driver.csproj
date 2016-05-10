@@ -88,6 +88,10 @@
       <Project>{35CFBABB-C672-4042-8743-F7909ED1D1A3}</Project>
       <Name>Gambot.Modules.Conjugation</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Gambot.Modules.Inventory\Gambot.Modules.Inventory.csproj">
+      <Project>{71565c9e-0ff7-4855-8589-f6f2bb29deab}</Project>
+      <Name>Gambot.Modules.Inventory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Gambot.Modules.People\Gambot.Modules.People.csproj">
       <Project>{68A19C32-180C-4EC0-B412-B732CE37C375}</Project>
       <Name>Gambot.Modules.People</Name>

@@ -35,9 +35,9 @@ namespace Gambot.Modules.Inventory
 
         public ProducerResponse Process(IMessage message, bool addressed)
         {
-            var botName = Config.Get("Name");
+            var botName = Config.Get("Name", "gambot");
             var match = Regex.Match(message.Text,
-                                    String.Format(@"^gives (?:(.+) to {0}|{0} (.+))$", botName),
+                                    String.Format(@"^(?:I give|gives) (?:(.+) to {0}|{0} (.+))$", botName),
                                     RegexOptions.IgnoreCase);
 
             if (!match.Success)
@@ -49,13 +49,13 @@ namespace Gambot.Modules.Inventory
             if (itemName.EndsWith("?"))
                 return null;
 
-            var inventoryLimit = Int32.Parse(Config.Get("InventoryLimit"));
+            var inventoryLimit = Int32.Parse(Config.Get("InventoryLimit", "10"));
             var allItems = GetInventory();
             var currentInventorySize = allItems.Count(); // we dont have a .GetCount lololo
 
             if (allItems.Contains(itemName))
             {
-                var randomDuplicateAddReply = factoidDataStore.GetRandomValue("duplicate item")?.Value;
+                var randomDuplicateAddReply = factoidDataStore.GetRandomValue("duplicate item")?.Value ?? "<reply> I already have $item.";
                 var duplicateFactoid =
                     FactoidUtilities.GetVerbAndResponseFromPartialFactoid(randomDuplicateAddReply);
                 return
@@ -63,7 +63,7 @@ namespace Gambot.Modules.Inventory
                         variableHandler.Substitute(
                             duplicateFactoid.Response,
                             message,
-                            Replace.VarWith("who", message.Who)), false);
+                            Replace.VarWith("item", itemName)), false);
             }
 
             if (currentInventorySize >= inventoryLimit)
@@ -74,7 +74,7 @@ namespace Gambot.Modules.Inventory
 
                 AddItem(itemName);
 
-                var randomDropItemReply = factoidDataStore.GetRandomValue("drops item")?.Value;
+                var randomDropItemReply = factoidDataStore.GetRandomValue("drops item")?.Value ?? "<reply> I take $newitem and drop $giveitem.";
                 var dropItemFactoid =
                     FactoidUtilities.GetVerbAndResponseFromPartialFactoid(randomDropItemReply);
                 return new ProducerResponse(variableHandler.Substitute(dropItemFactoid.Response,
@@ -86,7 +86,7 @@ namespace Gambot.Modules.Inventory
             {
                 AddItem(itemName);
 
-                var randomSuccessfulAddReply = factoidDataStore.GetRandomValue("takes item")?.Value;
+                var randomSuccessfulAddReply = factoidDataStore.GetRandomValue("takes item")?.Value ?? "<reply> I now have $item.";
                 var successfulFactoid =
                     FactoidUtilities.GetVerbAndResponseFromPartialFactoid(
                         randomSuccessfulAddReply);
@@ -110,20 +110,28 @@ namespace Gambot.Modules.Inventory
 
         private string GetNewItem(IMessage msg)
         {
-            string randomItemFromHistory = null;
+            string randomItemFromHistory;
             var currentInventory = GetInventory();
-            while (currentInventory.Contains(randomItemFromHistory))
+            do
             {
                 randomItemFromHistory = GetRandomItemFromHistory();
             }
+            while (currentInventory.Contains(randomItemFromHistory));
 
             AddItem(randomItemFromHistory);
+
+            var inventoryLimit = Int32.Parse(Config.Get("InventoryLimit", "10"));
+            if (GetInventory().Count >= inventoryLimit)
+                RemoveRandomItem();
             
             return randomItemFromHistory;
         }
         
         private void AddItem(string itemName)
         {
+            if (String.IsNullOrWhiteSpace(itemName))
+                return;
+
             invDataStore.Put(CurrentInventoryKey, itemName);
             invDataStore.Put(HistoryKey, itemName);
         }
@@ -137,7 +145,7 @@ namespace Gambot.Modules.Inventory
         {
             var randomItemToDrop = invDataStore.GetRandomValue(CurrentInventoryKey)?.Value;
             if (randomItemToDrop == null)
-                return null;
+                return "bananas";
 
             RemoveItem(randomItemToDrop);
 
