@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Modules.Ratings", "G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Modules.Repeater", "Gambot.Modules.Repeater\Gambot.Modules.Repeater.csproj", "{64CC06FD-4C63-4AB7-9023-6988B21BFAA9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.IO.Slack", "Gambot.IO.Slack\Gambot.IO.Slack.csproj", "{2F40309D-2C40-4EB7-8B4A-04AE1815C26A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,10 @@ Global
 		{64CC06FD-4C63-4AB7-9023-6988B21BFAA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64CC06FD-4C63-4AB7-9023-6988B21BFAA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64CC06FD-4C63-4AB7-9023-6988B21BFAA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F40309D-2C40-4EB7-8B4A-04AE1815C26A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F40309D-2C40-4EB7-8B4A-04AE1815C26A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F40309D-2C40-4EB7-8B4A-04AE1815C26A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F40309D-2C40-4EB7-8B4A-04AE1815C26A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

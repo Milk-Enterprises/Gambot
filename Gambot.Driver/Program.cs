@@ -10,6 +10,7 @@ using Gambot.Data.InMemory;
 using Gambot.Data.SQLite;
 using Gambot.IO.Console;
 using Gambot.IO.IRC;
+using Gambot.IO.Slack;
 using Gambot.Modules.Config;
 using Gambot.Modules.Factoid;
 using Gambot.Modules.Inventory;
@@ -54,11 +55,12 @@ namespace Gambot.Driver
 
             var container = CreateContainer();
             container.Verify();
-#if DEBUG
+#if false //DEBUG
             messenger = new ConsoleMessenger();
 #else
             // TODO: Select implementation at run-time
-            messenger = new IrcMessenger();
+            //messenger = new IrcMessenger();
+            messenger = new SlackMessenger();
 #endif
 
             var pipeline = container.GetInstance<IMessageProcessOverseer>();
