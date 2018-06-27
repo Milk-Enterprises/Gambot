@@ -22,7 +22,7 @@ namespace Gambot.IO.Slack
 
             client.OnMessageReceived += (slackMessage) =>
             {
-                var message = new SlackMessage(slackMessage);
+                var message = new SlackMessage(slackMessage, client.UserLookup);
                 Console.WriteLine(slackMessage.text);
                 MessageReceived?.Invoke(this,
                                         new MessageEventArgs
