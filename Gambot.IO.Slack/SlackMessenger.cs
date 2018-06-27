@@ -41,7 +41,7 @@ namespace Gambot.IO.Slack
 
         public void SendMessage(string message, string destination, bool action = false)
         {
-            client.SendMessage(null, destination, message);
+            client.SendMessage((_) => {}, destination, message);
         }
 
         public void Dispose()
