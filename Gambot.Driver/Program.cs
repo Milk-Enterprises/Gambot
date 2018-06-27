@@ -112,6 +112,7 @@ namespace Gambot.Driver
             LoadAssembliesFromPath(assemblyPath);
 
             var moduleTypes = AppDomain.CurrentDomain.GetAssemblies()
+                                       .Where(a => a.ManifestModule.Name.StartsWith("Gambot"))
                                        .SelectMany(a => a.GetTypes())
                                        .Where(
                                            t =>
