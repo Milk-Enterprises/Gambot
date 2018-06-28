@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Gambot.Core;
-using SlackAPI;
-using SlackAPI.WebSocketMessages;
 namespace Gambot.IO.Slack
 {
     public class SlackMessage : IMessage
@@ -14,14 +10,10 @@ namespace Gambot.IO.Slack
         public string Where { get; protected set; }
         public bool Action { get; protected set; }
 
-        public SlackMessage(NewMessage raw, IDictionary<string, User> userLookup)
+        public SlackMessage(string who, string where, string text)
         {
-            Who = raw.subtype == "bot_message"
-                ? "slackbot" // probably
-                : userLookup[raw.user].name;
-            Where = raw.channel;
-
-            var text = WebUtility.HtmlDecode(raw.text);
+            Who = who;
+            Where = where;
             var toMatch = Regex.Match(text, @"^((?:[^:]+?)|(?::.+?:))[,:]\s");
             if (toMatch.Success)
             {
