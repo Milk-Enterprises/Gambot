@@ -12,7 +12,7 @@ namespace Gambot.IO.Slack
 
         public SlackMessenger()
         {
-            var token = "xoxb-67725732727-371915659191-5AvFqG0qciza94Z8AYoMFo1r";//Config.Get("Slack.Token");
+            var token = Config.Get("Slack.Token");
             var name = Config.Get("Name", "gambot");
             client = new SlackSocketClient(token);
             client.TestAuth((AuthTestResponse obj) =>
