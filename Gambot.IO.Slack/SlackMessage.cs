@@ -10,10 +10,11 @@ namespace Gambot.IO.Slack
         public string Where { get; protected set; }
         public bool Action { get; protected set; }
 
-        public SlackMessage(string who, string where, string text)
+        public SlackMessage(string who, string where, string text, bool action)
         {
             Who = who;
             Where = where;
+            Action = action;
             var toMatch = Regex.Match(text, @"^((?:[^:]+?)|(?::.+?:))[,:]\s");
             if (toMatch.Success)
             {

@@ -70,8 +70,9 @@ namespace Gambot.IO.Slack
             var where = raw.ChatHub;
             foreach (var text in raw.Text.Split('\n'))
             {
-                var message = new SlackMessage(who, where.Id, text);
-                Console.WriteLine($"({where.Name}) {who}: {message.Text}");
+                var isAction = raw.MessageSubType == SlackMessageSubType.MeMessage;
+                var message = new SlackMessage(who, where.Id, text, isAction);
+                Console.WriteLine($"({where.Name}) {who}{(isAction ? " " : ": ")}{message.Text}");
 
                 var addressed = where.Type == SlackChatHubType.DM
                     || String.Equals(message.To, _name, StringComparison.CurrentCultureIgnoreCase);
