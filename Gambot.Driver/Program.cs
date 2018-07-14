@@ -45,7 +45,7 @@ namespace Gambot.Driver
                 if (messenger != null)
                 {
                     messenger.SendMessage("Farewell, cruel world!", "#botulism");
-                    messenger.SendMessage(((Exception)e.ExceptionObject).Message, "#rob");
+                    messenger.SendMessage(((Exception)e.ExceptionObject).Message, "@rob");
                     messenger.Dispose();
                 }
                 Environment.Exit(0);
