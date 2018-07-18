@@ -1,60 +1,119 @@
 ﻿using System;
-using System.Net;
+using System.Linq;
+using System.Threading.Tasks;
 using Gambot.Core;
-using SlackAPI;
+using SlackConnector;
+using SlackConnector.Models;
+using SCSlackMessage = SlackConnector.Models.SlackMessage;
 
 namespace Gambot.IO.Slack
 {
     public class SlackMessenger : IMessenger
     {
-        protected SlackSocketClient client;
-
         public event EventHandler<MessageEventArgs> MessageReceived;
+
+        private readonly string _name;
+        private bool _deliberateDisconnect;
+        private ISlackConnection _connection;
 
         public SlackMessenger()
         {
-            var token = Config.Get("Slack.Token");
-            var name = Config.Get("Name", "gambot");
-            client = new SlackSocketClient(token);
-            client.TestAuth((AuthTestResponse obj) =>
-            {
-                Console.WriteLine("Result: " + obj.error);
-            });
+            _name = Config.Get("Name", "gambot");
+            _deliberateDisconnect = false;
+            Connect().Wait();
+        }
 
-            client.OnMessageReceived += (raw) =>
-            {
-                var who = raw.subtype == "bot_message"
-                    ? "slackbot" // probably
-                    : client.UserLookup[raw.user].name;
-                var where = raw.channel;
-                foreach (var text in WebUtility.HtmlDecode(raw.text).Split('\n'))
-                {
-                    var message = new SlackMessage(who, where, text);
-                    Console.WriteLine(message.Text);
-                    MessageReceived?.Invoke(this,
-                                            new MessageEventArgs
-                                            {
-                                                Message = message,
-                                                Addressed = String.Equals(message.To, name, StringComparison.CurrentCultureIgnoreCase)
-                                            });
-                }
-            };
-
+        private async Task Connect()
+        {
             Console.WriteLine("Connecting...");
-            client.Connect((LoginResponse obj) => {
-                obj.AssertOk();
-                Console.WriteLine("Connected.");
+            var token = Config.Get("Slack.Token");
+            var connector = new SlackConnector.SlackConnector();
+            _connection = await connector.Connect(token);
+            Console.WriteLine("Connected!");
+            _connection.OnMessageReceived += OnMessageReceived;
+            _connection.OnDisconnect += OnDisconnect;
+        }
+
+        private void OnDisconnect()
+        {
+            if (!_deliberateDisconnect)
+            {
+                Reconnect();
+            }
+        }
+
+        private void Reconnect()
+        {
+            Console.WriteLine("Reconnecting...");
+            if (_connection != null)
+            {
+                _connection.OnMessageReceived -= OnMessageReceived;
+                _connection.OnDisconnect -= OnDisconnect;
+                _connection = null;
+            }
+            Connect().Wait();
+        }
+
+        private async Task Disconnect()
+        {
+            _deliberateDisconnect = true;
+            if (_connection != null && _connection.IsConnected)
+            {
+                await _connection.Close();
+            }
+            _connection = null;
+        }
+
+        private Task OnMessageReceived(SCSlackMessage raw)
+        {
+            var who = raw.User.Name;
+            var where = raw.ChatHub;
+            foreach (var text in raw.Text.Split('\n'))
+            {
+                var isAction = raw.MessageSubType == SlackMessageSubType.MeMessage;
+                var message = new SlackMessage(who, where.Id, text, isAction);
+                Console.WriteLine($"({where.Name}) {who}{(isAction ? " " : ": ")}{message.Text}");
+
+                var addressed = where.Type == SlackChatHubType.DM
+                    || String.Equals(message.To, _name, StringComparison.CurrentCultureIgnoreCase);
+                MessageReceived?.Invoke(this,
+                                        new MessageEventArgs
+                                        {
+                                            Message = message,
+                                            Addressed = addressed,
+                                        });
+            }
+            return Task.CompletedTask;
+        }
+
+        public async void SendMessage(string message, string destination, bool action = false)
+        {
+            var hub = GetChatHub(destination);
+            if (hub == null)
+            {
+                Console.WriteLine($"Could not send message <{message}>: Could not find destination <{destination}>");
+                return;
+            }
+            Console.WriteLine($"({hub.Name}) {_name}: {message}");
+            await _connection.Say(new BotMessage
+            {
+                ChatHub = hub,
+                Text = message,
             });
         }
 
-        public void SendMessage(string message, string destination, bool action = false)
+        private SlackChatHub GetChatHub(string destination)
         {
-            client.SendMessage((_) => {}, destination, message);
+            if (destination.StartsWith("#") || destination.StartsWith("@"))
+            {
+                return _connection.ConnectedHubs.Values.FirstOrDefault(h => h.Name == destination);
+            }
+            return _connection.ConnectedHubs[destination];
         }
 
-        public void Dispose()
+        public async void Dispose()
         {
-            client.CloseSocket();
+            await Disconnect();
         }
     }
 }
