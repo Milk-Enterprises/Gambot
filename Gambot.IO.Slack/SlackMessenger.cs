@@ -86,7 +86,7 @@ namespace Gambot.IO.Slack
             return Task.CompletedTask;
         }
 
-        public async void SendMessage(string message, string destination, bool action = false)
+        public void SendMessage(string message, string destination, bool action = false)
         {
             var hub = GetChatHub(destination);
             if (hub == null)
@@ -95,11 +95,11 @@ namespace Gambot.IO.Slack
                 return;
             }
             Console.WriteLine($"({hub.Name}) {_name}: {message}");
-            await _connection.Say(new BotMessage
+            _connection.Say(new BotMessage
             {
                 ChatHub = hub,
                 Text = message,
-            });
+            }).Wait();
         }
 
         private SlackChatHub GetChatHub(string destination)
