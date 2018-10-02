@@ -13,9 +13,9 @@ namespace Gambot.Modules.Roll
         private readonly IVariableHandler variableHandler;
 
         private const string DefaultRollSuccessReply =
-            "<reply> \"$who\" rolled a \"$diceRoll\"";
+            "<reply> $who rolled a $diceRoll.";
         private const string DefaultRollFailedReply =
-            "<reply> That's a leaner";
+            "<reply> That's a leaner.";
 
         public RollResponseProducer(IVariableHandler variableHandler)
         {
@@ -51,7 +51,7 @@ namespace Gambot.Modules.Roll
                         var rollFailedFactoid = FactoidUtilities.GetVerbAndResponseFromPartialFactoid(rollFailedFactoidStr);
                         return new ProducerResponse(variableHandler.Substitute(rollFailedFactoid.Response, message), false);
                         */
-                        return new ProducerResponse(variableHandler.Substitute("That's a leaner", message), false);
+                        return new ProducerResponse(variableHandler.Substitute("That's a leaner.", message), false);
                     }
 
                     Random rngesus;
@@ -82,7 +82,7 @@ namespace Gambot.Modules.Roll
                     var coercedResponse = Regex.Replace(rollSuccessFactoid.Response, @"\$(?:diceRoll)", sumOfRolls, RegexOptions.IgnoreCase);
                     return new ProducerResponse(variableHandler.Substitute(coercedResponse, message), false);
                     */
-                    return new ProducerResponse(variableHandler.Substitute($"Rolled a {sumOfRolls}"), false);
+                    return new ProducerResponse(variableHandler.Substitute($"Rolled a {sumOfRolls}."), false);
                 }
             }
             return null;
