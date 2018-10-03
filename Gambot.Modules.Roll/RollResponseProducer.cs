@@ -31,16 +31,16 @@ namespace Gambot.Modules.Roll
         {
             if (addressed)
             {
-                string trimmedMessage = message.Text.Trim();
-                Match match = Regex.Match(trimmedMessage, "roll (.+)");
+                var trimmedMessage = message.Text.Trim();
+                var match = Regex.Match(trimmedMessage, "roll (.+)");
                 if (match.Success)
                 {
-                    string diceSyntaxRegex = @"^(\d+)[dD](\d+)$|^(\d+)$";
-                    string[] rolls = match.Groups[1].Value.Split('+').Select(roll => roll.Trim());
+                    var diceSyntaxRegex = @"^(\d+)[dD](\d+)$|^(\d+)$";
+                    var rolls = match.Groups[1].Value.Split('+').Select(roll => roll.Trim());
                     bool validExpressions = rolls.All(
                         roll => 
                         {
-                            Match diceSyntax = Regex.Match(roll, diceSyntaxRegex);
+                            var diceSyntax = Regex.Match(roll, diceSyntaxRegex);
                             return diceSyntax.Success;
                         }
                     );
@@ -51,22 +51,22 @@ namespace Gambot.Modules.Roll
                         return new ProducerResponse(variableHandler.Substitute(rollFailedFactoid.Response, message), false);
                     }
 
-                    Random rngesus;
+                    Random rngesus = new Random();
                     int sumOfRolls = rolls.Sum(
                         roll =>
                         {
-                            Match diceSyntax = Regex.Match(roll, diceSyntaxRegex);
+                            var diceSyntax = Regex.Match(roll, diceSyntaxRegex);
 
-                            Group numDice = diceSyntax.Groups[1];
-                            Group valueRange = diceSyntax.Groups[2];
-                            Group constValue = diceSyntax.Groups[3];
+                            var numDice = diceSyntax.Groups[1];
+                            var valueRange = diceSyntax.Groups[2];
+                            var constValue = diceSyntax.Groups[3];
 
-                            int total = (constValue.Success) ? constValue.Value : 0;
+                            var total = (constValue.Success) ? Convert.ToInt32(constValue.Value) : 0;
                             if (!constValue.Success)
                             {
-                                for (int i = 0; i < numDice.Value; ++i)
+                                for (int i = 0; i < Convert.ToInt32(numDice.Value); ++i)
                                 {
-                                    total += rngesus.Next(valueRange.Value);
+                                    total += rngesus.Next(Convert.ToInt32(valueRange.Value));
                                 }
                             }
                             return total;
@@ -75,7 +75,7 @@ namespace Gambot.Modules.Roll
 
                     var rollSuccessFactoidStr = factoidDataStore.GetRandomValue("dice roll success reply")?.Value ?? DefaultRollSuccessReply;
                     var rollSuccessFactoid = FactoidUtilities.GetVerbAndResponseFromPartialFactoid(rollSuccessFactoidStr);
-                    var coercedResponse = Regex.Replace(rollSuccessFactoid.Response, @"\$(?:diceRoll)", sumOfRolls, RegexOptions.IgnoreCase);
+                    var coercedResponse = Regex.Replace(rollSuccessFactoid.Response, @"\$(?:diceRoll)", sumOfRolls.ToString(), RegexOptions.IgnoreCase);
                     return new ProducerResponse(variableHandler.Substitute(coercedResponse, message), false);
                 }
             }
