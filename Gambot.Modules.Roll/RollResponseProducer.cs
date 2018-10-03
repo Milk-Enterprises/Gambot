@@ -66,7 +66,7 @@ namespace Gambot.Modules.Roll
                             {
                                 for (int i = 0; i < Convert.ToInt32(numDice.Value); ++i)
                                 {
-                                    total += rngesus.Next(Convert.ToInt32(valueRange.Value));
+                                    total += rngesus.Next(Convert.ToInt32(valueRange.Value) + 1);
                                 }
                             }
                             return total;
