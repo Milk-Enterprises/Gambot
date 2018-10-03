@@ -31,7 +31,8 @@ namespace Gambot.Modules.Roll
         {
             if (addressed)
             {
-                Match match = Regex.Match(message.Text.Trim(), "roll (.+)");
+                string trimmedMessage = message.Text.Trim();
+                Match match = Regex.Match(trimmedMessage, "roll (.+)");
                 if (match.Success)
                 {
                     string diceSyntaxRegex = @"^(\d+)[dD](\d+)$|^(\d+)$";
@@ -45,13 +46,9 @@ namespace Gambot.Modules.Roll
                     );
                     if (!validExpressions)
                     {
-                        // wgas.gif
-                        /*
                         var rollFailedFactoidStr = factoidDataStore.GetRandomValue("dice roll failed reply")?.Value ?? DefaultRollFailedReply;
                         var rollFailedFactoid = FactoidUtilities.GetVerbAndResponseFromPartialFactoid(rollFailedFactoidStr);
                         return new ProducerResponse(variableHandler.Substitute(rollFailedFactoid.Response, message), false);
-                        */
-                        return new ProducerResponse(variableHandler.Substitute("That's a leaner.", message), false);
                     }
 
                     Random rngesus;
@@ -75,14 +72,11 @@ namespace Gambot.Modules.Roll
                             return total;
                         }
                     );
-                    // wgas.gif
-                    /*
+
                     var rollSuccessFactoidStr = factoidDataStore.GetRandomValue("dice roll success reply")?.Value ?? DefaultRollSuccessReply;
                     var rollSuccessFactoid = FactoidUtilities.GetVerbAndResponseFromPartialFactoid(rollSuccessFactoidStr);
                     var coercedResponse = Regex.Replace(rollSuccessFactoid.Response, @"\$(?:diceRoll)", sumOfRolls, RegexOptions.IgnoreCase);
                     return new ProducerResponse(variableHandler.Substitute(coercedResponse, message), false);
-                    */
-                    return new ProducerResponse(variableHandler.Substitute($"Rolled a {sumOfRolls}."), false);
                 }
             }
             return null;
