@@ -13,8 +13,11 @@ namespace Gambot.Modules.Roll
         private readonly IVariableHandler variableHandler;
         private DiceEvaluator diceEval;
 
+        // $diceQuery   Expression evaluated
+        // $diceRoll    Computed value
+        // $diceCast    Dice rolled and kept string
         private const string DefaultRollSuccessReply =
-            "<reply> $who rolled a $diceRoll. $diceCast";
+            "<reply> $Who rolled a $diceRoll.";
         private const string DefaultRollFailedReply =
             "<reply> That's a leaner.";
 
