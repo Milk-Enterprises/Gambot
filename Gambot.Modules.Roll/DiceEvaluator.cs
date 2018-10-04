@@ -146,6 +146,7 @@ namespace Gambot.Modules.Roll
             return (symbol == "k" || symbol == "h" || symbol == "l") ? 3 : 2;
         }
 
+        // https://en.wikipedia.org/wiki/Shunting-yard_algorithm
         private IEnumerable<DiceToken> ConvertToReversePolishNotation(string expression)
         {
             var stack = new Stack<DiceToken>();
