@@ -11,6 +11,7 @@ namespace Gambot.Modules.Roll
     {
         private IDataStore factoidDataStore;
         private readonly IVariableHandler variableHandler;
+        private DiceEvaluator diceEval;
 
         private const string DefaultRollSuccessReply =
             "<reply> $who rolled a $diceRoll. $diceCast";
@@ -20,6 +21,7 @@ namespace Gambot.Modules.Roll
         public RollResponseProducer(IVariableHandler variableHandler)
         {
             this.variableHandler = variableHandler;
+            this.diceEval = new DiceEvaluator();
         }
 
         public void Initialize(IDataStoreManager dataStoreManager)
@@ -37,8 +39,7 @@ namespace Gambot.Modules.Roll
                 {
                     var originalQuery = match.Groups[1].Value.Trim();
 
-                    DiceEvaluator d = new DiceEvaluator();
-                    var results = d.Evaluate(originalQuery);
+                    var results = diceEval.Evaluate(originalQuery);
 
                     var sumOfRolls = results.Result;
                     var validExpression = results.IsValid;

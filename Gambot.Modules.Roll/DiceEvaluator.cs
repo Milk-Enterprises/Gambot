@@ -10,6 +10,8 @@ namespace Gambot.Modules.Roll
         public bool IsNumber { get; set; }
         public string StringValue { get; set; }
         public int IntValue { get; set; }
+        public DiceToken PrecedingToken { get; set; }
+        public DiceToken ProceedingToken { get; set; }
     }
 
     public class DiceExpressionResults
@@ -73,21 +75,62 @@ namespace Gambot.Modules.Roll
             var i = 0;
             while (i < expr.Length)
             {
-                if(_Symbols.Contains(expr[i]))
+                if (_Symbols.Contains(expr[i]))
                 {
-                    tokens.Add(new DiceToken() { IsNumber = false, StringValue = expr[i].ToString() });
+                    var token = new DiceToken() { IsNumber = false, StringValue = expr[i].ToString() };
+                    if (tokens.Count > 0)
+                    {
+                        token.PrecedingToken = tokens[tokens.Count - 1];
+                        tokens[tokens.Count - 1].ProceedingToken = token;
+                    }
+                    tokens.Add(token);
                 }
                 else if (Char.IsDigit(expr[i]))
                 {
                     var start = i;
                     do { ++i; } while (i < expr.Length && Char.IsDigit(expr[i]));
-                    tokens.Add(new DiceToken() { IsNumber = true, IntValue = Convert.ToInt32(expr.Substring(start, i - start)) });
+
+                    var token = new DiceToken() { IsNumber = true, IntValue = Convert.ToInt32(expr.Substring(start, i - start)) };
+                    if (tokens.Count > 0)
+                    {
+                        token.PrecedingToken = tokens[tokens.Count - 1];
+                        tokens[tokens.Count - 1].ProceedingToken = token;
+                    }
+                    tokens.Add(token);
                     continue;
                 }
                 ++i;
             }
 
-            return tokens;
+            var tmp = new List<DiceToken>();
+            foreach (var token in tokens)
+            {
+                if (token.StringValue == "d" && !(token.PrecedingToken != null && token.PrecedingToken.IsNumber))
+                {
+                    tmp.Add(new DiceToken() { IsNumber = true, IntValue = 1 });
+                }
+
+                tmp.Add(token);
+
+                if ((token.StringValue == "h" || token.StringValue == "k" || token.StringValue == "l") && !(token.ProceedingToken != null && token.ProceedingToken.IsNumber))
+                {
+                    tmp.Add(new DiceToken() { IsNumber = true, IntValue = 1 });
+                }
+            }
+            tokens.Clear();
+
+            for (var tmpIdx = 0; tmpIdx < tmp.Count(); ++tmpIdx)
+            {
+                tmp[tmpIdx].ProceedingToken = null;
+                tmp[tmpIdx].PrecedingToken = (tmpIdx == 0) ? null : tmp[tmpIdx - 1];
+
+                if (tmpIdx > 0)
+                {
+                    tmp[tmpIdx - 1].ProceedingToken = tmp[tmpIdx];
+                }
+            }
+
+            return tmp;
         }
 
         private bool IsHigherPrecedence(string first, string second)
@@ -121,7 +164,7 @@ namespace Gambot.Modules.Roll
                 }
                 else if (token.StringValue == ")")
                 {
-                    while (stack.ElementAt(stack.Count - 1).StringValue != "(")
+                    while (stack.Peek().StringValue != "(")
                     {
                         rpn.Enqueue(stack.Pop());
                     }
@@ -131,8 +174,8 @@ namespace Gambot.Modules.Roll
                 {
                     while (
                         stack.Count > 0
-                        && IsHigherPrecedence(stack.ElementAt(stack.Count - 1).StringValue, token.StringValue)
-                        && stack.ElementAt(stack.Count - 1).StringValue != "("
+                        && IsHigherPrecedence(stack.Peek().StringValue, token.StringValue)
+                        && stack.Peek().StringValue != "("
                     )
                     {
                         rpn.Enqueue(stack.Pop());
@@ -176,35 +219,35 @@ namespace Gambot.Modules.Roll
                         }
 
                         float calc = 0;
-                        switch (token.StringValue)
+                        if (token.StringValue == "h" || token.StringValue == "k" || token.StringValue == "l")
                         {
-                            case "h":
-                            case "k":
-                            case "l":
-                                var keep = (token.StringValue != "l") ? 
-                                    KeepHighest((int)arguments.Pop(), (int)arguments.Pop(), (int)arguments.Pop())
-                                    : KeepLowest((int)arguments.Pop(), (int)arguments.Pop(), (int)arguments.Pop());
-                                var keepCSV = String.Join(", ", keep.Select(k => Convert.ToInt32(k)));
-                                _results.RollDescriptionList.Add($"(Kept: {keepCSV})");
-                                calc = keep.Sum();
-                                break;
-                            case "d":
-                                var rolls = RollDice((int)arguments.Pop(), (int)arguments.Pop());
-                                calc = rolls.Sum();
-                                break;
-                            case "*":
-                                calc = arguments.Pop() * arguments.Pop();
-                                break;
-                            case "/":
-                                calc = arguments.Pop() / arguments.Pop();
-                                break;
-                            case "+":
-                                calc = arguments.Pop() + arguments.Pop();
-                                break;
-                            case "-":
-                                calc = arguments.Pop() - arguments.Pop();
-                                break;
-                            default: break;
+                            var keep = (token.StringValue != "l") ?
+                                KeepHighest((int)arguments.Pop(), (int)arguments.Pop(), (int)arguments.Pop())
+                                : KeepLowest((int)arguments.Pop(), (int)arguments.Pop(), (int)arguments.Pop());
+                            var keepCSV = String.Join(", ", keep.Select(k => Convert.ToInt32(k)));
+                            _results.RollDescriptionList.Add($"(Kept: {keepCSV})");
+                            calc = keep.Sum();
+                        }
+                        else if (token.StringValue == "d")
+                        {
+                            var rolls = RollDice((int)arguments.Pop(), (int)arguments.Pop());
+                            calc = rolls.Sum();
+                        }
+                        else if (token.StringValue == "*")
+                        {
+                            calc = arguments.Pop() * arguments.Pop();
+                        }
+                        else if (token.StringValue == "/")
+                        {
+                            calc = arguments.Pop() / arguments.Pop();
+                        }
+                        else if (token.StringValue == "+")
+                        {
+                            calc = arguments.Pop() + arguments.Pop();
+                        }
+                        else if (token.StringValue == "-")
+                        {
+                            calc = arguments.Pop() - arguments.Pop();
                         }
 
                         numStack.Push(calc);
