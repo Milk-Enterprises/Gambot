@@ -19,10 +19,10 @@ namespace Gambot.IO.Slack
             if (toMatch.Success)
             {
                 To = toMatch.Groups[1].Value;
-                Text = text.Substring(toMatch.Length);
+                Text = text.Substring(toMatch.Length).Trim();
             }
             else
-                Text = text;
+                Text = text.Trim();
         }
     }
 }
