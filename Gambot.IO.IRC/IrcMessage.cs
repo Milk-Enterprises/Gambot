@@ -21,10 +21,10 @@ namespace Gambot.IO.IRC
             if (toMatch.Success)
             {
                 To = toMatch.Groups[1].Value;
-                Text = raw.Message.Substring(toMatch.Length);
+                Text = raw.Message.Substring(toMatch.Length).Trim();
             }
             else
-                Text = raw.Message;
+                Text = raw.Message.Trim();
         }
     }
 }

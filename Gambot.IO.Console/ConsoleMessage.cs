@@ -20,10 +20,10 @@ namespace Gambot.IO.Console
             if (message.StartsWith("/me "))
             {
                 Action = true;
-                Text = message.Substring(4);
+                Text = message.Substring(4).Trim();
             }
             else
-                Text = message;
+                Text = message.Trim();
         }
     }
 }
