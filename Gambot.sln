@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Modules.Repeater", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.IO.Slack", "Gambot.IO.Slack\Gambot.IO.Slack.csproj", "{2F40309D-2C40-4EB7-8B4A-04AE1815C26A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gambot.Modules.Roll", "Gambot.Modules.Roll\Gambot.Modules.Roll.csproj", "{12C98C8D-983B-4ADD-BBD9-AC8CEE2D5FAC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{2F40309D-2C40-4EB7-8B4A-04AE1815C26A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F40309D-2C40-4EB7-8B4A-04AE1815C26A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F40309D-2C40-4EB7-8B4A-04AE1815C26A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12C98C8D-983B-4ADD-BBD9-AC8CEE2D5FAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12C98C8D-983B-4ADD-BBD9-AC8CEE2D5FAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12C98C8D-983B-4ADD-BBD9-AC8CEE2D5FAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12C98C8D-983B-4ADD-BBD9-AC8CEE2D5FAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

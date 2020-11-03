@@ -113,6 +113,10 @@
       <Project>{64cc06fd-4c63-4ab7-9023-6988b21bfaa9}</Project>
       <Name>Gambot.Modules.Repeater</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Gambot.Modules.Roll\Gambot.Modules.Roll.csproj">
+      <Project>{12c98c8d-983b-4add-bbd9-ac8cee2d5fac}</Project>
+      <Name>Gambot.Modules.Roll</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Gambot.Modules.Simple\Gambot.Modules.Simple.csproj">
       <Project>{E155DDA5-3AC7-4BDC-9B12-B2DD3C8A8332}</Project>
       <Name>Gambot.Modules.Simple</Name>
